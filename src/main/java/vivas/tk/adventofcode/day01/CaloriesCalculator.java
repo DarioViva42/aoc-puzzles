@@ -1,27 +1,19 @@
 package vivas.tk.adventofcode.day01;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
+import static vivas.tk.adventofcode.GeneralUtils.splitBySeparator;
 
 public class CaloriesCalculator {
 
     private final List<Elf> elves;
 
     public CaloriesCalculator(List<String> input) {
-        elves = new ArrayList<>();
-
-        Elf elf = new Elf();
-        elves.add(elf);
-
-        for (String line : input) {
-            if (line.isEmpty()) {
-                elf = new Elf();
-                elves.add(elf);
-            } else {
-                elf.addCalories(line);
-            }
-        }
+        elves = input.stream()
+                .collect(splitBySeparator(String::isEmpty)).stream()
+                .map(Elf::new)
+                .toList();
     }
 
     public int calculateMaxCalories() {
