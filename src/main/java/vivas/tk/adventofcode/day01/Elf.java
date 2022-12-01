@@ -12,7 +12,7 @@ public class Elf {
 
     public int totalCalories() {
         return foodList.stream()
-                .map(Integer::valueOf)
-                .reduce(0, Integer::sum);
+                .mapToInt(Integer::valueOf)
+                .sum();
     }
 }
