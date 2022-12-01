@@ -35,7 +35,7 @@ public class CaloriesCalculator {
         return elves.stream()
                 .sorted(Comparator.comparingInt(Elf::totalCalories).reversed())
                 .limit(3)
-                .map(Elf::totalCalories)
-                .reduce(0, Integer::sum);
+                .mapToInt(Elf::totalCalories)
+                .sum();
     }
 }
