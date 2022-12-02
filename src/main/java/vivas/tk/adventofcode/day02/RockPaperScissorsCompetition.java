@@ -28,9 +28,9 @@ public class RockPaperScissorsCompetition {
                     Strategy strategy = Strategy.ofCharacter(round.charAt(2));
 
                     return switch (strategy) {
-                        case LOOSE -> calculateScore(opponent, opponent.getLoosingHandShape());
-                        case DRAW -> calculateScore(opponent, opponent);
-                        case WIN -> calculateScore(opponent, opponent.getWinningHandShape());
+                        case LOOSE -> opponent.getLoosingHandShape().getScore();
+                        case DRAW -> 3 + opponent.getScore();
+                        case WIN -> 6 + opponent.getWinningHandShape().getScore();
                     };
                 })
                 .sum();
