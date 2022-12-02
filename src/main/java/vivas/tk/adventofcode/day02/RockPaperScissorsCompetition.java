@@ -41,8 +41,7 @@ public class RockPaperScissorsCompetition {
 
         if (opponent.equals(me)) {
             score += 3;
-        }
-        if (me.winsAgainst(opponent)) {
+        } else if (me.winsAgainst(opponent)) {
             score += 6;
         }
         return score;
