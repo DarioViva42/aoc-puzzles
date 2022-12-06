@@ -1,21 +1,23 @@
 package vivas.tk.adventofcode.day03;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static vivas.tk.adventofcode.GeneralUtils.readFile;
 
-public class RucksackFixerTest extends TestCase {
+class RucksackFixerTest {
 
-    public void testCalculateErrorPrioritySum() {
+    @Test
+    void calculateErrorPrioritySum() {
         List<String> input = readFile("/03.txt");
         RucksackFixer rucksackFixer = new RucksackFixer(input);
         assertThat(rucksackFixer.calculateErrorPrioritySum()).isEqualTo(157);
     }
 
-    public void testCalculateGroupPrioritySum() {
+    @Test
+    void calculateGroupPrioritySum() {
         List<String> input = readFile("/03.txt");
         RucksackFixer rucksackFixer = new RucksackFixer(input);
         assertThat(rucksackFixer.calculateGroupPrioritySum()).isEqualTo(70);

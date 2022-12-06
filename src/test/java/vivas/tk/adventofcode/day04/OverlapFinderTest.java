@@ -1,22 +1,24 @@
 package vivas.tk.adventofcode.day04;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static vivas.tk.adventofcode.GeneralUtils.readFile;
 
-public class OverlapFinderTest extends TestCase {
+class OverlapFinderTest {
 
-    public void testCountFullOverlaps() {
+    @Test
+    void countFullOverlaps() {
         List<String> input = readFile("/04.txt");
 
         OverlapFinder overlapFinder = new OverlapFinder(input);
         assertThat(overlapFinder.countFullOverlaps()).isEqualTo(2);
     }
 
-    public void testCountPartialOverlaps() {
+    @Test
+    void countPartialOverlaps() {
         List<String> input = readFile("/04.txt");
 
         OverlapFinder overlapFinder = new OverlapFinder(input);

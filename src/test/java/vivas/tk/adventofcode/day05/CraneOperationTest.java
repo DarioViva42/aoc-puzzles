@@ -1,15 +1,16 @@
 package vivas.tk.adventofcode.day05;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static vivas.tk.adventofcode.GeneralUtils.readFile;
 
-public class CraneOperationTest extends TestCase {
+class CraneOperationTest {
 
-    public void testOperateCrane_9000() {
+    @Test
+    void operateCrane_9000() {
         List<String> input = readFile("/05.txt");
 
         CraneOperation craneOperation = new CraneOperation(input);
@@ -17,7 +18,8 @@ public class CraneOperationTest extends TestCase {
         assertThat(craneOperation.operateCargoCrane(cargoCrane)).isEqualTo("CMZ");
     }
 
-    public void testOperateCrane_9001() {
+    @Test
+    void operateCrane_9001() {
         List<String> input = readFile("/05.txt");
 
         CraneOperation craneOperation = new CraneOperation(input);
