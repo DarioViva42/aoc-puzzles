@@ -10,36 +10,54 @@ public class CraneOperation {
 
     private final Stack<Character>[] backupStacks;
     private final List<Operation> operations;
+
     public CraneOperation(List<String> input) {
         int splitPosition = input.indexOf("");
-        String indicatorLine = input
-                .get(splitPosition - 1)
-                .stripTrailing();
-        int temp = indicatorLine.lastIndexOf(" ");
-        int numberOfStacks = Integer.parseInt(indicatorLine.substring(temp + 1));
 
-        this.stacks = new Stack[numberOfStacks];
-        for (int i = 0; i < numberOfStacks; i++) {
-            this.stacks[i] = new Stack<>();
-        }
-        String format = "%-" + (4 * numberOfStacks - 1) + "s";
-
-        List<String> stackInput = input.subList(0, splitPosition - 1);
-        Collections.reverse(stackInput);
-
-        stackInput.stream()
-                .map(line -> String.format(format, line))
-                .forEach(this::fillStackLevel);
-
-        this.backupStacks = new Stack[numberOfStacks];
-        for (int i = 0; i < numberOfStacks; i++) {
-            backupStacks[i] = (Stack<Character>) stacks[i].clone();
-        }
+        this.backupStacks = setupStacks(input.subList(0, splitPosition));
 
         this.operations = input
                 .subList(splitPosition + 1, input.size()).stream()
                 .map(Operation::new)
                 .toList();
+    }
+
+    private Stack<Character>[] setupStacks(List<String> stackInput) {
+        int numberOfStacks = getNumberOfStacks(stackInput);
+
+        createStacks(numberOfStacks);
+        String format = "%-" + (4 * numberOfStacks - 1) + "s";
+
+        Collections.reverse(stackInput);
+        stackInput.stream()
+                .skip(1)
+                .map(line -> String.format(format, line))
+                .forEach(this::fillStackLevel);
+
+        return createBackup();
+    }
+
+    private void createStacks(int numberOfStacks) {
+        this.stacks = new Stack[numberOfStacks];
+        for (int i = 0; i < numberOfStacks; i++) {
+            this.stacks[i] = new Stack<>();
+        }
+    }
+
+    private Stack<Character>[] createBackup() {
+        Stack<Character>[] backup = new Stack[stacks.length];
+        for (int i = 0; i < stacks.length; i++) {
+            backup[i] = (Stack<Character>) stacks[i].clone();
+        }
+        return backup;
+    }
+
+    private int getNumberOfStacks(List<String> stackInput) {
+        String indicatorLine = stackInput
+                .get(stackInput.size() - 1)
+                .stripTrailing();
+        int temp = indicatorLine.lastIndexOf(" ");
+        return Integer.parseInt(indicatorLine.substring(temp + 1));
     }
 
     public void resetStacks() {
