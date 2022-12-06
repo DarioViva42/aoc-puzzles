@@ -1,15 +1,22 @@
 package vivas.tk.adventofcode.day05;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class CrateMover9001 extends CargoCrane {
+
+    private final Deque<Character> temporaryStack = new ArrayDeque<>();
+
     @Override
     protected void applyOperation(Step step) {
         int amount = step.getAmount();
-        Character[] crates = new Character[amount];
         for (int i = 0; i < amount; i++) {
-            crates[i] = stacks[step.getFrom()].pop();
+            Character crate = stacks[step.getFrom()].pop();
+            temporaryStack.push(crate);
         }
         for (int i = 0; i < amount; i++) {
-            stacks[step.getTo()].push(crates[amount - i - 1]);
+            Character crate = temporaryStack.pop();
+            stacks[step.getTo()].push(crate);
         }
     }
 }
