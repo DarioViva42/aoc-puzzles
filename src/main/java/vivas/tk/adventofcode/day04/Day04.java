@@ -18,10 +18,10 @@ public class Day04 {
 
         Instant start = Instant.now();
 
-        OverlapFinder rucksackFixer = new OverlapFinder(input);
+        OverlapFinder overlapFinder = new OverlapFinder(input);
 
-        int result1 = rucksackFixer.countFullOverlaps();
-        int result2 = rucksackFixer.countPartialOverlaps();
+        int result1 = overlapFinder.countFullOverlaps();
+        int result2 = overlapFinder.countPartialOverlaps();
 
         Instant finish = Instant.now();
 
