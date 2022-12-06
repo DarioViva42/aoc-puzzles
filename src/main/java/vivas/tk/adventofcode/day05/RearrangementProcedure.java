@@ -5,20 +5,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-public class CraneOperation {
+public class RearrangementProcedure {
     private Stack<Character>[] stacks;
 
     private final Stack<Character>[] backupStacks;
-    private final List<Operation> operations;
+    private final List<Step> steps;
 
-    public CraneOperation(List<String> input) {
+    public RearrangementProcedure(List<String> input) {
         int splitPosition = input.indexOf("");
 
         this.backupStacks = setupStacks(input.subList(0, splitPosition));
 
-        this.operations = input
+        this.steps = input
                 .subList(splitPosition + 1, input.size()).stream()
-                .map(Operation::new)
+                .map(Step::new)
                 .toList();
     }
 
@@ -65,7 +65,7 @@ public class CraneOperation {
     }
 
     public String operateCargoCrane(CargoCrane cargoCrane) {
-        cargoCrane.setOperations(operations);
+        cargoCrane.setSteps(steps);
         cargoCrane.setStacks(stacks);
 
         cargoCrane.operateCrane();

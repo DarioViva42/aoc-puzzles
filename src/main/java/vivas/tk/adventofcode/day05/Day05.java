@@ -18,15 +18,15 @@ public class Day05 {
 
         Instant start = Instant.now();
 
-        CraneOperation craneOperation = new CraneOperation(input);
+        RearrangementProcedure rearrangementProcedure = new RearrangementProcedure(input);
 
         CargoCrane crateMover9000 = new CrateMover9000();
-        String result1 = craneOperation.operateCargoCrane(crateMover9000);
+        String result1 = rearrangementProcedure.operateCargoCrane(crateMover9000);
 
-        craneOperation.resetStacks();
+        rearrangementProcedure.resetStacks();
 
         CargoCrane crateMover9001 = new CrateMover9001();
-        String result2 = craneOperation.operateCargoCrane(crateMover9001);
+        String result2 = rearrangementProcedure.operateCargoCrane(crateMover9001);
 
         Instant finish = Instant.now();
 

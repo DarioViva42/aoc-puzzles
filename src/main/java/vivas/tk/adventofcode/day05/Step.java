@@ -1,10 +1,10 @@
 package vivas.tk.adventofcode.day05;
 
-public class Operation {
+public class Step {
     private final int amount;
     private final int from;
     private final int to;
-    public Operation(String input) {
+    public Step(String input) {
         String[] words = input.split(" ");
         amount = Integer.parseInt(words[1]);
         from = Integer.parseInt(words[3]) - 1;

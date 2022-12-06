@@ -5,11 +5,11 @@ import java.util.Stack;
 
 public abstract class CargoCrane {
 
-    protected List<Operation> operations;
+    protected List<Step> steps;
     protected Stack<Character>[] stacks;
 
-    public void setOperations(List<Operation> operations) {
-        this.operations = operations;
+    public void setSteps(List<Step> steps) {
+        this.steps = steps;
     }
 
     public void setStacks(Stack<Character>[] stacks) {
@@ -17,7 +17,7 @@ public abstract class CargoCrane {
     }
 
     public void operateCrane() {
-        operations.forEach(this::applyOperation);
+        steps.forEach(this::applyOperation);
     }
-    protected abstract void applyOperation(Operation operation);
+    protected abstract void applyOperation(Step step);
 }
