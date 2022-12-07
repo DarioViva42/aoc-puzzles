@@ -10,6 +10,7 @@ public final class Folder implements FileSystemEntity {
     private final List<File> files = new ArrayList<>();
     private final String name;
     private final Folder parent;
+    private int cachedSize;
 
     public Folder(String name) {
         this.name = name;
@@ -47,9 +48,13 @@ public final class Folder implements FileSystemEntity {
 
     @Override
     public int size() {
-        return Stream.concat(folders.stream(), files.stream())
+        if (cachedSize != 0) {
+            return cachedSize;
+        }
+        cachedSize = Stream.concat(folders.stream(), files.stream())
                 .mapToInt(FileSystemEntity::size)
                 .sum();
+        return cachedSize;
     }
 
     @Override
