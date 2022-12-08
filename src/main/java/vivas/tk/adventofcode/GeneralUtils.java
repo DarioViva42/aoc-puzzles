@@ -12,19 +12,20 @@ import java.util.stream.Collector;
 
 public class GeneralUtils {
 
+    private static final StackWalker STACK_WALKER = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
+
     private GeneralUtils() {
     }
 
     public static List<String> readPuzzleInput() {
 
-        String fileName = Thread.currentThread()
-                .getStackTrace()[2]
-                .getClassName()
-                .split("\\.")[3];
+        String[] tokens = STACK_WALKER.getCallerClass()
+                .getPackageName().split("\\.");
+        String day = tokens[tokens.length - 1];
 
         List<String> lines = new ArrayList<>();
 
-        URL resource = GeneralUtils.class.getResource("/" + fileName);
+        URL resource = GeneralUtils.class.getResource("/" + day);
         assert resource != null;
         try (BufferedReader bufferedReader = getBufferedReader(resource)) {
             bufferedReader.lines().forEach(lines::add);
