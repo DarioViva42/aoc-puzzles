@@ -20,14 +20,22 @@ public class Day04 {
 
         OverlapFinder overlapFinder = new OverlapFinder(input);
 
-        int result1 = overlapFinder.countFullOverlaps();
-        int result2 = overlapFinder.countPartialOverlaps();
+        Instant parseEnd = Instant.now();
 
-        Instant finish = Instant.now();
+        int partOneAnswer = overlapFinder.countFullOverlaps();
 
-        LOGGER.info(result1);
-        LOGGER.info(result2);
+        Instant betweenParts = Instant.now();
 
-        LOGGER.info(Duration.between(start, finish).toNanos());
+        int partTwoAnswer = overlapFinder.countPartialOverlaps();
+
+        Instant end = Instant.now();
+
+        LOGGER.info("answer 1: {}", partOneAnswer);
+        LOGGER.info("answer 2: {}", partTwoAnswer);
+
+        LOGGER.info("parsing: {}ms", Duration.between(start, parseEnd).toMillis());
+        LOGGER.info("part 1: {}ms", Duration.between(parseEnd, betweenParts).toMillis());
+        LOGGER.info("part 2: {}ms", Duration.between(betweenParts, end).toMillis());
+        LOGGER.info("total: {}ms", Duration.between(start, end).toMillis());
     }
 }

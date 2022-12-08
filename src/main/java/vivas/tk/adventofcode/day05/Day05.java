@@ -20,19 +20,26 @@ public class Day05 {
 
         RearrangementProcedure rearrangementProcedure = new RearrangementProcedure(input);
 
+        Instant parseEnd = Instant.now();
+
         CargoCrane crateMover9000 = new CrateMover9000();
-        String result1 = rearrangementProcedure.operateCargoCrane(crateMover9000);
+        String partOneAnswer = rearrangementProcedure.operateCargoCrane(crateMover9000);
+
+        Instant betweenParts = Instant.now();
 
         rearrangementProcedure.resetStacks();
 
         CargoCrane crateMover9001 = new CrateMover9001();
-        String result2 = rearrangementProcedure.operateCargoCrane(crateMover9001);
+        String partTwoAnswer = rearrangementProcedure.operateCargoCrane(crateMover9001);
 
-        Instant finish = Instant.now();
+        Instant end = Instant.now();
 
-        LOGGER.info(result1);
-        LOGGER.info(result2);
+        LOGGER.info("answer 1: {}", partOneAnswer);
+        LOGGER.info("answer 2: {}", partTwoAnswer);
 
-        LOGGER.info(Duration.between(start, finish).toNanos());
+        LOGGER.info("parsing: {}ms", Duration.between(start, parseEnd).toMillis());
+        LOGGER.info("part 1: {}ms", Duration.between(parseEnd, betweenParts).toMillis());
+        LOGGER.info("part 2: {}ms", Duration.between(betweenParts, end).toMillis());
+        LOGGER.info("total: {}ms", Duration.between(start, end).toMillis());
     }
 }

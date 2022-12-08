@@ -20,14 +20,22 @@ public class Day03 {
 
         RucksackFixer rucksackFixer = new RucksackFixer(input);
 
-        int result1 = rucksackFixer.calculateErrorPrioritySum();
-        int result2 = rucksackFixer.calculateGroupPrioritySum();
+        Instant parseEnd = Instant.now();
 
-        Instant finish = Instant.now();
+        int partOneAnswer = rucksackFixer.calculateErrorPrioritySum();
 
-        LOGGER.info(result1);
-        LOGGER.info(result2);
+        Instant betweenParts = Instant.now();
 
-        LOGGER.info(Duration.between(start, finish).toNanos());
+        int partTwoAnswer = rucksackFixer.calculateGroupPrioritySum();
+
+        Instant end = Instant.now();
+
+        LOGGER.info("answer 1: {}", partOneAnswer);
+        LOGGER.info("answer 2: {}", partTwoAnswer);
+
+        LOGGER.info("parsing: {}ms", Duration.between(start, parseEnd).toMillis());
+        LOGGER.info("part 1: {}ms", Duration.between(parseEnd, betweenParts).toMillis());
+        LOGGER.info("part 2: {}ms", Duration.between(betweenParts, end).toMillis());
+        LOGGER.info("total: {}ms", Duration.between(start, end).toMillis());
     }
 }

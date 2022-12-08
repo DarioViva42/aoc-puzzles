@@ -20,17 +20,24 @@ public class Day07 {
 
         FileSystem fileSystem = new FileSystem(input);
 
-        int result1 = fileSystem.countSizeNaiveApproach();
+        Instant parseEnd = Instant.now();
 
-        long result2 = fileSystem.findSmallestToDeleteFolder()
+        int partOneAnswer = fileSystem.countSizeNaiveApproach();
+
+        Instant betweenParts = Instant.now();
+
+        long partTwoAnswer = fileSystem.findSmallestToDeleteFolder()
                 .map(Folder::size)
                 .orElseThrow();
 
-        Instant finish = Instant.now();
+        Instant end = Instant.now();
 
-        LOGGER.info(result1);
-        LOGGER.info(result2);
+        LOGGER.info("answer 1: {}", partOneAnswer);
+        LOGGER.info("answer 2: {}", partTwoAnswer);
 
-        LOGGER.info(Duration.between(start, finish).toNanos());
+        LOGGER.info("parsing: {}ms", Duration.between(start, parseEnd).toMillis());
+        LOGGER.info("part 1: {}ms", Duration.between(parseEnd, betweenParts).toMillis());
+        LOGGER.info("part 2: {}ms", Duration.between(betweenParts, end).toMillis());
+        LOGGER.info("total: {}ms", Duration.between(start, end).toMillis());
     }
 }

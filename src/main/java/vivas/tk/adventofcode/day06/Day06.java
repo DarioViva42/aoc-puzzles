@@ -19,15 +19,22 @@ public class Day06 {
 
         BufferedDataStreamReader dataStreamReader = new BufferedDataStreamReader(input);
 
-        int result1 = dataStreamReader.findStartOfPacketMarker();
+        Instant parseEnd = Instant.now();
 
-        int result2 = dataStreamReader.findStartOfMessageMarker();
+        int partOneAnswer = dataStreamReader.findStartOfPacketMarker();
 
-        Instant finish = Instant.now();
+        Instant betweenParts = Instant.now();
 
-        LOGGER.info(result1);
-        LOGGER.info(result2);
+        int partTwoAnswer = dataStreamReader.findStartOfMessageMarker();
 
-        LOGGER.info(Duration.between(start, finish).toNanos());
+        Instant end = Instant.now();
+
+        LOGGER.info("answer 1: {}", partOneAnswer);
+        LOGGER.info("answer 2: {}", partTwoAnswer);
+
+        LOGGER.info("parsing: {}ms", Duration.between(start, parseEnd).toMillis());
+        LOGGER.info("part 1: {}ms", Duration.between(parseEnd, betweenParts).toMillis());
+        LOGGER.info("part 2: {}ms", Duration.between(betweenParts, end).toMillis());
+        LOGGER.info("total: {}ms", Duration.between(start, end).toMillis());
     }
 }
