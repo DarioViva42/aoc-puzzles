@@ -15,11 +15,16 @@ public class GeneralUtils {
     private GeneralUtils() {
     }
 
-    public static List<String> readFile(String fileName) {
+    public static List<String> readPuzzleInput() {
+
+        String fileName = Thread.currentThread()
+                .getStackTrace()[2]
+                .getClassName()
+                .split("\\.")[3];
 
         List<String> lines = new ArrayList<>();
 
-        URL resource = GeneralUtils.class.getResource(fileName);
+        URL resource = GeneralUtils.class.getResource("/" + fileName);
         assert resource != null;
         try (BufferedReader bufferedReader = getBufferedReader(resource)) {
             bufferedReader.lines().forEach(lines::add);

@@ -6,14 +6,14 @@ import org.apache.logging.log4j.Logger;
 import java.time.Duration;
 import java.time.Instant;
 
-import static vivas.tk.adventofcode.GeneralUtils.readFile;
+import static vivas.tk.adventofcode.GeneralUtils.readPuzzleInput;
 
 public class Day06 {
 
     private static final Logger LOGGER = LogManager.getLogger(Day06.class);
 
     public static void main(String[] args) {
-        String input = readFile("/06.txt").get(0);
+        String input = readPuzzleInput().get(0);
 
         Instant start = Instant.now();
 

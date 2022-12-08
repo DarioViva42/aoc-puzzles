@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static vivas.tk.adventofcode.GeneralUtils.readFile;
+import static vivas.tk.adventofcode.GeneralUtils.readPuzzleInput;
 
 class RearrangementProcedureTest {
 
     @Test
     void operateCrane_9000() {
-        List<String> input = readFile("/05.txt");
+        List<String> input = readPuzzleInput();
 
         RearrangementProcedure rearrangementProcedure = new RearrangementProcedure(input);
         CargoCrane cargoCrane = new CrateMover9000();
@@ -20,7 +20,7 @@ class RearrangementProcedureTest {
 
     @Test
     void operateCrane_9001() {
-        List<String> input = readFile("/05.txt");
+        List<String> input = readPuzzleInput();
 
         RearrangementProcedure rearrangementProcedure = new RearrangementProcedure(input);
         CargoCrane cargoCrane = new CrateMover9001();

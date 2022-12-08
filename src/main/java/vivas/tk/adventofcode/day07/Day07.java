@@ -7,14 +7,14 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
-import static vivas.tk.adventofcode.GeneralUtils.readFile;
+import static vivas.tk.adventofcode.GeneralUtils.readPuzzleInput;
 
 public class Day07 {
 
     private static final Logger LOGGER = LogManager.getLogger(Day07.class);
 
     public static void main(String[] args) {
-        List<String> input = readFile("/07.txt");
+        List<String> input = readPuzzleInput();
 
         Instant start = Instant.now();
 

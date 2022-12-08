@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static vivas.tk.adventofcode.GeneralUtils.readFile;
+import static vivas.tk.adventofcode.GeneralUtils.readPuzzleInput;
 
 class FileSystemTest {
 
     @Test
     void countSizeNaiveApproach() {
-        List<String> input = readFile("/07.txt");
+        List<String> input = readPuzzleInput();
 
         FileSystem fileSystem = new FileSystem(input);
 
@@ -21,7 +21,7 @@ class FileSystemTest {
 
     @Test
     void findSmallestToDeleteFolder() {
-        List<String> input = readFile("/07.txt");
+        List<String> input = readPuzzleInput();
 
         FileSystem fileSystem = new FileSystem(input);
 
