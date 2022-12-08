@@ -23,16 +23,14 @@ public class GeneralUtils {
                 .getPackageName().split("\\.");
         String day = tokens[tokens.length - 1];
 
-        List<String> lines = new ArrayList<>();
-
         URL resource = GeneralUtils.class.getResource("/" + day);
         assert resource != null;
         try (BufferedReader bufferedReader = getBufferedReader(resource)) {
-            bufferedReader.lines().forEach(lines::add);
+            return bufferedReader.lines().toList();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return lines;
+        return List.of();
     }
 
     private static BufferedReader getBufferedReader(URL resource) throws IOException {

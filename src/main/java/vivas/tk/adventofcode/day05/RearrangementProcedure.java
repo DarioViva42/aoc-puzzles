@@ -1,9 +1,6 @@
 package vivas.tk.adventofcode.day05;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class RearrangementProcedure {
     private Stack<Character>[] stacks;
@@ -28,8 +25,9 @@ public class RearrangementProcedure {
         createStacks(numberOfStacks);
         String format = "%-" + (4 * numberOfStacks - 1) + "s";
 
-        Collections.reverse(stackInput);
-        stackInput.stream()
+        List<String> reversedStackInput = new ArrayList<>(stackInput);
+        Collections.reverse(reversedStackInput);
+        reversedStackInput.stream()
                 .skip(1)
                 .map(line -> String.format(format, line))
                 .forEach(this::fillStackLevel);
