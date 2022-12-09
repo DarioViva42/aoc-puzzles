@@ -24,7 +24,7 @@ public class TreePlantation {
         }
         height = trees.size();
         width = trees.get(0).size();
-        visibleTrees = new HashSet<>();
+        visibleTrees = new TreeSet<>();
     }
 
     public List<List<Tree>> getTrees() {
