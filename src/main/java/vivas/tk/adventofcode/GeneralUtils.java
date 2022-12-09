@@ -81,7 +81,7 @@ public class GeneralUtils {
     }
 
     private static Optional<InputStream> getResourceFromFile(AdventDate date) {
-        String path = LOCAL_PATH.formatted(StringUtils.leftPad(String.valueOf(date.day()), 2));
+        String path = LOCAL_PATH.formatted(StringUtils.leftPad(String.valueOf(date.day()), 2, '0'));
         InputStream inputStream = GeneralUtils.class.getResourceAsStream(path);
         return inputStream != null ? Optional.of(inputStream) : Optional.empty();
     }
