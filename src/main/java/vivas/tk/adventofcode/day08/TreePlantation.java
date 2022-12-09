@@ -46,7 +46,12 @@ public class TreePlantation {
         for (List<Tree> line : trees) {
             byte visibleHeight = -1;
             for (Tree tree : line) {
-                visibleHeight = addFilteredTree(visibleHeight, tree);
+                byte currentHeight = tree.height();
+                if (currentHeight > visibleHeight) {
+                    visibleTrees.add(tree);
+                    if (currentHeight == 9) break;
+                    visibleHeight = currentHeight;
+                }
             }
         }
     }
@@ -56,7 +61,13 @@ public class TreePlantation {
             byte visibleHeight = -1;
             for (int i = 0; i < line.size(); i++) {
                 Tree tree = line.get(width - i - 1);
-                visibleHeight = addFilteredTree(visibleHeight, tree);
+
+                byte currentHeight = tree.height();
+                if (currentHeight > visibleHeight) {
+                    visibleTrees.add(tree);
+                    if (currentHeight == 9) break;
+                    visibleHeight = currentHeight;
+                }
             }
         }
     }
@@ -66,7 +77,13 @@ public class TreePlantation {
             byte visibleHeight = -1;
             for (List<Tree> line : trees) {
                 Tree tree = line.get(x);
-                visibleHeight = addFilteredTree(visibleHeight, tree);
+
+                byte currentHeight = tree.height();
+                if (currentHeight > visibleHeight) {
+                    visibleTrees.add(tree);
+                    if (currentHeight == 9) break;
+                    visibleHeight = currentHeight;
+                }
             }
         }
     }
@@ -79,18 +96,15 @@ public class TreePlantation {
             byte visibleHeight = -1;
             for (List<Tree> line : reversedTrees) {
                 Tree tree = line.get(x);
-                visibleHeight = addFilteredTree(visibleHeight, tree);
+
+                byte currentHeight = tree.height();
+                if (currentHeight > visibleHeight) {
+                    visibleTrees.add(tree);
+                    if (currentHeight == 9) break;
+                    visibleHeight = currentHeight;
+                }
             }
         }
-    }
-
-    private byte addFilteredTree(Byte visibleHeight, Tree tree) {
-        byte currentHeight = tree.height();
-        if (currentHeight > visibleHeight) {
-            visibleHeight = currentHeight;
-            visibleTrees.add(tree);
-        }
-        return visibleHeight;
     }
 
     public int findOptimalScenicScore() {
