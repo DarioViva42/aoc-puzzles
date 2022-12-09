@@ -52,14 +52,10 @@ public class TreePlantation {
     }
 
     private void addVisibleFromRight() {
-        List<ArrayList<Tree>> reversedTrees = trees.stream()
-                .map(ArrayList::new)
-                .peek(Collections::reverse)
-                .toList();
-
-        for (List<Tree> line : reversedTrees) {
+        for (List<Tree> line : trees) {
             Byte visibleHeight = -1;
-            for (Tree tree : line) {
+            for (int i = 0; i < line.size(); i++) {
+                Tree tree = line.get(width - i - 1);
                 visibleHeight = addFilteredTree(visibleHeight, tree);
             }
         }
