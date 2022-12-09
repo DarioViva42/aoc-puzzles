@@ -76,7 +76,7 @@ public class GeneralUtils {
 
     private static InputStream getResource(AdventDate date) {
         return getResourceFromFile(date)
-                .or(() -> getResourceFromServer(date))
+                .or(() -> fetchResourceFromServer(date))
                 .orElseThrow();
     }
 
@@ -86,7 +86,7 @@ public class GeneralUtils {
         return inputStream != null ? Optional.of(inputStream) : Optional.empty();
     }
 
-    private static Optional<InputStream> getResourceFromServer(AdventDate date) {
+    private static Optional<InputStream> fetchResourceFromServer(AdventDate date) {
         try {
             URL url = new URL(SERVER_PATH.formatted(date.year(), date.day(), "input"));
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
