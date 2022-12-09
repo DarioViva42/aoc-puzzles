@@ -26,12 +26,12 @@ public class Day08 {
 
         Instant betweenParts = Instant.now();
 
-        // long partTwoAnswer = treePlantation.findOptimalScenicScore();
+        long partTwoAnswer = treePlantation.findOptimalScenicScore();
 
         Instant end = Instant.now();
 
         LOGGER.info("answer 1: {}", partOneAnswer);
-        // LOGGER.info("answer 2: {}", partTwoAnswer);
+        LOGGER.info("answer 2: {}", partTwoAnswer);
 
         LOGGER.info("parsing: {}ms", Duration.between(start, parseEnd).toMillis());
         LOGGER.info("part 1: {}ms", Duration.between(parseEnd, betweenParts).toMillis());
