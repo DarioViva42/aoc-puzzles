@@ -6,12 +6,13 @@ import org.apache.logging.log4j.Logger;
 import java.time.Duration;
 import java.time.Instant;
 
-import static vivas.tk.adventofcode.GeneralUtils.readPuzzleInput;
+import static vivas.tk.adventofcode.GeneralUtils.*;
 
 public class Day07 {
 
     private static final Logger LOGGER = LogManager.getLogger(Day07.class);
 
+    @SuppressWarnings("java:S106")
     public static void main(String[] args) {
         String input = readPuzzleInput();
 
@@ -31,8 +32,8 @@ public class Day07 {
 
         Instant end = Instant.now();
 
-        LOGGER.info("answer 1: {}", partOneAnswer);
-        LOGGER.info("answer 2: {}", partTwoAnswer);
+        System.out.println(sendPuzzleAnswer(1, partOneAnswer));
+        System.out.println(sendPuzzleAnswer(2, partTwoAnswer));
 
         LOGGER.info("parsing: {}ms", Duration.between(start, parseEnd).toMillis());
         LOGGER.info("part 1: {}ms", Duration.between(parseEnd, betweenParts).toMillis());
