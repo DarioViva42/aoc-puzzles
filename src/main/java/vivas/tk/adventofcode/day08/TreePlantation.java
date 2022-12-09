@@ -1,9 +1,6 @@
 package vivas.tk.adventofcode.day08;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static java.util.function.Predicate.not;
 
@@ -12,7 +9,7 @@ public class TreePlantation {
     private final List<List<Tree>> trees;
     private final int height;
     private final int width;
-    private final List<Tree> visibleTrees;
+    private final Set<Tree> visibleTrees;
 
     public TreePlantation(List<String> input) {
         this.trees = new ArrayList<>();
@@ -27,7 +24,7 @@ public class TreePlantation {
         }
         height = trees.size();
         width = trees.get(0).size();
-        visibleTrees = new ArrayList<>();
+        visibleTrees = new HashSet<>();
     }
 
     public List<List<Tree>> getTrees() {
@@ -42,9 +39,7 @@ public class TreePlantation {
             addVisibleFromBottom();
         }
 
-        return visibleTrees.stream()
-                .distinct()
-                .count();
+        return visibleTrees.size();
     }
 
     private void addVisibleFromLeft() {
