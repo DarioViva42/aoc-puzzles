@@ -13,7 +13,6 @@ class TreePlantationTest {
     @Test
     void countVisibleTrees() {
         String input = readPuzzleInput();
-
         TreePlantation treePlantation = new TreePlantation(input);
 
         assertThat(treePlantation.countVisibleTrees()).isEqualTo(21);
@@ -22,7 +21,6 @@ class TreePlantationTest {
     @Test
     void findOptimalScenicScore() {
         String input = readPuzzleInput();
-
         TreePlantation treePlantation = new TreePlantation(input);
 
         assertThat(treePlantation.findOptimalScenicScore()).isEqualTo(8);
@@ -31,7 +29,6 @@ class TreePlantationTest {
     @Test
     void getScenicScore() {
         String input = readPuzzleInput();
-
         TreePlantation plantation = new TreePlantation(input);
 
         Tree treeA = plantation.getTrees().get(1).get(2);
