@@ -11,15 +11,17 @@ class RucksackFixerTest {
 
     @Test
     void calculateErrorPrioritySum() {
-        List<String> input = readPuzzleInput();
+        String input = readPuzzleInput();
         RucksackFixer rucksackFixer = new RucksackFixer(input);
+
         assertThat(rucksackFixer.calculateErrorPrioritySum()).isEqualTo(157);
     }
 
     @Test
     void calculateGroupPrioritySum() {
-        List<String> input = readPuzzleInput();
+        String input = readPuzzleInput();
         RucksackFixer rucksackFixer = new RucksackFixer(input);
+
         assertThat(rucksackFixer.calculateGroupPrioritySum()).isEqualTo(70);
     }
 }

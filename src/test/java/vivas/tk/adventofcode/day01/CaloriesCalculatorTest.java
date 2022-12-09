@@ -11,7 +11,7 @@ class CaloriesCalculatorTest {
 
     @Test
     void calculateMaxCalories() {
-        List<String> input = readPuzzleInput();
+        String input = readPuzzleInput();
         CaloriesCalculator caloriesCalculator = new CaloriesCalculator(input);
 
         assertThat( caloriesCalculator.calculateMaxCalories() ).isEqualTo(24000);
@@ -19,7 +19,7 @@ class CaloriesCalculatorTest {
 
     @Test
     void calculateMaxCaloriesTopThree() {
-        List<String> input = readPuzzleInput();
+        String input = readPuzzleInput();
         CaloriesCalculator caloriesCalculator = new CaloriesCalculator(input);
 
         assertThat( caloriesCalculator.calculateMaxCaloriesTopThree() ).isEqualTo(45000);

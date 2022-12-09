@@ -6,8 +6,8 @@ public class OverlapFinder {
 
     private final List<Pair> pairs;
 
-    public OverlapFinder(List<String> input) {
-        this.pairs = input.stream()
+    public OverlapFinder(String input) {
+        this.pairs = input.lines()
                 .map(Pair::new)
                 .toList();
     }

@@ -1,6 +1,10 @@
 package vivas.tk.adventofcode.day08;
 
+import com.codepoetics.protonpack.Indexed;
+import com.codepoetics.protonpack.StreamUtils;
+
 import java.util.*;
+import java.util.stream.Stream;
 
 import static java.util.function.Predicate.not;
 
@@ -11,20 +15,24 @@ public class TreePlantation {
     private final int width;
     private final Set<Tree> visibleTrees;
 
-    public TreePlantation(List<String> input) {
-        this.trees = new ArrayList<>();
-        for (byte y = 0; y < input.size(); y++) {
-            List<Tree> temp = new ArrayList<>();
-            String line = input.get(y);
-            for (byte x = 0; x < line.length(); x++) {
-                byte treeHeight = (byte) (line.charAt(x) - 48);
-                temp.add(new Tree(x, y, treeHeight));
-            }
-            trees.add(temp);
-        }
+    public TreePlantation(String input) {
+        this.trees = StreamUtils
+                .zipWithIndex(input.lines())
+                .map(this::readLine)
+                .toList();
         height = trees.size();
         width = trees.get(0).size();
         visibleTrees = new TreeSet<>();
+    }
+
+    private List<Tree> readLine(Indexed<String> line) {
+        Stream<Byte> stream = line.getValue().chars()
+                .map(c -> c - '0')
+                .mapToObj(c -> (byte) c);
+        return StreamUtils
+                .zipWithIndex(stream)
+                .map(c -> new Tree((byte) c.getIndex(), (byte) line.getIndex(), c.getValue()))
+                .toList();
     }
 
     public List<List<Tree>> getTrees() {

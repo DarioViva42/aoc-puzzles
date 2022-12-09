@@ -12,7 +12,7 @@ class TreePlantationTest {
 
     @Test
     void countVisibleTrees() {
-        List<String> input = readPuzzleInput();
+        String input = readPuzzleInput();
 
         TreePlantation treePlantation = new TreePlantation(input);
 
@@ -21,7 +21,7 @@ class TreePlantationTest {
 
     @Test
     void findOptimalScenicScore() {
-        List<String> input = readPuzzleInput();
+        String input = readPuzzleInput();
 
         TreePlantation treePlantation = new TreePlantation(input);
 
@@ -30,7 +30,7 @@ class TreePlantationTest {
 
     @Test
     void getScenicScore() {
-        List<String> input = readPuzzleInput();
+        String input = readPuzzleInput();
 
         TreePlantation plantation = new TreePlantation(input);
 

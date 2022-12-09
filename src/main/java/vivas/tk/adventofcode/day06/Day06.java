@@ -13,7 +13,7 @@ public class Day06 {
     private static final Logger LOGGER = LogManager.getLogger(Day06.class);
 
     public static void main(String[] args) {
-        String input = readPuzzleInput().get(0);
+        String input = readPuzzleInput();
 
         Instant start = Instant.now();
 

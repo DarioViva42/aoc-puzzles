@@ -11,23 +11,23 @@ class FileSystemTest {
 
     @Test
     void countSizeNaiveApproach() {
-        List<String> input = readPuzzleInput();
-
+        String input = readPuzzleInput();
         FileSystem fileSystem = new FileSystem(input);
 
-        assertThat(fileSystem.countSizeNaiveApproach()).isEqualTo(95437);
+        assertThat(fileSystem.countSizeNaiveApproach())
+                .isEqualTo(95437);
     }
 
 
     @Test
     void findSmallestToDeleteFolder() {
-        List<String> input = readPuzzleInput();
-
+        String input = readPuzzleInput();
         FileSystem fileSystem = new FileSystem(input);
 
-        assertThat(fileSystem.findSmallestToDeleteFolder()).hasValueSatisfying(folder -> {
-            assertThat(folder.name()).isEqualTo("d");
-            assertThat(folder.size()).isEqualTo(24933642L);
-        });
+        assertThat(fileSystem.findSmallestToDeleteFolder())
+                .hasValueSatisfying(folder -> {
+                    assertThat(folder.name()).isEqualTo("d");
+                    assertThat(folder.size()).isEqualTo(24933642L);
+                });
     }
 }

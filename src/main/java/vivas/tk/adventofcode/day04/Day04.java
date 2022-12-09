@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.List;
 
 import static vivas.tk.adventofcode.GeneralUtils.readPuzzleInput;
 
@@ -14,7 +13,7 @@ public class Day04 {
     private static final Logger LOGGER = LogManager.getLogger(Day04.class);
 
     public static void main(String[] args) {
-        List<String> input = readPuzzleInput();
+        String input = readPuzzleInput();
 
         Instant start = Instant.now();
 

@@ -1,25 +1,25 @@
 package vivas.tk.adventofcode.day05;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 public class RearrangementProcedure {
-    private Stack<Character>[] stacks;
+    private CharacterStack[] stacks;
 
-    private final Stack<Character>[] backupStacks;
+    private final CharacterStack[] backupStacks;
     private final List<Step> steps;
 
-    public RearrangementProcedure(List<String> input) {
-        int splitPosition = input.indexOf("");
+    public RearrangementProcedure(String input) {
+        String[] split = input.split("(\\n|\\r\\n){2}", 2);
 
-        this.backupStacks = setupStacks(input.subList(0, splitPosition));
+        this.backupStacks = setupStacks(split[0].lines().toList());
 
-        this.steps = input
-                .subList(splitPosition + 1, input.size()).stream()
+        this.steps = split[1].lines()
                 .map(Step::new)
                 .toList();
     }
 
-    private Stack<Character>[] setupStacks(List<String> stackInput) {
+    private CharacterStack[] setupStacks(List<String> stackInput) {
         int numberOfStacks = getNumberOfStacks(stackInput);
 
         createStacks(numberOfStacks);
@@ -36,18 +36,17 @@ public class RearrangementProcedure {
     }
 
     private void createStacks(int numberOfStacks) {
-        this.stacks = new Stack[numberOfStacks];
-        for (int i = 0; i < numberOfStacks; i++) {
-            this.stacks[i] = new Stack<>();
-        }
+        this.stacks = Stream
+                .generate(CharacterStack::new)
+                .limit(numberOfStacks)
+                .toArray(CharacterStack[]::new);
     }
 
-    private Stack<Character>[] createBackup() {
-        Stack<Character>[] backup = new Stack[stacks.length];
-        for (int i = 0; i < stacks.length; i++) {
-            backup[i] = (Stack<Character>) stacks[i].clone();
-        }
-        return backup;
+    private CharacterStack[] createBackup() {
+        return Arrays.stream(stacks)
+                .map(CharacterStack::clone)
+                .map(CharacterStack.class::cast)
+                .toArray(CharacterStack[]::new);
     }
 
     private int getNumberOfStacks(List<String> stackInput) {
@@ -73,7 +72,7 @@ public class RearrangementProcedure {
     private String readCrates() {
         StringBuilder stringBuilder = new StringBuilder();
         Arrays.stream(stacks)
-                .map(Stack::peek)
+                .map(CharacterStack::peek)
                 .forEach(stringBuilder::append);
         return stringBuilder.toString();
     }

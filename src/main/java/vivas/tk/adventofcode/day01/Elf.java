@@ -1,18 +1,18 @@
 package vivas.tk.adventofcode.day01;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 public class Elf {
 
-    private final List<String> foodList;
+    private final int totalCalories;
 
-    public Elf(List<String> calories) {
-        foodList = calories;
+    public Elf(Stream<String> calories) {
+        totalCalories = calories
+                .mapToInt(Integer::valueOf)
+                .sum();
     }
 
     public int totalCalories() {
-        return foodList.stream()
-                .mapToInt(Integer::valueOf)
-                .sum();
+        return totalCalories;
     }
 }

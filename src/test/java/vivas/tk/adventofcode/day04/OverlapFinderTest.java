@@ -11,17 +11,17 @@ class OverlapFinderTest {
 
     @Test
     void countFullOverlaps() {
-        List<String> input = readPuzzleInput();
-
+        String input = readPuzzleInput();
         OverlapFinder overlapFinder = new OverlapFinder(input);
+
         assertThat(overlapFinder.countFullOverlaps()).isEqualTo(2);
     }
 
     @Test
     void countPartialOverlaps() {
-        List<String> input = readPuzzleInput();
-
+        String input = readPuzzleInput();
         OverlapFinder overlapFinder = new OverlapFinder(input);
+
         assertThat(overlapFinder.countPartialOverlaps()).isEqualTo(4);
     }
 }

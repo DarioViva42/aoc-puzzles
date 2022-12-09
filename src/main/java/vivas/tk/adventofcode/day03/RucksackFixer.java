@@ -8,8 +8,8 @@ import java.util.List;
 public class RucksackFixer {
 
     List<Rucksack> rucksacks;
-    public RucksackFixer(List<String> input) {
-        rucksacks = input.stream()
+    public RucksackFixer(String input) {
+        rucksacks = input.lines()
                 .map(Rucksack::new)
                 .toList();
     }

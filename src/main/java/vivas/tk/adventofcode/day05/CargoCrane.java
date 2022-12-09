@@ -1,18 +1,17 @@
 package vivas.tk.adventofcode.day05;
 
 import java.util.List;
-import java.util.Stack;
 
 public abstract class CargoCrane {
 
     protected List<Step> steps;
-    protected Stack<Character>[] stacks;
+    protected CharacterStack[] stacks;
 
     public void setSteps(List<Step> steps) {
         this.steps = steps;
     }
 
-    public void setStacks(Stack<Character>[] stacks) {
+    public void setStacks(CharacterStack[] stacks) {
         this.stacks = stacks;
     }
 

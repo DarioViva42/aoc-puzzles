@@ -1,15 +1,15 @@
 package vivas.tk.adventofcode.day07;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
 
 public class FileSystem {
     final Folder root = new Folder("/");
     Folder currentDirectory;
 
-    public FileSystem(List<String> input) {
-        input.forEach(this::parseLine);
+    public FileSystem(String input) {
+        input.lines()
+                .forEach(this::parseLine);
     }
 
     private void parseLine(String line) {
