@@ -44,7 +44,7 @@ public class TreePlantation {
 
     private void addVisibleFromLeft() {
         for (List<Tree> line : trees) {
-            Byte visibleHeight = -1;
+            byte visibleHeight = -1;
             for (Tree tree : line) {
                 visibleHeight = addFilteredTree(visibleHeight, tree);
             }
@@ -53,7 +53,7 @@ public class TreePlantation {
 
     private void addVisibleFromRight() {
         for (List<Tree> line : trees) {
-            Byte visibleHeight = -1;
+            byte visibleHeight = -1;
             for (int i = 0; i < line.size(); i++) {
                 Tree tree = line.get(width - i - 1);
                 visibleHeight = addFilteredTree(visibleHeight, tree);
@@ -63,7 +63,7 @@ public class TreePlantation {
 
     private void addVisibleFromTop() {
         for (int x = 0; x < trees.get(0).size(); x++) {
-            Byte visibleHeight = -1;
+            byte visibleHeight = -1;
             for (List<Tree> line : trees) {
                 Tree tree = line.get(x);
                 visibleHeight = addFilteredTree(visibleHeight, tree);
@@ -76,7 +76,7 @@ public class TreePlantation {
         Collections.reverse(reversedTrees);
 
         for (int x = 0; x < reversedTrees.get(0).size(); x++) {
-            Byte visibleHeight = -1;
+            byte visibleHeight = -1;
             for (List<Tree> line : reversedTrees) {
                 Tree tree = line.get(x);
                 visibleHeight = addFilteredTree(visibleHeight, tree);
@@ -84,8 +84,8 @@ public class TreePlantation {
         }
     }
 
-    private Byte addFilteredTree(Byte visibleHeight, Tree tree) {
-        Byte currentHeight = tree.height();
+    private byte addFilteredTree(Byte visibleHeight, Tree tree) {
+        byte currentHeight = tree.height();
         if (currentHeight > visibleHeight) {
             visibleHeight = currentHeight;
             visibleTrees.add(tree);
