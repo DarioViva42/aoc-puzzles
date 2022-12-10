@@ -34,10 +34,17 @@ class RopeSimulation {
     private void executeInstruction(Instruction instruction) {
         for (int i = 0; i < instruction.amount(); i++) {
             head.move(instruction.direction());
-            tail.get(0).fallowKnot(head);
-            for (int t = 1; t < tail.size(); t++) {
-                tail.get(t).fallowKnot(tail.get(t - 1));
-            }
+            moveTail();
+        }
+    }
+
+    private void moveTail() {
+        boolean moved = tail.get(0).fallowKnot(head);
+        for (int t = 1; t < tail.size(); t++) {
+            if (!moved) break;
+            moved = tail.get(t).fallowKnot(tail.get(t - 1));
+        }
+        if (moved) {
             Point lastPosition = tail.get(tail.size() - 1).getPosition();
             visitedPoints.add(lastPosition);
         }

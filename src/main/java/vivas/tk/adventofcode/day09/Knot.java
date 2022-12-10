@@ -35,7 +35,7 @@ class Knot {
         x++;
     }
 
-    public void fallowKnot(Knot knot) {
+    public boolean fallowKnot(Knot knot) {
         if (knot.y - y == 2) {
             fallowKnotDown(knot);
         } else if (y - knot.y == 2) {
@@ -44,7 +44,10 @@ class Knot {
             fallowKnotRight(knot);
         } else if (x - knot.x == 2) {
             fallowKnotLeft(knot);
+        } else {
+            return false;
         }
+        return true;
     }
 
     private void fallowKnotUp(Knot knot) {
