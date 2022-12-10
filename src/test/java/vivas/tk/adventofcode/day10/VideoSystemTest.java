@@ -14,4 +14,20 @@ class VideoSystemTest {
 
         assertThat(videoSystem.calculateSignalStrength()).isEqualTo(13140);
     }
+
+    @Test
+    void drawTo() {
+        String input = readPuzzleInput();
+        VideoSystem videoSystem = new VideoSystem(input);
+
+        String solution = """
+                ##..##..##..##..##..##..##..##..##..##..
+                ###...###...###...###...###...###...###.
+                ####....####....####....####....####....
+                #####.....#####.....#####.....#####.....
+                ######......######......######......####
+                #######.......#######.......#######.....""";
+
+        assertThat(videoSystem.renderAsciiArt()).isEqualTo(solution);
+    }
 }

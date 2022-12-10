@@ -12,9 +12,18 @@ class VideoSystem {
     }
 
     public int calculateSignalStrength() {
-        Cpu cpu = new Cpu();
+        CPU cpu = new CPU();
         return instructions.stream()
                 .mapToInt(instruction -> instruction.runOnCpu(cpu))
                 .sum();
+    }
+
+    public String renderAsciiArt() {
+        CPU cpu = new CPU();
+        CRT crt = new CRT();
+        for (Instruction instruction : instructions) {
+            instruction.draw(crt, cpu);
+        }
+        return crt.render();
     }
 }
