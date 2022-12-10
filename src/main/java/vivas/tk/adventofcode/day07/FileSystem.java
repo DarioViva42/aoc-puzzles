@@ -3,7 +3,7 @@ package vivas.tk.adventofcode.day07;
 import java.util.Comparator;
 import java.util.Optional;
 
-public class FileSystem {
+class FileSystem {
     final Folder root = new Folder("/");
     Folder currentDirectory;
 

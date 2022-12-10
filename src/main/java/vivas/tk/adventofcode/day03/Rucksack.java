@@ -3,7 +3,7 @@ package vivas.tk.adventofcode.day03;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rucksack {
+class Rucksack {
     private final List<Character> compartmentA;
     private final List<Character> compartmentB;
     public Rucksack(String input) {

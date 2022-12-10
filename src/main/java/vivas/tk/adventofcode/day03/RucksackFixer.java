@@ -5,7 +5,7 @@ import one.util.streamex.StreamEx;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RucksackFixer {
+class RucksackFixer {
 
     List<Rucksack> rucksacks;
     public RucksackFixer(String input) {

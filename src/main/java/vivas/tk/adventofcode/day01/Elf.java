@@ -2,7 +2,7 @@ package vivas.tk.adventofcode.day01;
 
 import java.util.stream.Stream;
 
-public class Elf {
+class Elf {
 
     private final int totalCalories;
 

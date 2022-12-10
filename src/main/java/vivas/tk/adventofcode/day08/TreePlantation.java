@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 import static java.util.function.Predicate.not;
 
-public class TreePlantation {
+class TreePlantation {
 
     private final List<List<Tree>> trees;
     private final int height;

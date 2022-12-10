@@ -1,6 +1,6 @@
 package vivas.tk.adventofcode.day06;
 
-public class BufferedDataStreamReader {
+class BufferedDataStreamReader {
 
     private final String input;
 

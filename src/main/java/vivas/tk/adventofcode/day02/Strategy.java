@@ -1,6 +1,6 @@
 package vivas.tk.adventofcode.day02;
 
-public enum Strategy {
+enum Strategy {
     WIN,
     LOOSE,
     DRAW;

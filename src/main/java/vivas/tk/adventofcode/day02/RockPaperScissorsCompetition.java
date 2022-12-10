@@ -5,7 +5,7 @@ import com.codepoetics.protonpack.StreamUtils;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class RockPaperScissorsCompetition {
+class RockPaperScissorsCompetition {
 
     private final List<HandShape> opponent;
     private final Stream<HandShape> me;

@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
-public class RopeSimulation {
+class RopeSimulation {
 
     private final List<Instruction> instructions;
     private Knot head;

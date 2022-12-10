@@ -1,6 +1,6 @@
 package vivas.tk.adventofcode.day09;
 
-public class Knot {
+class Knot {
 
     int x;
     int y;

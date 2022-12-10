@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public final class Folder implements FileSystemEntity {
+final class Folder implements FileSystemEntity {
     private final List<Folder> folders = new ArrayList<>();
     private final List<File> files = new ArrayList<>();
     private final String name;

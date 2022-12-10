@@ -2,7 +2,7 @@ package vivas.tk.adventofcode.day04;
 
 import java.util.List;
 
-public class OverlapFinder {
+class OverlapFinder {
 
     private final List<Pair> pairs;
 

@@ -1,6 +1,6 @@
 package vivas.tk.adventofcode.day05;
 
-public class CrateMover9000 extends CargoCrane {
+class CrateMover9000 extends CargoCrane {
 
     @Override
     public void applyOperation(Step step) {

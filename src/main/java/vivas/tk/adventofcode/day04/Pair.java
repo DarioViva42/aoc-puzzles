@@ -1,6 +1,6 @@
 package vivas.tk.adventofcode.day04;
 
-public class Pair {
+class Pair {
 
     private final int a;
     private final int b;

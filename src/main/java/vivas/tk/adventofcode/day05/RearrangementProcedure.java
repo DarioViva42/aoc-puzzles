@@ -3,7 +3,7 @@ package vivas.tk.adventofcode.day05;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class RearrangementProcedure {
+class RearrangementProcedure {
     private CharacterStack[] stacks;
 
     private final CharacterStack[] backupStacks;

@@ -2,7 +2,7 @@ package vivas.tk.adventofcode.day05;
 
 import java.util.List;
 
-public abstract class CargoCrane {
+abstract class CargoCrane {
 
     protected List<Step> steps;
     protected CharacterStack[] stacks;

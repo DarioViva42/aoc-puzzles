@@ -3,7 +3,7 @@ package vivas.tk.adventofcode.day05;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class CrateMover9001 extends CargoCrane {
+class CrateMover9001 extends CargoCrane {
 
     private final Deque<Character> temporaryStack = new ArrayDeque<>();
 

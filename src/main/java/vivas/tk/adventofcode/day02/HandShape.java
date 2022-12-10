@@ -1,6 +1,6 @@
 package vivas.tk.adventofcode.day02;
 
-public enum HandShape {
+enum HandShape {
     ROCK(1),
     PAPER(2),
     SCISSORS(3);

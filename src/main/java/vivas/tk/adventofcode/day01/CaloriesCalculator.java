@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-public class CaloriesCalculator {
+class CaloriesCalculator {
 
     private final List<Elf> elves;
 
