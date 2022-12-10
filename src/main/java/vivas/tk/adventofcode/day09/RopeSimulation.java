@@ -3,29 +3,30 @@ package vivas.tk.adventofcode.day09;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Stream;
 
 public class RopeSimulation {
 
-    private final Knot head;
-    private final Knot tail;
-
     private final List<Instruction> instructions;
-
-    private final Set<Point> visitedPoints;
+    private Knot head;
+    private List<Knot> tail;
+    private Set<Point> visitedPoints;
 
     public RopeSimulation(String input) {
         instructions = input.lines()
                 .map(Instruction::parse)
                 .toList();
-
-        head = new Knot(0, 0);
-        tail = new Knot(0, 0);
-
-        visitedPoints = new TreeSet<>();
-        visitedPoints.add(tail.getPosition());
     }
 
-    public int runSimulation() {
+    public int runSimulation(int numberOfKnots) {
+        head = new Knot();
+        tail = Stream.generate(Knot::new)
+                .limit(numberOfKnots)
+                .toList();
+
+        visitedPoints = new TreeSet<>();
+        visitedPoints.add(new Point(0, 0));
+
         instructions.forEach(this::executeInstruction);
         return visitedPoints.size();
     }
@@ -33,7 +34,12 @@ public class RopeSimulation {
     private void executeInstruction(Instruction instruction) {
         for (int i = 0; i < instruction.amount(); i++) {
             head.move(instruction.direction());
-            tail.fallowKnot(head, visitedPoints);
+            tail.get(0).fallowKnot(head);
+            for (int t = 1; t < tail.size(); t++) {
+                tail.get(t).fallowKnot(tail.get(t - 1));
+            }
+            Point lastPosition = tail.get(tail.size() - 1).getPosition();
+            visitedPoints.add(lastPosition);
         }
     }
 }

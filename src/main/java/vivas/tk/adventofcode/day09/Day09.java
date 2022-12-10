@@ -14,16 +14,16 @@ public class Day09 {
 
         Instant parseEnd = Instant.now();
 
-        int partOneAnswer = ropeSimulation.runSimulation();
+        int partOneAnswer = ropeSimulation.runSimulation(1);
 
         Instant betweenParts = Instant.now();
 
-        // int partTwoAnswer = ropeSimulation.runSimulation();
+        int partTwoAnswer = ropeSimulation.runSimulation(9);
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        // sendPuzzleAnswer(2, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
     }

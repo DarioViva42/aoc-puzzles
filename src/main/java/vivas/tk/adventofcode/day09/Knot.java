@@ -1,15 +1,13 @@
 package vivas.tk.adventofcode.day09;
 
-import java.util.Set;
-
 public class Knot {
 
     int x;
     int y;
 
-    public Knot(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Knot() {
+        x = 0;
+        y = 0;
     }
 
     public void move(Direction direction) {
@@ -37,19 +35,15 @@ public class Knot {
         x++;
     }
 
-    public void fallowKnot(Knot knot, Set<Point> visitedPoints) {
+    public void fallowKnot(Knot knot) {
         if (knot.y - y == 2) {
             fallowKnotDown(knot);
-            visitedPoints.add(getPosition());
         } else if (y - knot.y == 2) {
             fallowKnotUp(knot);
-            visitedPoints.add(getPosition());
         } else if (knot.x - x == 2) {
             fallowKnotRight(knot);
-            visitedPoints.add(getPosition());
         } else if (x - knot.x == 2) {
             fallowKnotLeft(knot);
-            visitedPoints.add(getPosition());
         }
     }
 
