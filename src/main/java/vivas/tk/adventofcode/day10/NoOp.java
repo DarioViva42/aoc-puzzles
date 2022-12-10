@@ -12,6 +12,8 @@ final class NoOp implements Instruction {
 
     @Override
     public int runOnCpu(Cpu cpu) {
-        return cpu.tick();
+        int signalStrength = cpu.signalStrength();
+        cpu.tick();
+        return signalStrength;
     }
 }

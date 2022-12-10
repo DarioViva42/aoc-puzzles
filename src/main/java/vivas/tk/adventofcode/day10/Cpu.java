@@ -9,13 +9,11 @@ class Cpu {
         x = 1;
     }
 
-    public int tick() {
-        int signalStrength = signalStrength();
+    public void tick() {
         cycle++;
-        return signalStrength;
     }
 
-    private int signalStrength() {
+    public int signalStrength() {
         if ((cycle + 20) % 40 == 0) {
             return cycle * x;
         }
