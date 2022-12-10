@@ -2,8 +2,11 @@ package vivas.tk.adventofcode;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +14,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Optional;
 
 public class GeneralUtils {
@@ -19,6 +24,7 @@ public class GeneralUtils {
         loadSecurityProperties();
     }
 
+    private static final Logger LOGGER = LogManager.getLogger(GeneralUtils.class);
     private static final StackWalker STACK_WALKER = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
     private static final String LOCAL_PATH = "/day%s";
     private static final String SERVER_PATH = "https://adventofcode.com/%d/day/%d/%s";
@@ -27,12 +33,12 @@ public class GeneralUtils {
     private GeneralUtils() {
     }
 
-    public static String sendPuzzleAnswer(int level, Object answer) {
+    public static void sendPuzzleAnswer(int level, Object answer) {
+        LOGGER.info("sending {}…", answer);
         AdventDate date = AdventDate.fromClass(STACK_WALKER.getCallerClass());
         String form = FORM.formatted(level, answer);
-        return createPostRequest(date, form)
-                .map(GeneralUtils::sendPostRequest)
-                .orElseThrow();
+        createPostRequest(date, form)
+                .ifPresent(GeneralUtils::sendPostRequest);
     }
 
     private static Optional<HttpURLConnection> createPostRequest(AdventDate date, String form) {
@@ -54,11 +60,13 @@ public class GeneralUtils {
         return Optional.empty();
     }
 
-    private static String sendPostRequest(HttpURLConnection connection) {
+    private static void sendPostRequest(HttpURLConnection connection) {
         try (InputStream inputStream = connection.getInputStream()) {
             String serverAnswer = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
             Document doc = Jsoup.parse(serverAnswer);
-            return doc.getElementsByTag("p").get(0).textNodes().get(0).text();
+            Element feedbackElement = doc.getElementsByTag("p").get(0);
+            String feedback = feedbackElement.text();
+            LOGGER.info(feedback);
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
@@ -105,5 +113,12 @@ public class GeneralUtils {
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
+    }
+
+    public static void logDurations(Instant start, Instant parseEnd, Instant betweenParts, Instant end) {
+        LOGGER.info("parsing: {}ms", Duration.between(start, parseEnd).toMillis());
+        LOGGER.info("part 1: {}ms", Duration.between(parseEnd, betweenParts).toMillis());
+        LOGGER.info("part 2: {}ms", Duration.between(betweenParts, end).toMillis());
+        LOGGER.info("total: {}ms", Duration.between(start, end).toMillis());
     }
 }
