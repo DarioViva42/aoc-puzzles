@@ -9,10 +9,18 @@ import static vivas.tk.adventofcode.GeneralUtils.readPuzzleInput;
 class RopeSimulationTest {
 
     @Test
-    void runSimulation() {
-        String input = readPuzzleInput();
+    void runSimulation_1() {
+        String input = readPuzzleInput(1);
         RopeSimulation ropeSimulation = new RopeSimulation(input);
 
-        assertThat(ropeSimulation.runSimulation()).isEqualTo(13);
+        assertThat(ropeSimulation.runSimulation(1)).isEqualTo(13);
+    }
+
+    @Test
+    void runSimulation_9() {
+        String input = readPuzzleInput(2);
+        RopeSimulation ropeSimulation = new RopeSimulation(input);
+
+        assertThat(ropeSimulation.runSimulation(9)).isEqualTo(36);
     }
 }

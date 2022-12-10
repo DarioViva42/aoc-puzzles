@@ -26,7 +26,6 @@ public class GeneralUtils {
 
     private static final Logger LOGGER = LogManager.getLogger(GeneralUtils.class);
     private static final StackWalker STACK_WALKER = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
-    private static final String LOCAL_PATH = "/day%s";
     private static final String SERVER_PATH = "https://adventofcode.com/%d/day/%d/%s";
     public static final String FORM = "level=%s&answer=%s";
 
@@ -82,6 +81,16 @@ public class GeneralUtils {
         }
     }
 
+    public static String readPuzzleInput(int level) {
+        AdventDate date = AdventDate.fromClass(STACK_WALKER.getCallerClass());
+
+        try (InputStream inputStream = getResourceFromFile(date, level)) {
+            return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
     private static InputStream getResource(AdventDate date) {
         return getResourceFromFile(date)
                 .or(() -> fetchResourceFromServer(date))
@@ -89,9 +98,16 @@ public class GeneralUtils {
     }
 
     private static Optional<InputStream> getResourceFromFile(AdventDate date) {
-        String path = LOCAL_PATH.formatted(StringUtils.leftPad(String.valueOf(date.day()), 2, '0'));
+        String dayPadded = StringUtils.leftPad(String.valueOf(date.day()), 2, '0');
+        String path = "/day" + dayPadded;
         InputStream inputStream = GeneralUtils.class.getResourceAsStream(path);
         return inputStream != null ? Optional.of(inputStream) : Optional.empty();
+    }
+
+    private static InputStream getResourceFromFile(AdventDate date, int part) {
+        String dayPadded = StringUtils.leftPad(String.valueOf(date.day()), 2, '0');
+        String path = "/day" + dayPadded + (char) ('a' + part - 1);
+        return GeneralUtils.class.getResourceAsStream(path);
     }
 
     private static Optional<InputStream> fetchResourceFromServer(AdventDate date) {
