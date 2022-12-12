@@ -15,4 +15,12 @@ class KeepAwayGameTest {
 
         assertThat(keepAwayGame.play(20)).isEqualTo(10605);
     }
+
+    @Test
+    void playWithoutRelief() {
+        String input = readPuzzleInput();
+        KeepAwayGame keepAwayGame = new KeepAwayGame(input);
+
+        assertThat(keepAwayGame.playWithoutRelief(10000)).isEqualTo(2713310158L);
+    }
 }

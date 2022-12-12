@@ -11,20 +11,21 @@ public class Day11 {
 
         Instant start = Instant.now();
 
-        KeepAwayGame keepAwayGame = new KeepAwayGame(input);
+        KeepAwayGame keepAwayGame1 = new KeepAwayGame(input);
+        KeepAwayGame keepAwayGame2 = new KeepAwayGame(input);
 
         Instant parseEnd = Instant.now();
 
-        int partOneAnswer = keepAwayGame.play(20);
+        long partOneAnswer = keepAwayGame1.play(20);
 
         Instant betweenParts = Instant.now();
 
-        // int partTwoAnswer = keepAwayGame.play(100);
+        long partTwoAnswer = keepAwayGame2.playWithoutRelief(10000);
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        // sendPuzzleAnswer(1, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
     }

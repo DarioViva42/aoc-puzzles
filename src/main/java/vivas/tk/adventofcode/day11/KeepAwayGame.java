@@ -3,26 +3,38 @@ package vivas.tk.adventofcode.day11;
 import java.util.Arrays;
 import java.util.List;
 
-public class KeepAwayGame {
-    List<Monkey> monkeys;
+class KeepAwayGame {
+    private final List<Monkey> monkeys;
+    private final int groupDivisionNumber;
+
     public KeepAwayGame(String input) {
         monkeys = Arrays
                 .stream(input.split("(\\n|\\r\\n){2}"))
                 .map(Monkey::parse)
                 .toList();
         monkeys.forEach(monkey -> monkey.prepare(monkeys));
+        groupDivisionNumber = monkeys.stream()
+                .mapToInt(Monkey::getDivisionNumber)
+                .reduce((i, j) -> i * j).orElseThrow();
     }
 
-    public int play(int rounds) {
+    public long play(int rounds) {
         for (int i = 0; i < rounds; i++) {
-            monkeys.forEach(Monkey::play);
+            monkeys.forEach(monkey -> monkey.throwItems(x -> x / 3));
         }
         return countMonkeyBusiness();
     }
 
-    private int countMonkeyBusiness() {
+    public long playWithoutRelief(int rounds) {
+        for (int i = 0; i < rounds; i++) {
+            monkeys.forEach(monkey -> monkey.throwItems(x -> x % groupDivisionNumber));
+        }
+        return countMonkeyBusiness();
+    }
+
+    private long countMonkeyBusiness() {
         return monkeys.stream()
-                .mapToInt(Monkey::getInspectionCount)
+                .mapToLong(Monkey::getInspectionCount)
                 .map(i -> -i)
                 .sorted()
                 .limit(2)
