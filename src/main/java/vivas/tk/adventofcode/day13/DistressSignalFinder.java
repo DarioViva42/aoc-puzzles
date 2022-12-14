@@ -1,5 +1,6 @@
 package vivas.tk.adventofcode.day13;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,5 +23,24 @@ class DistressSignalFinder {
             }
         }
         return score;
+    }
+
+    public int findDecoderKey() {
+        List<Packet> packetList = new ArrayList<>();
+        for (PacketPair pair : pairs) {
+            packetList.add(pair.getLeftPacket());
+            packetList.add(pair.getRightPacket());
+        }
+
+        Packet dividerOne = Packet.parse("[[2]]");
+        Packet dividerTwo = Packet.parse("[[6]]");
+        packetList.add(dividerOne);
+        packetList.add(dividerTwo);
+
+        packetList.sort(Comparable::compareTo);
+
+        int indexOfDividerOne = packetList.indexOf(dividerOne) + 1;
+        int indexOfDividerTwo = packetList.indexOf(dividerTwo) + 1;
+        return indexOfDividerOne * indexOfDividerTwo;
     }
 }

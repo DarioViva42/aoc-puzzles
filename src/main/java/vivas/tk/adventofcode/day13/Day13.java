@@ -19,12 +19,12 @@ public class Day13 {
 
         Instant betweenParts = Instant.now();
 
-        // int partTwoAnswer = signalFinder.findDistressSignal();
+        int partTwoAnswer = signalFinder.findDecoderKey();
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        // sendPuzzleAnswer(2, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
     }

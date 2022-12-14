@@ -22,4 +22,12 @@ class PacketPair {
     public boolean isInOrder() {
         return left.compareTo(right) < 0;
     }
+
+    public Packet getLeftPacket() {
+        return left;
+    }
+
+    public Packet getRightPacket() {
+        return right;
+    }
 }

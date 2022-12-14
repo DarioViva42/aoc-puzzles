@@ -15,4 +15,12 @@ class DistressSignalFinderTest {
 
         assertThat(signalFinder.evaluateCorrectlyOrderedPairs()).isEqualTo(13);
     }
+
+    @Test
+    void findDecoderKey() {
+        String input = readPuzzleInput();
+        DistressSignalFinder signalFinder = new DistressSignalFinder(input);
+
+        assertThat(signalFinder.findDecoderKey()).isEqualTo(140);
+    }
 }
