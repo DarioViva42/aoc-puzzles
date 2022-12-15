@@ -15,16 +15,16 @@ public class Day14 {
 
         Instant parseEnd = Instant.now();
 
-        int partOneAnswer = sandSimulation.fillWithSand();
+        int partOneAnswer = sandSimulation.fillCaveWithSand();
 
         Instant betweenParts = Instant.now();
 
-        // int partTwoAnswer = sandSimulation.fillWithClumpySand();
+        int partTwoAnswer = sandSimulation.fillFlooredCaveWithSand();
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        // sendPuzzleAnswer(2, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
     }
