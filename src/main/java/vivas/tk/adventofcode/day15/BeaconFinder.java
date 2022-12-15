@@ -65,10 +65,7 @@ class BeaconFinder {
     }
 
     private void removeOverlaps(List<Range> rangeList) {
-        boolean changed;
-        do {
-            changed = removeOverlapsOneIteration(rangeList);
-        } while (changed);
+        while (removeOverlapsOneIteration(rangeList));
     }
 
     private boolean removeOverlapsOneIteration(List<Range> rangeList) {
