@@ -19,12 +19,12 @@ public class Day15 {
 
         Instant betweenParts = Instant.now();
 
-        // int partTwoAnswer = beaconFinder.findHiddenBeacon();
+        long partTwoAnswer = beaconFinder.findTuningFrequency(4_000_000);
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        // sendPuzzleAnswer(2, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
     }

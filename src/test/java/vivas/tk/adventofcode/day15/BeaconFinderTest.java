@@ -15,4 +15,12 @@ class BeaconFinderTest {
 
         assertThat(beaconFinder.countEmptyPositionsOnLine(10)).isEqualTo(26);
     }
+
+    @Test
+    void findTuningFrequency() {
+        String input = readPuzzleInput();
+        BeaconFinder beaconFinder = new BeaconFinder(input);
+
+        assertThat(beaconFinder.findTuningFrequency(20)).isEqualTo(56000011);
+    }
 }
