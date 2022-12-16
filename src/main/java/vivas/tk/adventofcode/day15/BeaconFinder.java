@@ -38,9 +38,8 @@ class BeaconFinder {
     public long findTuningFrequency(int max) {
         int secretX = 0;
         int secretY = 0;
-        Range completeRange = new Range(0, max);
-        for (int y = 0; y <= max; y++) {
-            int xPosition = findGapInLine(y, completeRange);
+        for (int y = 1; y < max; y++) {
+            int xPosition = findGapInLine(y, max);
             if (xPosition != -1) {
                 secretX = xPosition;
                 secretY = y;
@@ -50,10 +49,15 @@ class BeaconFinder {
         return secretX * 4_000_000L + secretY;
     }
 
-    private int findGapInLine(int lineNumber, Range completeRange) {
+    private int findGapInLine(int lineNumber, int max) {
         List<Range> rangeList = rangesOnLine(lineNumber);
         removeOverlaps(rangeList);
-        return completeRange.findGap(rangeList);
+
+        if (rangeList.size() == 1) {
+            return -1;
+        }
+        int index = Math.max(rangeList.get(0).min(), rangeList.get(1).min()) - 1;
+        return index < max ? index : -1;
     }
 
     @SuppressWarnings("java:S6204")
