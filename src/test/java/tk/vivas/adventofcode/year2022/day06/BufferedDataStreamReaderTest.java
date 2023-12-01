@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class BufferedDataStreamReaderTest {
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/day06")
+    @CsvFileSource(resources = "/year2022/day06")
     void findStartOfPacketMarker(String input, int expected) {
         BufferedDataStreamReader dataStreamReader = new BufferedDataStreamReader(input);
 
@@ -16,7 +16,7 @@ class BufferedDataStreamReaderTest {
     }
 
     @ParameterizedTest
-    @CsvFileSource(resources = "/day06")
+    @CsvFileSource(resources = "/year2022/day06")
     void findStartOfMessageMarker(String input, int expected) {
         BufferedDataStreamReader dataStreamReader = new BufferedDataStreamReader(input);
 
