@@ -17,4 +17,10 @@ class CalibrationDocument {
                 .mapToInt(AmendedCalibrationValue::recover)
                 .sum();
     }
+
+    int fullyRecover() {
+        return calibrationValues.stream()
+                .mapToInt(AmendedCalibrationValue::fullyRecover)
+                .sum();
+    }
 }
