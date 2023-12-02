@@ -18,4 +18,10 @@ class SnowIslandGames {
                 .mapToInt(SnowIslandGame::getGameId)
                 .sum();
     }
+
+    public long sumOfPowers() {
+        return games.stream()
+                .mapToLong(SnowIslandGame::calculatePower)
+                .sum();
+    }
 }

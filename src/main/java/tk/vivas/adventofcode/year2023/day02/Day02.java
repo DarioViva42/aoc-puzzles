@@ -2,8 +2,7 @@ package tk.vivas.adventofcode.year2023.day02;
 
 import java.time.Instant;
 
-import static tk.vivas.adventofcode.AocUtils.readPuzzleInput;
-import static tk.vivas.adventofcode.AocUtils.sendPuzzleAnswer;
+import static tk.vivas.adventofcode.AocUtils.*;
 
 public class Day02 {
     public static void main(String[] args) {
@@ -19,13 +18,13 @@ public class Day02 {
 
         Instant betweenParts = Instant.now();
 
-        // long partTwoAnswer =
+        long partTwoAnswer = game.sumOfPowers();
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        // sendPuzzleAnswer(2, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
-        // logDurations(start, parseEnd, betweenParts, end);
+        logDurations(start, parseEnd, betweenParts, end);
     }
 }

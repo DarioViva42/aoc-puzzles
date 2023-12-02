@@ -24,4 +24,16 @@ class SnowIslandGame {
     public int getGameId() {
         return gameId;
     }
+
+    public int calculatePower() {
+        int redCubeMin = 0;
+        int greenCubeMin = 0;
+        int blueCubeMin = 0;
+        for (CubeSet set : sets) {
+            redCubeMin = Math.max(redCubeMin, set.redCubeCount);
+            greenCubeMin = Math.max(greenCubeMin, set.greenCubeCount);
+            blueCubeMin = Math.max(blueCubeMin, set.blueCubeCount);
+        }
+        return redCubeMin * greenCubeMin * blueCubeMin;
+    }
 }

@@ -17,4 +17,15 @@ class SnowIslandGamesTest {
 
         assertThat(sum).isEqualTo(8);
     }
+
+    @Test
+    void sumOfPowers() {
+        String input = AocUtils.readPuzzleInput();
+
+        SnowIslandGames games = new SnowIslandGames(input);
+
+        long sum = games.sumOfPowers();
+
+        assertThat(sum).isEqualTo(2286);
+    }
 }
