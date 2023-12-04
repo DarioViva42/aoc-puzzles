@@ -1,13 +1,10 @@
 package tk.vivas.adventofcode.year2023.day04;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class ScratchCardPile {
+class ScratchCardPile {
 
     private final Map<Integer, ScratchCard> scratchCardMap;
 
@@ -23,24 +20,17 @@ public class ScratchCardPile {
                 .sum();
     }
 
-        List<ScratchCard> growingCardList = new ArrayList<>(scratchCardMap.values());
-        
-        winCards(growingCardList, scratchCardMap.values());
-        
-        return growingCardList.size();
     long countAllCards() {
-    }
+        CountingMap<Integer> scratchCardCounts = new CountingMap<>();
+        scratchCardMap.keySet().forEach(cardNumber -> scratchCardCounts.put(cardNumber, 1));
 
-    private void winCards(List<ScratchCard> growingCardList, Collection<ScratchCard> scratchCards) {
-        List<ScratchCard> wonScratchCards = scratchCards.stream()
-                .map(ScratchCard::getWinningCardNumbers)
-                .flatMap(Collection::stream)
-                .map(scratchCardMap::get)
-                .toList();
-        growingCardList.addAll(wonScratchCards);
-
-        if (!wonScratchCards.isEmpty()) {
-            winCards(growingCardList, wonScratchCards);
+        for (ScratchCard scratchCard : scratchCardMap.values()) {
+            Integer multiplier = scratchCardCounts.get(scratchCard.getCardNumber());
+            scratchCard.getWinningCardNumbers()
+                    .forEach(winningCard -> scratchCardCounts.add(winningCard, multiplier));
         }
+        return scratchCardCounts.values().stream()
+                .mapToInt(i -> i)
+                .sum();
     }
 }
