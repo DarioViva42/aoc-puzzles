@@ -11,24 +11,24 @@ public class ScratchCardPile {
 
     private final Map<Integer, ScratchCard> scratchCardMap;
 
-    public ScratchCardPile(String input) {
+    ScratchCardPile(String input) {
         scratchCardMap = input.lines()
                 .map(ScratchCard::new)
                 .collect(Collectors.toMap(ScratchCard::getCardNumber, Function.identity()));
     }
 
-    public int score() {
+    int score() {
         return scratchCardMap.values().stream()
                 .mapToInt(ScratchCard::score)
                 .sum();
     }
 
-    public long countAllCards() {
         List<ScratchCard> growingCardList = new ArrayList<>(scratchCardMap.values());
         
         winCards(growingCardList, scratchCardMap.values());
         
         return growingCardList.size();
+    long countAllCards() {
     }
 
     private void winCards(List<ScratchCard> growingCardList, Collection<ScratchCard> scratchCards) {
