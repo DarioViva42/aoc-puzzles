@@ -15,4 +15,13 @@ class RaceDocumentTest {
 
 		assertThat(raceDocument.marginOfError()).isEqualTo(288);
 	}
+
+	@Test
+	void realMarginOfError() {
+		String input = AocUtils.readPuzzleInput();
+
+		RaceDocument raceDocument = new RaceDocument(input);
+
+		assertThat(raceDocument.realMarginOfError()).isEqualTo(71503);
+	}
 }

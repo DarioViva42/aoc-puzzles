@@ -16,16 +16,16 @@ class Day06 {
 
         Instant parseEnd = Instant.now();
 
-        int partOneAnswer = raceDocument.marginOfError();
+        long partOneAnswer = raceDocument.marginOfError();
 
         Instant betweenParts = Instant.now();
 
-        // long partTwoAnswer = ;
+        long partTwoAnswer = raceDocument.realMarginOfError();
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        // sendPuzzleAnswer(2, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
     }
