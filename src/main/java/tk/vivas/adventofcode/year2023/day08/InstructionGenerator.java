@@ -24,4 +24,8 @@ class InstructionGenerator {
         }
         return nextInstruction;
     }
+
+    void seed() {
+        index = 0;
+    }
 }

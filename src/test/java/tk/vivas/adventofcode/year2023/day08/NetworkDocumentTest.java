@@ -9,10 +9,19 @@ class NetworkDocumentTest {
 
     @Test
     void requiredSteps() {
-        String input = AocUtils.readPuzzleInput();
+        String input = AocUtils.readPuzzleInput(1);
 
         NetworkDocument networkDocument = new NetworkDocument(input);
 
         assertThat(networkDocument.requiredSteps()).isEqualTo(6);
+    }
+
+    @Test
+    void requiredGhostSteps() {
+        String input = AocUtils.readPuzzleInput(2);
+
+        NetworkDocument networkDocument = new NetworkDocument(input);
+
+        assertThat(networkDocument.requiredGhostSteps()).isEqualTo(6);
     }
 }

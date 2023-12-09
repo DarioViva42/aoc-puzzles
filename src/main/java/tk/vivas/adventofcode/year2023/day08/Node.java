@@ -6,9 +6,11 @@ import java.util.regex.Pattern;
 
 class Node {
 
-    private static final Pattern NODE_PATTERN = Pattern.compile("([A-Z]{3}) = \\(([A-Z]{3}), ([A-Z]{3})\\)");
+    private static final Pattern NODE_PATTERN = Pattern.compile("(\\w{3}) = \\((\\w{3}), (\\w{3})\\)");
     private final String name;
     private final String leftName;
+    private final boolean endNode;
+    private final boolean ghostEndNode;
     private Node left;
     private final String rightName;
     private Node right;
@@ -21,6 +23,17 @@ class Node {
         name = matcher.group(1);
         leftName = matcher.group(2);
         rightName = matcher.group(3);
+
+        endNode = "ZZZ".equals(name);
+        ghostEndNode = name.endsWith("Z");
+    }
+
+    boolean isEndNode() {
+        return endNode;
+    }
+
+    boolean isGhostEndNode() {
+        return ghostEndNode;
     }
 
     void init(Map<String, Node> map) {

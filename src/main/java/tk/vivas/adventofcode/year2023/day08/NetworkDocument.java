@@ -1,15 +1,19 @@
 package tk.vivas.adventofcode.year2023.day08;
 
+import tk.vivas.MathUtils;
+
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class NetworkDocument {
 
     private final InstructionGenerator generator;
     private final Node startNode;
-    private final Node endNode;
+    private final Stream<Node> ghostStartNodes;
 
     NetworkDocument(String input) {
         String[] split = input.split("\n\n");
@@ -25,19 +29,32 @@ class NetworkDocument {
         nodeList.forEach(node -> node.init(nodeMap));
 
         startNode = nodeMap.get("AAA");
-        endNode = nodeMap.get("ZZZ");
+
+        ghostStartNodes = nodeMap.entrySet().stream()
+                .filter(e -> e.getKey().endsWith("A"))
+                .map(Map.Entry::getValue);
     }
 
     long requiredSteps() {
+        generator.seed();
+        return requiredSteps(startNode, Node::isEndNode);
+    }
+
+    private long requiredSteps(Node startNode, Predicate<Node> endNodePredicate) {
         long stepsNeeded = 0;
+        generator.seed();
         Node currentNode = startNode;
-        while (currentNode != endNode) {
+        while (!endNodePredicate.test(currentNode)) {
             currentNode = currentNode.get(generator.next());
             stepsNeeded++;
-            if (currentNode == endNode) {
-                break;
-            }
         }
         return stepsNeeded;
+    }
+
+    public long requiredGhostSteps() {
+        long[] stepList = ghostStartNodes
+                .mapToLong(ghostStartNode -> requiredSteps(ghostStartNode, Node::isGhostEndNode))
+                .toArray();
+        return MathUtils.lcm(stepList);
     }
 }
