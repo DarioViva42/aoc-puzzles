@@ -27,6 +27,14 @@ class Sequence {
         return numbers.getLast() + extrapolatedDifference;
     }
 
+    long extrapolateBackwards() {
+        if (containsOnlyZero()) {
+            return 0;
+        }
+        long extrapolatedDifference = findDifferenceSequence().extrapolateBackwards();
+        return numbers.getFirst() - extrapolatedDifference;
+    }
+
     private Sequence findDifferenceSequence() {
         List<Long> differences = new ArrayList<>();
         for (int i = 0; i < numbers.size() - 1; i++) {

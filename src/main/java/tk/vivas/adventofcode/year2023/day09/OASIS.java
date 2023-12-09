@@ -18,4 +18,10 @@ class OASIS {
                 .mapToLong(Sequence::findExtrapolatedValue)
                 .sum();
     }
+
+    long sumUpBackwardExtrapolatedValues() {
+        return sequenceList.stream()
+                .mapToLong(Sequence::extrapolateBackwards)
+                .sum();
+    }
 }

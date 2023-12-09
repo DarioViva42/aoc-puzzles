@@ -15,4 +15,13 @@ class OASISTest {
 
         assertThat(oasis.sumUpExtrapolatedValues()).isEqualTo(114);
     }
+
+    @Test
+    void sumUpBackwardExtrapolatedValues() {
+        String input = AocUtils.readPuzzleInput();
+
+        OASIS oasis = new OASIS(input);
+
+        assertThat(oasis.sumUpBackwardExtrapolatedValues()).isEqualTo(2);
+    }
 }
