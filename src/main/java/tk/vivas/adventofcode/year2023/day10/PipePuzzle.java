@@ -3,6 +3,9 @@ package tk.vivas.adventofcode.year2023.day10;
 import java.util.ArrayList;
 import java.util.List;
 
+import static tk.vivas.adventofcode.year2023.day10.Direction.*;
+import static tk.vivas.adventofcode.year2023.day10.PipeType.*;
+
 class PipePuzzle {
 
     private final PipeType[][] pipeMap;
@@ -14,7 +17,7 @@ class PipePuzzle {
         List<String> lines = input.lines().toList();
         mapSizeX = lines.getFirst().length();
         mapSizeY = lines.size();
-        pipeMap = new PipeType[mapSizeY][mapSizeX];
+        pipeMap = new PipeType[mapSizeX][mapSizeY];
         for (int y = 0; y < lines.size(); y++) {
             Character[] chars = lines.get(y).chars()
                     .mapToObj(c -> (char) c)
@@ -35,7 +38,7 @@ class PipePuzzle {
         PipeType currentPipeType = typeOfTile(currentPipeTile);
 
         long loopLength = 1;
-        while (PipeType.START != currentPipeType) {
+        while (START != currentPipeType) {
             currentPipeTile = currentPipeTile.move(currentPipeType);
             currentPipeType = typeOfTile(currentPipeTile);
             loopLength++;
@@ -71,5 +74,85 @@ class PipePuzzle {
         }
 
         return candidates.getFirst();
+    }
+
+    private PipeType findRealStartType() {
+        int x = startingPipeTile.x();
+        int y = startingPipeTile.y();
+
+        List<Direction> directionList = new ArrayList<>();
+
+        if (y - 1 >= 0 && pipeMap[x][y - 1].connectsSouth()) {
+            directionList.add(NORTH);
+        }
+        if (x + 1 <= mapSizeX && pipeMap[x + 1][y].connectsWest()) {
+            directionList.add(EAST);
+        }
+        if (y + 1 <= mapSizeY && pipeMap[x][y + 1].connectsNorth()) {
+            directionList.add(SOUTH);
+        }
+        if (x - 1 >= 0 && pipeMap[x - 1][y].connectsEast()) {
+            directionList.add(WEST);
+        }
+
+        if (directionList.size() != 2) {
+            throw new IllegalStateException("expected two pipes to connect to starting pipe");
+        }
+
+        return PipeType.from(directionList.getFirst(), directionList.getLast());
+    }
+
+    public long countEnclosedTiles() {
+        boolean[][] partOfLoopMap = markPartOfLoop();
+
+        pipeMap[startingPipeTile.x()][startingPipeTile.y()] = findRealStartType();
+
+        long count = 0;
+        boolean insideLoop = false;
+        boolean polarizationCheck = false;
+        for (int y = 0; y < mapSizeY; y++) {
+            for (int x = 0; x < mapSizeX; x++) {
+                if (partOfLoopMap[x][y]) {
+                    PipeType currentType = pipeMap[x][y];
+                    if (shouldChangeContext(currentType, polarizationCheck)) {
+                        insideLoop = !insideLoop;
+                    } else if (currentType == EAST_SOUTH) {
+                        polarizationCheck = true;
+                    } else if (currentType == NORTH_EAST) {
+                        polarizationCheck = false;
+                    }
+                } else {
+                    if (insideLoop) {
+                        count++;
+                    }
+                }
+            }
+        }
+
+        pipeMap[startingPipeTile.x()][startingPipeTile.y()] = START;
+
+        return count;
+    }
+
+    private boolean[][] markPartOfLoop() {
+        boolean[][] partOfLoopMap = new boolean[mapSizeX][mapSizeY];
+        partOfLoopMap[startingPipeTile.x()][startingPipeTile.y()] = true;
+
+        PipeTile currentPipeTile = findFirstCandidate();
+        PipeType currentPipeType = typeOfTile(currentPipeTile);
+
+        partOfLoopMap[currentPipeTile.x()][currentPipeTile.y()] = true;
+        while (START != currentPipeType) {
+            currentPipeTile = currentPipeTile.move(currentPipeType);
+            currentPipeType = typeOfTile(currentPipeTile);
+            partOfLoopMap[currentPipeTile.x()][currentPipeTile.y()] = true;
+        }
+        return partOfLoopMap;
+    }
+
+    private boolean shouldChangeContext(PipeType currentType, boolean polarizationCheck) {
+        return currentType == NORTH_SOUTH
+                || (polarizationCheck && currentType == NORTH_WEST)
+                || (!polarizationCheck && currentType == SOUTH_WEST);
     }
 }

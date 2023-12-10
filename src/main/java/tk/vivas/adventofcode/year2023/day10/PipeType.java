@@ -17,6 +17,39 @@ enum PipeType {
         };
     }
 
+    static PipeType from(Direction first, Direction last) {
+        return switch (first) {
+            case NORTH -> switch (last) {
+                case EAST -> NORTH_EAST;
+                case SOUTH -> NORTH_SOUTH;
+                case WEST -> NORTH_WEST;
+                case NORTH -> throw createTwoEqualDirectionsException();
+            };
+            case EAST -> switch (last) {
+                case NORTH -> NORTH_EAST;
+                case SOUTH -> EAST_SOUTH;
+                case WEST -> EAST_WEST;
+                case EAST -> throw createTwoEqualDirectionsException();
+            };
+            case SOUTH -> switch (last) {
+                case NORTH -> NORTH_SOUTH;
+                case EAST -> EAST_SOUTH;
+                case WEST -> SOUTH_WEST;
+                case SOUTH -> throw createTwoEqualDirectionsException();
+            };
+            case WEST -> switch (last) {
+                case NORTH -> NORTH_WEST;
+                case EAST -> EAST_WEST;
+                case SOUTH -> SOUTH_WEST;
+                case WEST -> throw createTwoEqualDirectionsException();
+            };
+        };
+    }
+
+    private static IllegalStateException createTwoEqualDirectionsException() {
+        return new IllegalStateException("can not create type with two equal directions");
+    }
+
     boolean connectsNorth() {
         return equals(NORTH_EAST) || equals(NORTH_SOUTH) || equals(NORTH_WEST);
     }
