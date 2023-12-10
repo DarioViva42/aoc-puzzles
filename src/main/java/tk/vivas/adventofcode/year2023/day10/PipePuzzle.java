@@ -139,10 +139,8 @@ class PipePuzzle {
                     } else if (currentType == NORTH_EAST) {
                         polarizationCheck = false;
                     }
-                } else {
-                    if (insideLoop) {
-                        count++;
-                    }
+                } else if (insideLoop) {
+                    count++;
                 }
             }
         }
@@ -175,10 +173,8 @@ class PipePuzzle {
                     } else if (currentType == NORTH_EAST) {
                         polarizationCheck = false;
                     }
-                } else {
-                    if (insideLoop) {
-                        insideLoopMap[x][y] = true;
-                    }
+                } else if (insideLoop) {
+                    insideLoopMap[x][y] = true;
                 }
             }
         }
