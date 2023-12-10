@@ -1,5 +1,7 @@
 package tk.vivas.adventofcode.year2023.day10;
 
+import tk.vivas.ConsoleColors;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,10 @@ class PipePuzzle {
     private final int mapSizeX;
     private final int mapSizeY;
     private PipeTile startingPipeTile;
+    private boolean[][] partOfLoopMapCache;
+    private PipeTile firstCandidateCache;
+    private PipeType realStartTypeCache;
+    private boolean[][] insideLoopMapCache;
 
     PipePuzzle(String input) {
         List<String> lines = input.lines().toList();
@@ -51,6 +57,10 @@ class PipePuzzle {
     }
 
     private PipeTile findFirstCandidate() {
+        if (firstCandidateCache != null) {
+            return firstCandidateCache;
+        }
+
         int x = startingPipeTile.x();
         int y = startingPipeTile.y();
 
@@ -73,10 +83,16 @@ class PipePuzzle {
             throw new IllegalStateException("expected two pipes to connect to starting pipe");
         }
 
-        return candidates.getFirst();
+        PipeTile firstCandidate = candidates.getFirst();
+        firstCandidateCache = firstCandidate;
+        return firstCandidate;
     }
 
     private PipeType findRealStartType() {
+        if (realStartTypeCache != null) {
+            return realStartTypeCache;
+        }
+
         int x = startingPipeTile.x();
         int y = startingPipeTile.y();
 
@@ -99,10 +115,12 @@ class PipePuzzle {
             throw new IllegalStateException("expected two pipes to connect to starting pipe");
         }
 
-        return PipeType.from(directionList.getFirst(), directionList.getLast());
+        PipeType realStartType = from(directionList.getFirst(), directionList.getLast());
+        realStartTypeCache = realStartType;
+        return realStartType;
     }
 
-    public long countEnclosedTiles() {
+    long countEnclosedTiles() {
         boolean[][] partOfLoopMap = markPartOfLoop();
 
         pipeMap[startingPipeTile.x()][startingPipeTile.y()] = findRealStartType();
@@ -134,7 +152,79 @@ class PipePuzzle {
         return count;
     }
 
+    private boolean[][] markInsideOfLoop() {
+        if (insideLoopMapCache != null) {
+            return insideLoopMapCache;
+        }
+
+        boolean[][] partOfLoopMap = markPartOfLoop();
+
+        pipeMap[startingPipeTile.x()][startingPipeTile.y()] = findRealStartType();
+
+        boolean[][] insideLoopMap = new boolean[mapSizeX][mapSizeY];
+        boolean insideLoop = false;
+        boolean polarizationCheck = false;
+        for (int y = 0; y < mapSizeY; y++) {
+            for (int x = 0; x < mapSizeX; x++) {
+                if (partOfLoopMap[x][y]) {
+                    PipeType currentType = pipeMap[x][y];
+                    if (shouldChangeContext(currentType, polarizationCheck)) {
+                        insideLoop = !insideLoop;
+                    } else if (currentType == EAST_SOUTH) {
+                        polarizationCheck = true;
+                    } else if (currentType == NORTH_EAST) {
+                        polarizationCheck = false;
+                    }
+                } else {
+                    if (insideLoop) {
+                        insideLoopMap[x][y] = true;
+                    }
+                }
+            }
+        }
+
+        pipeMap[startingPipeTile.x()][startingPipeTile.y()] = START;
+
+        insideLoopMapCache = insideLoopMap;
+        return insideLoopMap;
+    }
+
+    @Override
+    public String toString() {
+        boolean[][] partOfLoopMap = markPartOfLoop();
+        boolean[][] insideLoopMap = markInsideOfLoop();
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int y = 0; y < mapSizeY; y++) {
+            for (int x = 0; x < mapSizeX; x++) {
+                if (pipeMap[x][y] == START) {
+                    sb.append(ConsoleColors.BLACK);
+                    sb.append(ConsoleColors.RED_BACKGROUND);
+                    sb.append(pipeMap[x][y]);
+                    sb.append(ConsoleColors.RESET);
+                } else if (partOfLoopMap[x][y]) {
+                    sb.append(ConsoleColors.RED);
+                    sb.append(pipeMap[x][y]);
+                    sb.append(ConsoleColors.RESET);
+                } else if (insideLoopMap[x][y]) {
+                    sb.append(ConsoleColors.BLACK_BACKGROUND_BRIGHT);
+                    sb.append(pipeMap[x][y]);
+                    sb.append(ConsoleColors.RESET);
+                } else {
+                    sb.append(pipeMap[x][y]);
+                }
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
     private boolean[][] markPartOfLoop() {
+        if (partOfLoopMapCache != null) {
+            return partOfLoopMapCache;
+        }
+
         boolean[][] partOfLoopMap = new boolean[mapSizeX][mapSizeY];
         partOfLoopMap[startingPipeTile.x()][startingPipeTile.y()] = true;
 
@@ -147,6 +237,7 @@ class PipePuzzle {
             currentPipeType = typeOfTile(currentPipeTile);
             partOfLoopMap[currentPipeTile.x()][currentPipeTile.y()] = true;
         }
+        partOfLoopMapCache = partOfLoopMap;
         return partOfLoopMap;
     }
 

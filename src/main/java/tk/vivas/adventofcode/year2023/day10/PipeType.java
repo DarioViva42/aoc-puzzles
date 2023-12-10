@@ -1,20 +1,30 @@
 package tk.vivas.adventofcode.year2023.day10;
 
+import java.util.Arrays;
+
 enum PipeType {
-    NORTH_EAST, NORTH_SOUTH, NORTH_WEST, EAST_SOUTH, EAST_WEST, SOUTH_WEST, START, EMPTY;
+    NORTH_EAST('L', " └"),
+    NORTH_SOUTH('|', " │"),
+    NORTH_WEST('J', "─┘"),
+    EAST_SOUTH('F', " ┌"),
+    EAST_WEST('-', "──"),
+    SOUTH_WEST('7', "─┐"),
+    START('S', " S"),
+    EMPTY('.', "  ");
+
+    private final char inputChar;
+    private final String displayString;
+
+    PipeType(char inputChar, String displayString) {
+        this.inputChar = inputChar;
+        this.displayString = displayString;
+    }
 
     static PipeType from(char input) {
-        return switch (input) {
-            case 'L' -> NORTH_EAST;
-            case '|' -> NORTH_SOUTH;
-            case 'J' -> NORTH_WEST;
-            case 'F' -> EAST_SOUTH;
-            case '-' -> EAST_WEST;
-            case '7' -> SOUTH_WEST;
-            case 'S' -> START;
-            case '.' -> EMPTY;
-            default -> throw new IllegalStateException("Unexpected value: " + input);
-        };
+        return Arrays.stream(values())
+                .filter(pipeType -> pipeType.inputChar == input)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Unexpected value: " + input));
     }
 
     static PipeType from(Direction first, Direction last) {
@@ -64,5 +74,10 @@ enum PipeType {
 
     boolean connectsWest() {
         return equals(NORTH_WEST) || equals(EAST_WEST) || equals(SOUTH_WEST);
+    }
+
+    @Override
+    public String toString() {
+        return displayString;
     }
 }
