@@ -15,4 +15,13 @@ class IslandIslandAlmanacTest {
 
         assertThat(almanac.findClosestLocation()).isEqualTo(35);
     }
+
+    @Test
+    void findRealClosestLocation() {
+        String input = AocUtils.readPuzzleInput();
+
+        IslandIslandAlmanac almanac = new IslandIslandAlmanac(input);
+
+        assertThat(almanac.findRealClosestLocation()).isEqualTo(46);
+    }
 }

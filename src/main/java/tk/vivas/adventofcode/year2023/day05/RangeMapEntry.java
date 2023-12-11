@@ -7,7 +7,7 @@ final class RangeMapEntry {
     private final long sourceRangeStart;
     private final long rangeLength;
 
-    private RangeMapEntry(long destinationRangeStart, long sourceRangeStart, long rangeLength) {
+    RangeMapEntry(long destinationRangeStart, long sourceRangeStart, long rangeLength) {
         this.destinationRangeStart = destinationRangeStart;
         this.sourceRangeStart = sourceRangeStart;
         this.rangeLength = rangeLength;
@@ -19,6 +19,30 @@ final class RangeMapEntry {
                 .map(Long::parseLong)
                 .toArray(Long[]::new);
         return new RangeMapEntry(longs[0], longs[1], longs[2]);
+    }
+
+    long getDestinationRangeStart() {
+        return destinationRangeStart;
+    }
+
+    long getSourceRangeStart() {
+        return sourceRangeStart;
+    }
+
+    long getRangeLength() {
+        return rangeLength;
+    }
+
+    long getSourceRangeEnd() {
+        return sourceRangeStart + rangeLength - 1;
+    }
+
+    long getDestinationRangeEnd() {
+        return destinationRangeStart + rangeLength - 1;
+    }
+
+    long getShift() {
+        return destinationRangeStart - sourceRangeStart;
     }
 
     boolean canMapSource(long source) {
