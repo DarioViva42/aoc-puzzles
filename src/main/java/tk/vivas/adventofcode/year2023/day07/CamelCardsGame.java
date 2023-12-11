@@ -8,18 +8,32 @@ class CamelCardsGame {
 
 	CamelCardsGame(String input) {
 		hands = input.lines()
-				.map(Hand::new)
+				.map(Hand::of)
 				.toList();
 	}
 
-	public long totalWinnings() {
+	long totalWinnings() {
 		List<Hand> sortedHands = hands.stream()
 				.sorted()
 				.toList();
 
-		int totalWinnings = 0;
+		long totalWinnings = 0L;
 		for (int i = 0; i < sortedHands.size(); i++) {
-			int rank = i + 1;
+			long rank = i + 1L;
+			totalWinnings += sortedHands.get(i).getBidAmount() * rank;
+		}
+		return totalWinnings;
+	}
+
+	long totalWinningsWithJoker() {
+		List<Hand> sortedHands = hands.stream()
+				.map(Hand::replaceJackWithJoker)
+				.sorted()
+				.toList();
+
+		long totalWinnings = 0L;
+		for (int i = 0; i < sortedHands.size(); i++) {
+			long rank = i + 1L;
 			totalWinnings += sortedHands.get(i).getBidAmount() * rank;
 		}
 		return totalWinnings;

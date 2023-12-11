@@ -5,7 +5,9 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
+import static tk.vivas.adventofcode.year2023.day07.CamelCard.JOKER;
 import static tk.vivas.adventofcode.year2023.day07.HandType.FIVE_OF_A_KIND;
 import static tk.vivas.adventofcode.year2023.day07.HandType.FOUR_OF_A_KIND;
 import static tk.vivas.adventofcode.year2023.day07.HandType.FULL_HOUSE;
@@ -18,17 +20,24 @@ class Hand implements Comparable<Hand> {
 
 	private final int bidAmount;
 	private final List<CamelCard> cards;
-	private Map<CamelCard, Integer> cardMapCache;
+	private HandType handTypeCache;
 
-	Hand(String raw) {
+	public Hand(int bidAmount, List<CamelCard> cards) {
+		this.bidAmount = bidAmount;
+		this.cards = cards;
+	}
+
+	static Hand of(String raw) {
 		String[] split = raw.split(" ");
 
-		cards = split[0].chars()
+		List<CamelCard> cards = split[0].chars()
 				.mapToObj(c -> (char) c)
 				.map(CamelCard::from)
 				.toList();
 
-		bidAmount = Integer.parseInt(split[1]);
+		int bidAmount = Integer.parseInt(split[1]);
+
+		return new Hand(bidAmount, cards);
 	}
 
 	public int getBidAmount() {
@@ -36,32 +45,43 @@ class Hand implements Comparable<Hand> {
 	}
 
 	private HandType type() {
+		if (handTypeCache != null) {
+			return handTypeCache;
+		}
 		Map<CamelCard, Integer> cardMap = getCardMap();
 		Collection<Integer> values = cardMap.values();
-		return switch (values.size()) {
+		HandType handType = switch (values.size()) {
 			case 1 -> FIVE_OF_A_KIND;
-			case 2 -> {
-				if (values.contains(4)) {
-					yield FOUR_OF_A_KIND;
-				}
-				yield FULL_HOUSE;
-			}
-			case 3 -> {
-				if (values.contains(3)) {
-					yield THREE_OF_A_KIND;
-				}
-				yield TWO_PAIR;
-			}
+			case 2 -> values.contains(4) ? FOUR_OF_A_KIND : FULL_HOUSE;
+			case 3 -> values.contains(3) ? THREE_OF_A_KIND : TWO_PAIR;
 			case 4 -> ONE_PAIR;
 			case 5 -> HIGH_CARD;
 			default -> throw new IllegalStateException("Unexpected value: " + values.size());
 		};
+		handTypeCache = upgradeHandType(handType);
+		return handTypeCache;
+	}
+
+	private HandType upgradeHandType(HandType normalHandType) {
+		if (!cards.contains(JOKER)) {
+			return normalHandType;
+		}
+		return switch (normalHandType) {
+			case HIGH_CARD -> ONE_PAIR;
+			case ONE_PAIR -> THREE_OF_A_KIND;
+			case TWO_PAIR -> countJokers() == 2 ? FOUR_OF_A_KIND : FULL_HOUSE;
+			case THREE_OF_A_KIND -> FOUR_OF_A_KIND;
+			case FULL_HOUSE, FOUR_OF_A_KIND, FIVE_OF_A_KIND -> FIVE_OF_A_KIND;
+		};
+	}
+
+	private long countJokers() {
+		return cards.stream()
+				.filter(JOKER::equals)
+				.count();
 	}
 
 	private Map<CamelCard, Integer> getCardMap() {
-		if (cardMapCache != null) {
-			return cardMapCache;
-		}
 		Map<CamelCard, Integer> cardMap = new EnumMap<>(CamelCard.class);
 		cards.forEach(card -> {
 			if (cardMap.containsKey(card)) {
@@ -70,8 +90,18 @@ class Hand implements Comparable<Hand> {
 				cardMap.put(card, 1);
 			}
 		});
-		cardMapCache = cardMap;
 		return cardMap;
+	}
+
+	Hand replaceJackWithJoker() {
+		if (!cards.contains(CamelCard.CJ)) {
+			return this;
+		}
+		List<CamelCard> modifiedCards = cards.stream()
+				.map(card -> card == CamelCard.CJ ? JOKER : card)
+				.toList();
+
+		return new Hand(bidAmount, modifiedCards);
 	}
 
 	@Override
@@ -107,5 +137,16 @@ class Hand implements Comparable<Hand> {
 	@Override
 	public int hashCode() {
 		return Objects.hash(bidAmount, cards);
+	}
+
+	@Override
+	public String toString() {
+		return "%s %s %s".formatted(
+				cards.stream()
+						.map(card -> card == JOKER ? "*" : card.name().substring(1))
+						.collect(Collectors.joining()),
+				type(),
+				bidAmount
+		);
 	}
 }
