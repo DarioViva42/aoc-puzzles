@@ -14,16 +14,16 @@ class Day11 {
 
         Instant parseEnd = Instant.now();
 
-        long partOneAnswer = observation.sumUpDistances();
+        long partOneAnswer = observation.sumUpDistances(1);
 
         Instant betweenParts = Instant.now();
 
-        //long partTwoAnswer = ;
+        long partTwoAnswer = observation.sumUpDistances(1_000_000);
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        //sendPuzzleAnswer(2, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
     }

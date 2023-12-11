@@ -42,8 +42,12 @@ class GalaxyObservation {
         });
     }
 
-    long sumUpDistances() {
-        List<Galaxy> galaxyList = createGalaxyList();
+    long sumUpDistances(int age) {
+        List<Galaxy> galaxyList = createGalaxyList(age);
+        return sumUpDistances(galaxyList);
+    }
+
+    private long sumUpDistances(List<Galaxy> galaxyList) {
         long doubleSum = galaxyList.stream()
                 .mapToLong(galaxy -> galaxyList.stream()
                         .filter(not(galaxy::equals))
@@ -53,18 +57,18 @@ class GalaxyObservation {
         return doubleSum / 2;
     }
 
-    private List<Galaxy> createGalaxyList() {
+    private List<Galaxy> createGalaxyList(int growth) {
         List<Galaxy> galaxyList = new ArrayList<>();
-        int yGrowth = 0;
+        long yGrowth = 0;
         for (int y = 0; y < observationSizeY; y++) {
-            int xGrowth = 0;
+            long xGrowth = 0;
             if (emptyRows.contains(y)) {
-                yGrowth++;
+                yGrowth += growth - 1;
                 continue;
             }
             for (int x = 0; x < observationSizeX; x++) {
                 if (emptyColumns.contains(x)) {
-                    xGrowth++;
+                    xGrowth += growth - 1;
                 } else if (galaxyMap[y][x]) {
                     galaxyList.add(new Galaxy(x + xGrowth, y + yGrowth));
                 }

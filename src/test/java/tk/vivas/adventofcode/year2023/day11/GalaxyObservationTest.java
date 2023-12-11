@@ -9,11 +9,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class GalaxyObservationTest {
 
 	@Test
-	void sumUpDistances() {
+	void sumUpDistances_1() {
 		String input = AocUtils.readPuzzleInput();
 
 		GalaxyObservation observation = new GalaxyObservation(input);
 
-		assertThat(observation.sumUpDistances()).isEqualTo(374);
+		assertThat(observation.sumUpDistances(2)).isEqualTo(374);
+	}
+
+	@Test
+	void sumUpDistances_100() {
+		String input = AocUtils.readPuzzleInput();
+
+		GalaxyObservation observation = new GalaxyObservation(input);
+
+		assertThat(observation.sumUpDistances(100)).isEqualTo(8410);
 	}
 }
