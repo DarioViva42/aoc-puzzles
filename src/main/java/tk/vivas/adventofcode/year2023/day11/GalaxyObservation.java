@@ -67,10 +67,11 @@ class GalaxyObservation {
                 continue;
             }
             for (int x = 0; x < observationSizeX; x++) {
-                if (emptyColumns.contains(x)) {
-                    xGrowth += growth - 1;
-                } else if (galaxyMap[y][x]) {
+                boolean containsGalaxy = galaxyMap[y][x];
+                if (containsGalaxy) {
                     galaxyList.add(new Galaxy(x + xGrowth, y + yGrowth));
+                } else if (emptyColumns.contains(x)) {
+                    xGrowth += growth - 1;
                 }
             }
         }
