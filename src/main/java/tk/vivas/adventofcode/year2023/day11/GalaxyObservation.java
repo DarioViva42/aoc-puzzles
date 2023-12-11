@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static java.util.function.Predicate.not;
-
 class GalaxyObservation {
 
     private final Boolean[][] galaxyMap;
@@ -48,13 +46,15 @@ class GalaxyObservation {
     }
 
     private long sumUpDistances(List<Galaxy> galaxyList) {
-        long doubleSum = galaxyList.stream()
-                .mapToLong(galaxy -> galaxyList.stream()
-                        .filter(not(galaxy::equals))
-                        .mapToLong(galaxy::distance)
-                        .sum())
-                .sum();
-        return doubleSum / 2;
+        long sum = 0L;
+        for (int indexA = 0; indexA < galaxyList.size(); indexA++) {
+            Galaxy galaxyA = galaxyList.get(indexA);
+            for (int indexB = indexA + 1; indexB < galaxyList.size(); indexB++) {
+                Galaxy galaxyB = galaxyList.get(indexB);
+                sum += galaxyA.distance(galaxyB);
+            }
+        }
+        return sum;
     }
 
     private List<Galaxy> createGalaxyList(int growth) {
