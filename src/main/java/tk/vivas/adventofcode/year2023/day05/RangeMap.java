@@ -6,12 +6,18 @@ class RangeMap {
 
     private final List<RangeMapEntry> mapEntries;
 
-    public RangeMap(String raw) {
+    RangeMap(List<RangeMapEntry> mapEntries) {
+        this.mapEntries = mapEntries;
+    }
+
+    static RangeMap of(String raw) {
         String[] split = raw.split("\n", 2);
 
-        mapEntries = split[1].lines()
+        List<RangeMapEntry> mapEntries = split[1].lines()
                 .map(RangeMapEntry::of)
                 .toList();
+
+        return new RangeMap(mapEntries);
     }
 
     long get(long source) {
@@ -21,5 +27,9 @@ class RangeMap {
             }
         }
         return source;
+    }
+
+    public List<RangeMapEntry> getMapEntries() {
+        return mapEntries;
     }
 }
