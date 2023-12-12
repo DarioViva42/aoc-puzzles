@@ -93,4 +93,28 @@ class HotSpringsRow {
                 .collect(Collectors.joining(", "));
         return "%s %s".formatted(stateString, groupSizeString);
     }
+
+    HotSpringsRow unfold() {
+        return new HotSpringsRow(unfoldSpringStates(), unfoldGroupSizes());
+    }
+
+    private List<SpringState> unfoldSpringStates() {
+        List<SpringState> unfoldedList = new ArrayList<>(springStates);
+        
+        for (int i = 0; i < 4; i++) {
+            unfoldedList.add(UNKNOWN);
+            unfoldedList.addAll(springStates);
+        }
+        
+        return unfoldedList;
+    }
+
+    private List<Integer> unfoldGroupSizes() {
+        List<Integer> unfoldedList = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+            unfoldedList.addAll(expectedGroupSizes);
+        }
+        return unfoldedList;
+    }
 }

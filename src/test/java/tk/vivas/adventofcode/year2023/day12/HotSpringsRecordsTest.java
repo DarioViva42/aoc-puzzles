@@ -15,4 +15,13 @@ class HotSpringsRecordsTest {
 
         assertThat(records.countArrangements()).isEqualTo(21);
     }
+
+    @Test
+    void countUnfoldedArrangements() {
+        String input = AocUtils.readPuzzleInput();
+
+        HotSpringsRecords records = new HotSpringsRecords(input);
+
+        assertThat(records.countUnfoldedArrangements()).isEqualTo(525152);
+    }
 }

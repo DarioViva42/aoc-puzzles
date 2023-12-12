@@ -17,4 +17,11 @@ class HotSpringsRecords {
                 .mapToLong(HotSpringsRow::countArrangements)
                 .sum();
     }
+
+    public long countUnfoldedArrangements() {
+        return rows.stream()
+                .map(HotSpringsRow::unfold)
+                .mapToLong(HotSpringsRow::countArrangements)
+                .sum();
+    }
 }
