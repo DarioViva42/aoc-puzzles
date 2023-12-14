@@ -9,11 +9,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class ReflectorDishTest {
 
     @Test
-    void totalLoad() {
+    void totalLoadAfterTilt() {
         String input = AocUtils.readPuzzleInput();
 
         ReflectorDish dish = new ReflectorDish(input);
 
-        assertThat(dish.totalLoad()).isEqualTo(136);
+        assertThat(dish.totalLoadAfterTilt()).isEqualTo(136);
+    }
+
+    @Test
+    void totalLoadAfterSpinCycle() {
+        String input = AocUtils.readPuzzleInput();
+
+        ReflectorDish dish = new ReflectorDish(input);
+
+        assertThat(dish.totalLoadAfterSpinCycle()).isEqualTo(64);
     }
 }
