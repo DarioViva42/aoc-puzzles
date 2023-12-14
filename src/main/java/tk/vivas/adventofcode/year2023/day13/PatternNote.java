@@ -52,4 +52,36 @@ class PatternNote {
     private boolean columnsAtIndicesAreEqual(Integer i, Integer j) {
         return Arrays.equals(pattern[i], pattern[j]);
     }
+
+    long rowsAboveReflectionClearingSmudge() {
+        return Stream.iterate(0, i -> i < patternSizeY - 1, i -> i + 1)
+                .filter(i -> Stream.iterate(0, j -> j < Math.min(i + 1, patternSizeY - i - 1), j -> j + 1)
+                        .mapToLong(j -> differenceBetweenRows(i - j, i + j + 1))
+                        .sum() == 1)
+                .findFirst()
+                .map(i -> i + 1)
+                .orElse(0);
+    }
+
+    private long differenceBetweenRows(Integer i, Integer j) {
+        return IntStream.range(0, patternSizeX)
+                .filter(x -> pattern[x][i] != pattern[x][j])
+                .count();
+    }
+
+    long columnsToTheLeftOfReflectionClearingSmudge() {
+        return Stream.iterate(0, i -> i < patternSizeX - 1, i -> i + 1)
+                .filter(i -> Stream.iterate(0, j -> j < Math.min(i + 1, patternSizeX - i - 1), j -> j + 1)
+                        .mapToLong(j -> differenceBetweenColumns(i - j, i + j + 1))
+                        .sum() == 1)
+                .findFirst()
+                .map(i -> i + 1)
+                .orElse(0);
+    }
+
+    private long differenceBetweenColumns(Integer i, Integer j) {
+        return IntStream.range(0, patternSizeY)
+                .filter(y -> pattern[i][y] != pattern[j][y])
+                .count();
+    }
 }

@@ -22,4 +22,14 @@ class MirrorValley {
                 .sum();
         return columns + 100 * rows;
     }
+
+    long summarizePatternsClearingSmudge() {
+        long columns = patternNotes.stream()
+                .mapToLong(PatternNote::columnsToTheLeftOfReflectionClearingSmudge)
+                .sum();
+        long rows =  patternNotes.stream()
+                .mapToLong(PatternNote::rowsAboveReflectionClearingSmudge)
+                .sum();
+        return columns + 100 * rows;
+    }
 }
