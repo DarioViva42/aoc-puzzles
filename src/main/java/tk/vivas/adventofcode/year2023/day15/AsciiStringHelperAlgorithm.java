@@ -6,8 +6,8 @@ class AsciiStringHelperAlgorithm {
 
     private final String[] words;
 
-    AsciiStringHelperAlgorithm(String input) {
-        words = input.strip().split(",");
+    AsciiStringHelperAlgorithm(String [] words) {
+        this.words = words;
     }
 
     long hashSum() {
@@ -16,11 +16,11 @@ class AsciiStringHelperAlgorithm {
                 .sum();
     }
 
-    private long hash(String string) {
+    int hash(String string) {
         return hash(string, 0);
     }
 
-    private long hash(String string, int currentValue) {
+    private int hash(String string, int currentValue) {
         if (string.isEmpty()) {
             return currentValue;
         }
