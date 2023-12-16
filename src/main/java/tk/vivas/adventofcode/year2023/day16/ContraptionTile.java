@@ -2,7 +2,7 @@ package tk.vivas.adventofcode.year2023.day16;
 
 import java.util.Arrays;
 
-public enum ContraptionTile {
+enum ContraptionTile {
     EMPTY_SPACE('.'),
     MIRROR_NE_SW('\\'),
     MIRROR_NW_SE('/'),

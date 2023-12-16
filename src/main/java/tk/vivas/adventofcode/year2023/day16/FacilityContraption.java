@@ -4,14 +4,14 @@ import tk.vivas.ConsoleColors;
 
 import java.util.Arrays;
 
-public class FacilityContraption {
+class FacilityContraption {
 
     private final ContraptionTile[][] tiles;
     private final boolean[][] visitedTiles;
     private final int contraptionSizeY;
     private final int contraptionSizeX;
 
-    public FacilityContraption(String input) {
+    FacilityContraption(String input) {
         tiles = input.lines()
                 .map(e -> e.chars()
                         .mapToObj(c -> (char) c)
@@ -24,7 +24,7 @@ public class FacilityContraption {
         visitedTiles = new boolean[contraptionSizeY][contraptionSizeX];
     }
 
-    public long traceLight() {
+    long traceLight() {
         moveEast(-1, 0);
 
         return Arrays.stream(visitedTiles)
