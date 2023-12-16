@@ -2,7 +2,9 @@ package tk.vivas.adventofcode.year2023.day16;
 
 import tk.vivas.ConsoleColors;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 class FacilityContraption {
 
@@ -24,18 +26,52 @@ class FacilityContraption {
         visitedTiles = new boolean[contraptionSizeY][contraptionSizeX];
     }
 
-    long traceLight() {
+    int traceLight() {
         moveEast(-1, 0);
+        return countVisitedTiles();
+    }
 
+    int traceMaxLight() {
+        List<Integer> countList = new ArrayList<>();
+        for (int x = 0; x < contraptionSizeX; x++) {
+            moveSouth(x, -1);
+            countList.add(countVisitedTiles());
+            clearVisits();
+
+            moveNorth(x, contraptionSizeY);
+            countList.add(countVisitedTiles());
+            clearVisits();
+        }
+
+        for (int y = 0; y < contraptionSizeY; y++) {
+            moveEast(-1, y);
+            countList.add(countVisitedTiles());
+            clearVisits();
+
+            moveWest(contraptionSizeX, y);
+            countList.add(countVisitedTiles());
+            clearVisits();
+        }
+        return countList.stream().mapToInt(i -> i)
+                .max().orElseThrow();
+    }
+
+    private int countVisitedTiles() {
         return Arrays.stream(visitedTiles)
-                .mapToLong(this::countTrue)
+                .mapToInt(this::countTrue)
                 .sum();
     }
 
-    private long countTrue(boolean[] array) {
-        long count = 0;
+    private int countTrue(boolean[] array) {
+        int count = 0;
         for (boolean b : array) if (b) count++;
         return count;
+    }
+
+    private void clearVisits() {
+        for (boolean[] row : visitedTiles) {
+            Arrays.fill(row, false);
+        }
     }
 
     private void moveNorth(int x, int y) {

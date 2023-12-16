@@ -14,16 +14,16 @@ class Day16 {
 
         Instant parseEnd = Instant.now();
 
-        long partOneAnswer = contraption.traceLight();
+        int partOneAnswer = contraption.traceLight();
 
         Instant betweenParts = Instant.now();
 
-        //long partTwoAnswer = ;
+        int partTwoAnswer = contraption.traceMaxLight();
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        //sendPuzzleAnswer(2, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
     }

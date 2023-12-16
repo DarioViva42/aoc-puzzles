@@ -15,4 +15,13 @@ class FacilityContraptionTest {
 
         assertThat(contraption.traceLight()).isEqualTo(46);
     }
+
+    @Test
+    void traceMaxLight() {
+        String input = AocUtils.readPuzzleInput();
+
+        FacilityContraption contraption = new FacilityContraption(input);
+
+        assertThat(contraption.traceMaxLight()).isEqualTo(51);
+    }
 }
