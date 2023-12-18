@@ -22,7 +22,6 @@ class Day17 {
 
         Instant end = Instant.now();
 
-        System.out.println(partOneAnswer);
         sendPuzzleAnswer(1, partOneAnswer);
         //sendPuzzleAnswer(2, partTwoAnswer);
 
