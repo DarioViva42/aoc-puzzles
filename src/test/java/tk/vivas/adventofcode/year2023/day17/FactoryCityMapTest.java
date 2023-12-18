@@ -13,9 +13,6 @@ class FactoryCityMapTest {
 
         FactoryCityMap cityMap = new FactoryCityMap(input);
 
-        int minimalHeatLoss = cityMap.findMinimalHeatLoss();
-
-        System.out.println(cityMap);
-        assertThat(minimalHeatLoss).isEqualTo(102);
+        assertThat(cityMap.findMinimalHeatLoss()).isEqualTo(102);
     }
 }
