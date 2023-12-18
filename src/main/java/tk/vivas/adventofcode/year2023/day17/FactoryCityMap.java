@@ -3,14 +3,14 @@ package tk.vivas.adventofcode.year2023.day17;
 import java.util.Arrays;
 import java.util.List;
 
-public class FactoryCityMap {
+class FactoryCityMap {
 
     private final int[][] cityBlocks;
     private final int[][][][] heatLossMap;
     private final int citySizeX;
     private final int citySizeY;
 
-    public FactoryCityMap(String input) {
+    FactoryCityMap(String input) {
         List<String> lines = input.lines().toList();
         citySizeX = lines.getFirst().length();
         citySizeY = lines.size();
