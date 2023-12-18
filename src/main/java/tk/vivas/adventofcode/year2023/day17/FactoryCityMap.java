@@ -7,6 +7,7 @@ class FactoryCityMap {
 
     private final int[][] cityBlocks;
     private final int[][][][] heatLossMap;
+    private final int[][][][] heatLossMapUltraCrucible;
     private final int citySizeX;
     private final int citySizeY;
 
@@ -31,6 +32,15 @@ class FactoryCityMap {
                 }
             }
         }
+
+        heatLossMapUltraCrucible = new int[4][7][citySizeX][citySizeY];
+        for (int[][][] directions : heatLossMapUltraCrucible) {
+            for (int[][] type : directions) {
+                for (int[] column : type) {
+                    Arrays.fill(column, Integer.MAX_VALUE);
+                }
+            }
+        }
     }
 
     int findMinimalHeatLoss() {
@@ -45,6 +55,26 @@ class FactoryCityMap {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
                 int x = heatLossMap[i][j][citySizeX - 1][citySizeY - 1];
+                if (x < min) {
+                    min = x;
+                }
+            }
+        }
+        return min;
+    }
+
+    int findMinimalHeatLossWithUltraCrucible() {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 7; j++) {
+                heatLossMapUltraCrucible[i][j][0][0] = 0;
+            }
+        }
+        moveSouthUltraCrucible(0, 0, 0);
+        moveEastUltraCrucible(0, 0, 0);
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 7; j++) {
+                int x = heatLossMapUltraCrucible[i][j][citySizeX - 1][citySizeY - 1];
                 if (x < min) {
                     min = x;
                 }
@@ -122,4 +152,104 @@ class FactoryCityMap {
             moveSouth(x, y, currentLoss);
         }
     }
+
+    private void moveNorthUltraCrucible(int x, int y, int currentLoss) {
+        for (int i = 0; i < 3; i++) {
+            y--;
+            if (y < 0) {
+                return;
+            }
+            currentLoss += cityBlocks[x][y];
+        }
+        for (int i = 0; i < 7; i++) {
+            y--;
+            if (y < 0) {
+                return;
+            }
+            currentLoss += cityBlocks[x][y];
+            if (currentLoss >= heatLossMapUltraCrucible[0][i][x][y]) {
+                return;
+            }
+            heatLossMapUltraCrucible[0][i][x][y] = currentLoss;
+            moveWestUltraCrucible(x, y, currentLoss);
+            moveEastUltraCrucible(x, y, currentLoss);
+        }
+    }
+
+    private void moveEastUltraCrucible(int x, int y, int currentLoss) {
+        for (int i = 0; i < 3; i++) {
+            x++;
+            if (x >= citySizeX) {
+                return;
+            }
+            currentLoss += cityBlocks[x][y];
+        }
+        for (int i = 0; i < 7; i++) {
+            x++;
+            if (x >= citySizeX) {
+                return;
+            }
+            currentLoss += cityBlocks[x][y];
+            if (currentLoss >= heatLossMapUltraCrucible[1][i][x][y]) {
+                return;
+            }
+            heatLossMapUltraCrucible[1][i][x][y] = currentLoss;
+            if (x == citySizeX - 1 && y == citySizeY - 1) {
+                return;
+            }
+            moveNorthUltraCrucible(x, y, currentLoss);
+            moveSouthUltraCrucible(x, y, currentLoss);
+        }
+    }
+
+    private void moveSouthUltraCrucible(int x, int y, int currentLoss) {
+        for (int i = 0; i < 3; i++) {
+            y++;
+            if (y >= citySizeY) {
+                return;
+            }
+            currentLoss += cityBlocks[x][y];
+        }
+        for (int i = 0; i < 7; i++) {
+            y++;
+            if (y >= citySizeY) {
+                return;
+            }
+            currentLoss += cityBlocks[x][y];
+            if (currentLoss >= heatLossMapUltraCrucible[2][i][x][y]) {
+                return;
+            }
+            heatLossMapUltraCrucible[2][i][x][y] = currentLoss;
+            if (x == citySizeX - 1 && y == citySizeY - 1) {
+                return;
+            }
+            moveWestUltraCrucible(x, y, currentLoss);
+            moveEastUltraCrucible(x, y, currentLoss);
+        }
+    }
+
+    private void moveWestUltraCrucible(int x, int y, int currentLoss) {
+        for (int i = 0; i < 3; i++) {
+            x--;
+            if (x < 0) {
+                return;
+            }
+            currentLoss += cityBlocks[x][y];
+        }
+        for (int i = 0; i < 7; i++) {
+            x--;
+            if (x < 0) {
+                return;
+            }
+            currentLoss += cityBlocks[x][y];
+            if (currentLoss >= heatLossMapUltraCrucible[3][i][x][y]) {
+                return;
+            }
+            heatLossMapUltraCrucible[3][i][x][y] = currentLoss;
+            moveNorthUltraCrucible(x, y, currentLoss);
+            moveSouthUltraCrucible(x, y, currentLoss);
+        }
+    }
+
+
 }

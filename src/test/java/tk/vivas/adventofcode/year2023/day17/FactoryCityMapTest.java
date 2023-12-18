@@ -15,4 +15,13 @@ class FactoryCityMapTest {
 
         assertThat(cityMap.findMinimalHeatLoss()).isEqualTo(102);
     }
+
+    @Test
+    void findMinimalHeatLossWithUltraCrucible() {
+        String input = AocUtils.readPuzzleInput();
+
+        FactoryCityMap cityMap = new FactoryCityMap(input);
+
+        assertThat(cityMap.findMinimalHeatLossWithUltraCrucible()).isEqualTo(94);
+    }
 }
