@@ -54,41 +54,48 @@ class DigSite {
                 }
             }
             DigInstruction nextInstruction = instructionList.get((j + 1) % instructionList.size());
-            switch (instruction.direction()) {
-                case UP -> {
-                    switch (nextInstruction.direction()) {
-                        case RIGHT -> digMap[x][y] = EAST_SOUTH;
-                        case LEFT -> digMap[x][y] = SOUTH_WEST;
-                        case UP, DOWN -> throw new IllegalStateException(ERROR_ILLEGAL_NEXT_DIRECTION);
-                    }
+            handleCorner(instruction, nextInstruction, x, y);
+        }
+        return countBorderTiles() + countEnclosedTiles();
+    }
+
+    private int countBorderTiles() {
+        return instructionList.stream()
+                .mapToInt(DigInstruction::amount)
+                .sum();
+    }
+
+    private void handleCorner(DigInstruction instruction, DigInstruction nextInstruction, int x, int y) {
+        switch (instruction.direction()) {
+            case UP -> {
+                switch (nextInstruction.direction()) {
+                    case RIGHT -> digMap[x][y] = EAST_SOUTH;
+                    case LEFT -> digMap[x][y] = SOUTH_WEST;
+                    case UP, DOWN -> throw new IllegalStateException(ERROR_ILLEGAL_NEXT_DIRECTION);
                 }
-                case RIGHT -> {
-                    switch (nextInstruction.direction()) {
-                        case UP -> digMap[x][y] = NORTH_WEST;
-                        case DOWN -> digMap[x][y] = SOUTH_WEST;
-                        case LEFT, RIGHT -> throw new IllegalStateException(ERROR_ILLEGAL_NEXT_DIRECTION);
-                    }
+            }
+            case RIGHT -> {
+                switch (nextInstruction.direction()) {
+                    case UP -> digMap[x][y] = NORTH_WEST;
+                    case DOWN -> digMap[x][y] = SOUTH_WEST;
+                    case LEFT, RIGHT -> throw new IllegalStateException(ERROR_ILLEGAL_NEXT_DIRECTION);
                 }
-                case DOWN -> {
-                    switch (nextInstruction.direction()) {
-                        case RIGHT -> digMap[x][y] = NORTH_EAST;
-                        case LEFT -> digMap[x][y] = NORTH_WEST;
-                        case UP, DOWN -> throw new IllegalStateException(ERROR_ILLEGAL_NEXT_DIRECTION);
-                    }
+            }
+            case DOWN -> {
+                switch (nextInstruction.direction()) {
+                    case RIGHT -> digMap[x][y] = NORTH_EAST;
+                    case LEFT -> digMap[x][y] = NORTH_WEST;
+                    case UP, DOWN -> throw new IllegalStateException(ERROR_ILLEGAL_NEXT_DIRECTION);
                 }
-                case LEFT -> {
-                    switch (nextInstruction.direction()) {
-                        case UP -> digMap[x][y] = NORTH_EAST;
-                        case DOWN -> digMap[x][y] = EAST_SOUTH;
-                        case LEFT, RIGHT -> throw new IllegalStateException(ERROR_ILLEGAL_NEXT_DIRECTION);
-                    }
+            }
+            case LEFT -> {
+                switch (nextInstruction.direction()) {
+                    case UP -> digMap[x][y] = NORTH_EAST;
+                    case DOWN -> digMap[x][y] = EAST_SOUTH;
+                    case LEFT, RIGHT -> throw new IllegalStateException(ERROR_ILLEGAL_NEXT_DIRECTION);
                 }
             }
         }
-        int totalBorderTiles = instructionList.stream()
-                .mapToInt(DigInstruction::amount)
-                .sum();
-        return totalBorderTiles + countEnclosedTiles();
     }
 
     int countEnclosedTiles() {
