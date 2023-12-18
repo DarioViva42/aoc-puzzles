@@ -16,19 +16,17 @@ class Day18 {
 
         Instant parseEnd = Instant.now();
 
-        int partOneAnswer = digSite.countSize();
+        long partOneAnswer = digSite.countSize();
 
         Instant betweenParts = Instant.now();
 
-        //int partTwoAnswer = ;
+        long partTwoAnswer = digSite.countLargeSize();
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        //sendPuzzleAnswer(2, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
-
-        System.out.println(digSite);
     }
 }
