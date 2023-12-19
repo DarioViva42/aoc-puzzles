@@ -200,10 +200,7 @@ class DigSite {
 
         sizeX = maxX - minX + 1;
         sizeY = maxY - minY + 1;
-        this.digMap = new DigTileType[sizeX][sizeY];
-        for (DigTileType[] column : digMap) {
-            Arrays.fill(column, DigTileType.EMPTY);
-        }
+        this.digMap = initializeDigMap();
     }
 
     private List<DigInstruction> initLargeMap(List<DigInstruction> instructionList) {
@@ -251,15 +248,20 @@ class DigSite {
         sizeX = xList.size() * 2 - 1;
         sizeY = yList.size() * 2 - 1;
 
-        this.digMap = new DigTileType[sizeX][sizeY];
-        for (DigTileType[] column : digMap) {
-            Arrays.fill(column, DigTileType.EMPTY);
-        }
+        this.digMap = initializeDigMap();
 
         startX = xListSorted.indexOf(0L) * 2;
         startY = yListSorted.indexOf(0L) * 2;
 
         return mapInstructionList(instructionList, xListSorted, yListSorted);
+    }
+
+    private DigTileType[][] initializeDigMap() {
+        DigTileType[][] map = new DigTileType[sizeX][sizeY];
+        for (DigTileType[] column : map) {
+            Arrays.fill(column, DigTileType.EMPTY);
+        }
+        return map;
     }
 
     private List<DigInstruction> mapInstructionList(
