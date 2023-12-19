@@ -175,7 +175,7 @@ class DigSite {
         int x = 0;
         int y = 0;
         for (DigInstruction digInstruction : instructionList) {
-            int amount = (int) digInstruction.amount();
+            int amount = Math.toIntExact(digInstruction.amount());
             switch (digInstruction.direction()) {
                 case UP -> {
                     y -= amount;
