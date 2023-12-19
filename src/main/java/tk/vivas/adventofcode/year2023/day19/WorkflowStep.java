@@ -7,12 +7,28 @@ import java.util.function.ToIntFunction;
 class WorkflowStep {
     private final Predicate<MachinePart> predicate;
     private final String classificationString;
+    private final char rating;
+    private final char operator;
+    private final int number;
 
     private Predicate<MachinePart> classification;
+    private MachineWorkflow nextWorkflow;
+
+    WorkflowStep(Predicate<MachinePart> predicate, String classificationString,
+                 char rating, char operator, int number) {
+        this.predicate = predicate;
+        this.classificationString = classificationString;
+        this.rating = rating;
+        this.operator = operator;
+        this.number = number;
+    }
 
     WorkflowStep(Predicate<MachinePart> predicate, String classificationString) {
         this.predicate = predicate;
         this.classificationString = classificationString;
+        this.rating = (char) 0;
+        this.operator = (char) 0;
+        this.number = 0;
     }
 
     static WorkflowStep from(String raw) {
@@ -37,11 +53,11 @@ class WorkflowStep {
             case '<' -> function.applyAsInt(machinePart) < number;
             default -> throw new IllegalStateException("Unexpected value: " + operator);
         };
-        return new WorkflowStep(predicate, split[1]);
+        return new WorkflowStep(predicate, split[1], ratingIdentifier, operator, number);
     }
 
     void init(Map<String, MachineWorkflow> workflowMap) {
-        MachineWorkflow nextWorkflow = workflowMap.get(classificationString);
+        nextWorkflow = workflowMap.get(classificationString);
         classification = switch (classificationString) {
             case "A" -> machinePart -> true;
             case "R" -> machinePart -> false;
@@ -55,5 +71,33 @@ class WorkflowStep {
 
     boolean classify(MachinePart part) {
         return classification.test(part);
+    }
+
+    char getRating() {
+        return rating;
+    }
+
+    char getOperator() {
+        return operator;
+    }
+
+    int getNumber() {
+        return number;
+    }
+
+    String getClassificationString() {
+        return classificationString;
+    }
+
+    MachineWorkflow getNextWorkflow() {
+        return nextWorkflow;
+    }
+
+    @Override
+    public String toString() {
+        if (rating == 0) {
+            return classificationString;
+        }
+        return "%s%s%s:%s".formatted(rating, operator, number, classificationString);
     }
 }

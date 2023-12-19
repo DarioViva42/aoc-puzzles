@@ -15,4 +15,13 @@ class MachinePartsOrganizerTest {
 
         assertThat(organizer.acceptedPropertiesSum()).isEqualTo(19114);
     }
+
+    @Test
+    void countAllAcceptedCombinations() {
+        String input = AocUtils.readPuzzleInput();
+
+        MachinePartsOrganizer organizer = new MachinePartsOrganizer(input);
+
+        assertThat(organizer.countAllAcceptedCombinations()).isEqualTo(167409079868000L);
+    }
 }

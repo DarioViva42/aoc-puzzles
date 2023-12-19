@@ -32,4 +32,14 @@ class MachinePartsOrganizer {
                 .mapToLong(MachinePart::totalRanking)
                 .sum();
     }
+
+    long countAllAcceptedCombinations() {
+        return startWorkflow.countAcceptedPossibilities(
+                1, 4000,
+                1, 4000,
+                1, 4000,
+                1, 4000,
+                0
+        );
+    }
 }
