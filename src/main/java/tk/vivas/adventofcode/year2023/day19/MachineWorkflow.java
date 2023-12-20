@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 class MachineWorkflow {
     private final String name;
@@ -89,77 +88,9 @@ class MachineWorkflow {
                             int startA, int endA,
                             int startS, int endS,
                             WorkflowStep workflowStep, int stepNumber) {
+        int number = workflowStep.getNumber();
+
         if (workflowStep.getOperator() == '<') {
-            return countTestSmallerX(
-                    startX, endX,
-                    startM, endM,
-                    startA, endA,
-                    startS, endS,
-                    workflowStep, stepNumber
-            );
-        }
-        return countTestLargerX(
-                startX, endX,
-                startM, endM,
-                startA, endA,
-                startS, endS,
-                workflowStep, stepNumber
-        );
-    }
-
-    private long countTestLargerX(int startX, int endX,
-                                  int startM, int endM,
-                                  int startA, int endA,
-                                  int startS, int endS,
-                                  WorkflowStep workflowStep, int stepNumber) {
-        int number = workflowStep.getNumber();
-        if (number >= endX) {
-            return countAcceptedPossibilities(
-                    startX, endX,
-                    startM, endM,
-                    startA, endA,
-                    startS, endS,
-                    stepNumber + 1
-            );
-        } else if (number >= startX) {
-            return countAcceptedPossibilities(
-                    startX, number,
-                    startM, endM,
-                    startA, endA,
-                    startS, endS,
-                    stepNumber + 1
-            ) + countTestPassed(
-                    number + 1, endX,
-                    startM, endM,
-                    startA, endA,
-                    startS, endS,
-                    workflowStep
-            );
-        }
-        return countTestPassed(
-                startX, endX,
-                startM, endM,
-                startA, endA,
-                startS, endS,
-                workflowStep
-        );
-    }
-
-    private long countTestSmallerX(int startX, int endX,
-                                   int startM, int endM,
-                                   int startA, int endA,
-                                   int startS, int endS,
-                                   WorkflowStep workflowStep, int stepNumber) {
-        int number = workflowStep.getNumber();
-        if (number <= startX) {
-            return countAcceptedPossibilities(
-                    startX, endX,
-                    startM, endM,
-                    startA, endA,
-                    startS, endS,
-                    stepNumber + 1
-            );
-        } else if (number <= endX) {
             return countAcceptedPossibilities(
                     number, endX,
                     startM, endM,
@@ -174,8 +105,14 @@ class MachineWorkflow {
                     workflowStep
             );
         }
-        return countTestPassed(
-                startX, endX,
+        return countAcceptedPossibilities(
+                startX, number,
+                startM, endM,
+                startA, endA,
+                startS, endS,
+                stepNumber + 1
+        ) + countTestPassed(
+                number + 1, endX,
                 startM, endM,
                 startA, endA,
                 startS, endS,
@@ -188,77 +125,9 @@ class MachineWorkflow {
                             int startA, int endA,
                             int startS, int endS,
                             WorkflowStep workflowStep, int stepNumber) {
+        int number = workflowStep.getNumber();
+
         if (workflowStep.getOperator() == '<') {
-            return countTestSmallerM(
-                    startX, endX,
-                    startM, endM,
-                    startA, endA,
-                    startS, endS,
-                    workflowStep, stepNumber
-            );
-        }
-        return countTestLargerM(
-                startX, endX,
-                startM, endM,
-                startA, endA,
-                startS, endS,
-                workflowStep, stepNumber
-        );
-    }
-
-    private long countTestLargerM(int startX, int endX,
-                                  int startM, int endM,
-                                  int startA, int endA,
-                                  int startS, int endS,
-                                  WorkflowStep workflowStep, int stepNumber) {
-        int number = workflowStep.getNumber();
-        if (number >= endM) {
-            return countAcceptedPossibilities(
-                    startX, endX,
-                    startM, endM,
-                    startA, endA,
-                    startS, endS,
-                    stepNumber + 1
-            );
-        } else if (number >= startM) {
-            return countAcceptedPossibilities(
-                    startX, endX,
-                    startM, number,
-                    startA, endA,
-                    startS, endS,
-                    stepNumber + 1
-            ) + countTestPassed(
-                    startX, endX,
-                    number + 1, endM,
-                    startA, endA,
-                    startS, endS,
-                    workflowStep
-            );
-        }
-        return countTestPassed(
-                startX, endX,
-                startM, endM,
-                startA, endA,
-                startS, endS,
-                workflowStep
-        );
-    }
-
-    private long countTestSmallerM(int startX, int endX,
-                                   int startM, int endM,
-                                   int startA, int endA,
-                                   int startS, int endS,
-                                   WorkflowStep workflowStep, int stepNumber) {
-        int number = workflowStep.getNumber();
-        if (number <= startM) {
-            return countAcceptedPossibilities(
-                    startX, endX,
-                    startM, endM,
-                    startA, endA,
-                    startS, endS,
-                    stepNumber + 1
-            );
-        } else if (number <= endM) {
             return countAcceptedPossibilities(
                     startX, endX,
                     number, endM,
@@ -273,9 +142,15 @@ class MachineWorkflow {
                     workflowStep
             );
         }
-        return countTestPassed(
+        return countAcceptedPossibilities(
                 startX, endX,
-                startM, endM,
+                startM, number,
+                startA, endA,
+                startS, endS,
+                stepNumber + 1
+        ) + countTestPassed(
+                startX, endX,
+                number + 1, endM,
                 startA, endA,
                 startS, endS,
                 workflowStep
@@ -287,39 +162,9 @@ class MachineWorkflow {
                             int startA, int endA,
                             int startS, int endS,
                             WorkflowStep workflowStep, int stepNumber) {
-        if (workflowStep.getOperator() == '<') {
-            return countTestSmallerA(
-                    startX, endX,
-                    startM, endM,
-                    startA, endA,
-                    startS, endS,
-                    workflowStep, stepNumber
-            );
-        }
-        return countTestLargerA(
-                startX, endX,
-                startM, endM,
-                startA, endA,
-                startS, endS,
-                workflowStep, stepNumber
-        );
-    }
-
-    private long countTestSmallerA(int startX, int endX,
-                                   int startM, int endM,
-                                   int startA, int endA,
-                                   int startS, int endS,
-                                   WorkflowStep workflowStep, int stepNumber) {
         int number = workflowStep.getNumber();
-        if (number <= startA) {
-            return countAcceptedPossibilities(
-                    startX, endX,
-                    startM, endM,
-                    startA, endA,
-                    startS, endS,
-                    stepNumber + 1
-            );
-        } else if (number <= endA) {
+
+        if (workflowStep.getOperator() == '<') {
             return countAcceptedPossibilities(
                     startX, endX,
                     startM, endM,
@@ -334,91 +179,29 @@ class MachineWorkflow {
                     workflowStep
             );
         }
-        return countTestPassed(
+        return countAcceptedPossibilities(
                 startX, endX,
                 startM, endM,
-                startA, endA,
+                startA, number,
                 startS, endS,
-                workflowStep
-        );
-    }
-
-    private long countTestLargerA(int startX, int endX,
-                                  int startM, int endM,
-                                  int startA, int endA,
-                                  int startS, int endS,
-                                  WorkflowStep workflowStep, int stepNumber) {
-        int number = workflowStep.getNumber();
-        if (number >= endA) {
-            return countAcceptedPossibilities(
-                    startX, endX,
-                    startM, endM,
-                    startA, endA,
-                    startS, endS,
-                    stepNumber + 1
-            );
-        } else if (number >= startA) {
-            return countAcceptedPossibilities(
-                    startX, endX,
-                    startM, endM,
-                    startA, number,
-                    startS, endS,
-                    stepNumber + 1
-            ) + countTestPassed(
-                    startX, endX,
-                    startM, endM,
-                    number + 1, endA,
-                    startS, endS,
-                    workflowStep
-            );
-        }
-        return countTestPassed(
+                stepNumber + 1
+        ) + countTestPassed(
                 startX, endX,
                 startM, endM,
-                startA, endA,
+                number + 1, endA,
                 startS, endS,
                 workflowStep
         );
     }
 
     private long countTestS(int startX, int endX,
-                             int startM, int endM,
-                             int startA, int endA,
-                             int startS, int endS,
-                             WorkflowStep workflowStep, int stepNumber) {
-        if (workflowStep.getOperator() == '<') {
-            return countTestSmallerS(
-                    startX, endX,
-                    startM, endM,
-                    startA, endA,
-                    startS, endS,
-                    workflowStep, stepNumber
-            );
-        }
-        return countTestLargerS(
-                startX, endX,
-                startM, endM,
-                startA, endA,
-                startS, endS,
-                workflowStep, stepNumber
-        );
-    }
-
-    private long countTestSmallerS(int startX, int endX,
-                                   int startM, int endM,
-                                   int startA, int endA,
-                                   int startS, int endS,
-                                   WorkflowStep workflowStep, int stepNumber) {
+                            int startM, int endM,
+                            int startA, int endA,
+                            int startS, int endS,
+                            WorkflowStep workflowStep, int stepNumber) {
         int number = workflowStep.getNumber();
-        if (number <= startS) {
-            return countAcceptedPossibilities(
-                    startX, endX,
-                    startM, endM,
-                    startA, endA,
-                    startS, endS,
-                    stepNumber + 1
-            );
-        } else if (number <= endS) {
+
+        if (workflowStep.getOperator() == '<') {
             return countAcceptedPossibilities(
                     startX, endX,
                     startM, endM,
@@ -433,49 +216,17 @@ class MachineWorkflow {
                     workflowStep
             );
         }
-        return countTestPassed(
+        return countAcceptedPossibilities(
                 startX, endX,
                 startM, endM,
                 startA, endA,
-                startS, endS,
-                workflowStep
-        );
-    }
-
-    private long countTestLargerS(int startX, int endX,
-                                   int startM, int endM,
-                                   int startA, int endA,
-                                   int startS, int endS,
-                                   WorkflowStep workflowStep, int stepNumber) {
-        int number = workflowStep.getNumber();
-        if (number >= endS) {
-            return countAcceptedPossibilities(
-                    startX, endX,
-                    startM, endM,
-                    startA, endA,
-                    startS, endS,
-                    stepNumber + 1
-            );
-        } else if (number >= startS) {
-            return countAcceptedPossibilities(
-                    startX, endX,
-                    startM, endM,
-                    startA, endA,
-                    startS, number,
-                    stepNumber + 1
-            ) + countTestPassed(
-                    startX, endX,
-                    startM, endM,
-                    startA, endA,
-                    number + 1, endS,
-                    workflowStep
-            );
-        }
-        return countTestPassed(
+                startS, number,
+                stepNumber + 1
+        ) + countTestPassed(
                 startX, endX,
                 startM, endM,
                 startA, endA,
-                startS, endS,
+                number + 1, endS,
                 workflowStep
         );
     }
