@@ -30,6 +30,11 @@ public class ModuleNetwork {
     }
 
     private void pressButton() {
+        String stateString = modules.values().stream()
+                .map(Object::toString)
+                .collect(Collectors.joining("\n"));
+        System.out.println("\nState:\n" + stateString);
+        System.out.println("\nAction:\nbutton -low-> broadcaster");
         lowCount++;
         broadcaster.receive(Pulse.LOW_PULSE);
         do {

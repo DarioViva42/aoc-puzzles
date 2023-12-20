@@ -16,6 +16,6 @@ final class Output extends CommunicationModule {
 
     @Override
     protected Pulse process(List<Pulse> incomingPulses) {
-        return null;
+        throw new IllegalStateException("did not expect output to signal pulse");
     }
 }

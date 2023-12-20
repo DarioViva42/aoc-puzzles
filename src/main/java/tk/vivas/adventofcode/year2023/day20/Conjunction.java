@@ -33,6 +33,10 @@ final class Conjunction extends CommunicationModule {
         if (incomingPulses.isEmpty()) {
             return null;
         }
+        int size = incomingPulses.size();
+        if (size > 1) {
+            throw new IllegalStateException("did not expect %s signals per clock".formatted(size));
+        }
         boolean memoryAllHigh = memory.values().stream()
                 .allMatch(HIGH_PULSE::equals);
         return memoryAllHigh ? LOW_PULSE : HIGH_PULSE;

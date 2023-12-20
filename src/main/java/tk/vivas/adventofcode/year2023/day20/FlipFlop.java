@@ -22,8 +22,9 @@ final class FlipFlop extends CommunicationModule {
         if (incomingPulses.isEmpty()) {
             return null;
         }
-        if (incomingPulses.size() > 1) {
-            throw new IllegalStateException("did not expect multiple signals per clock");
+        int size = incomingPulses.size();
+        if (size > 1) {
+            throw new IllegalStateException("did not expect %s signals per clock".formatted(size));
         }
         power = !power;
         return power ?  HIGH_PULSE : LOW_PULSE;

@@ -55,9 +55,10 @@ abstract sealed class CommunicationModule permits BroadCaster, FlipFlop, Conjunc
         if (commitedPulse != null) {
             connectedModules.forEach(module -> module.receive(name, commitedPulse));
         }
+        int amount = moduleNames.length;
         Pair<Integer, Integer> sent = switch (commitedPulse) {
-            case LOW_PULSE -> Pair.of(moduleNames.length, 0);
-            case HIGH_PULSE -> Pair.of(0, moduleNames.length);
+            case LOW_PULSE -> Pair.of(amount, 0);
+            case HIGH_PULSE -> Pair.of(0, amount);
             case null -> Pair.of(0, 0);
         };
         commitedPulse = null;
@@ -65,6 +66,7 @@ abstract sealed class CommunicationModule permits BroadCaster, FlipFlop, Conjunc
     }
 
     protected void receive(String name, Pulse pulse) {
+        System.out.printf("%s -%s-> %s%n", name, pulse, this.name);
         receivedPulses.add(pulse);
     }
 
