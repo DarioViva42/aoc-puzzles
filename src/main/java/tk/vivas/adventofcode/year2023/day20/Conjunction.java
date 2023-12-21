@@ -29,14 +29,7 @@ final class Conjunction extends CommunicationModule {
     }
 
     @Override
-    protected Pulse process(List<Pulse> incomingPulses) {
-        if (incomingPulses.isEmpty()) {
-            return null;
-        }
-        int size = incomingPulses.size();
-        if (size > 1) {
-            throw new IllegalStateException("did not expect %s signals per clock".formatted(size));
-        }
+    protected Pulse process(Pulse incomingPulse) {
         boolean memoryAllHigh = memory.values().stream()
                 .allMatch(HIGH_PULSE::equals);
         return memoryAllHigh ? LOW_PULSE : HIGH_PULSE;

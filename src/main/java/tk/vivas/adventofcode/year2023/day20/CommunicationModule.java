@@ -1,26 +1,22 @@
 package tk.vivas.adventofcode.year2023.day20;
 
-import org.apache.commons.lang3.tuple.Pair;
-
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 abstract sealed class CommunicationModule permits BroadCaster, FlipFlop, Conjunction, Output {
 
     private final String name;
     private final String[] moduleNames;
-    private List<Pulse> receivedPulses;
+    private final List<Pulse> receivedPulses;
     private List<CommunicationModule> connectedModules;
-    private Pulse commitedPulse;
 
     protected CommunicationModule(String name, String[] moduleNames) {
         this.name = name;
         this.moduleNames = moduleNames;
 
-        receivedPulses = new ArrayList<>();
+        receivedPulses = new LinkedList<>();
     }
 
     static CommunicationModule from(String input) {
@@ -51,18 +47,14 @@ abstract sealed class CommunicationModule permits BroadCaster, FlipFlop, Conjunc
         return name;
     }
 
-    Pair<Integer, Integer> send() {
-        if (commitedPulse != null) {
-            connectedModules.forEach(module -> module.receive(name, commitedPulse));
+    Pulse send() {
+        Pulse receivedPulse = receivedPulses.removeFirst();
+        Pulse sendingPulse = process(receivedPulse);
+        if (sendingPulse == null) {
+            return null;
         }
-        int amount = moduleNames.length;
-        Pair<Integer, Integer> sent = switch (commitedPulse) {
-            case LOW_PULSE -> Pair.of(amount, 0);
-            case HIGH_PULSE -> Pair.of(0, amount);
-            case null -> Pair.of(0, 0);
-        };
-        commitedPulse = null;
-        return sent;
+        connectedModules.forEach(module -> module.receive(name, sendingPulse));
+        return sendingPulse;
     }
 
     protected void receive(String name, Pulse pulse) {
@@ -70,18 +62,9 @@ abstract sealed class CommunicationModule permits BroadCaster, FlipFlop, Conjunc
         receivedPulses.add(pulse);
     }
 
-    void receive(Pulse pulse) {
-        receivedPulses.add(pulse);
+    List<CommunicationModule> getOutputModules() {
+        return connectedModules;
     }
 
-    void tick() {
-        commitedPulse = process(receivedPulses);
-        receivedPulses = new ArrayList<>();
-    }
-
-    protected abstract Pulse process(List<Pulse> incomingPulses);
-
-    boolean isReceiving() {
-        return !receivedPulses.isEmpty();
-    }
+    protected abstract Pulse process(Pulse incomingPulse);
 }

@@ -1,6 +1,6 @@
 package tk.vivas.adventofcode.year2023.day20;
 
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -34,23 +34,24 @@ public class ModuleNetwork {
                 .map(Object::toString)
                 .collect(Collectors.joining("\n"));
         System.out.println("\nState:\n" + stateString);
-        System.out.println("\nAction:\nbutton -low-> broadcaster");
+        System.out.println("\nAction:");
         lowCount++;
-        broadcaster.receive(Pulse.LOW_PULSE);
-        do {
-            modules.values()
-                    .forEach(CommunicationModule::tick);
-            modules.values().stream()
-                    .map(CommunicationModule::send)
-                    .forEach(pair -> {
-                        highCount += pair.getRight();
-                        lowCount += pair.getLeft();
-                    });
-        } while (containsReceivingModules());
-    }
-
-    private boolean containsReceivingModules() {
-        return modules.values().stream()
-                .anyMatch(CommunicationModule::isReceiving);
+        broadcaster.receive("button", Pulse.LOW_PULSE);
+        List<CommunicationModule> activeModules = new LinkedList<>();
+        activeModules.add(broadcaster);
+        while (!activeModules.isEmpty()) {
+            CommunicationModule module = activeModules.removeFirst();
+            Pulse sentPulse = module.send();
+            if (sentPulse == null) {
+                continue;
+            }
+            List<CommunicationModule> outputModules = module.getOutputModules();
+            if (sentPulse == Pulse.HIGH_PULSE) {
+                highCount += outputModules.size();
+            } else {
+                lowCount += outputModules.size();
+            }
+            activeModules.addAll(outputModules);
+        }
     }
 }

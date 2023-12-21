@@ -15,16 +15,9 @@ final class FlipFlop extends CommunicationModule {
     }
 
     @Override
-    protected Pulse process(List<Pulse> incomingPulses) {
-        incomingPulses = incomingPulses.stream()
-                .filter(LOW_PULSE::equals)
-                .toList();
-        if (incomingPulses.isEmpty()) {
+    protected Pulse process(Pulse incomingPulse) {
+        if (LOW_PULSE != incomingPulse) {
             return null;
-        }
-        int size = incomingPulses.size();
-        if (size > 1) {
-            throw new IllegalStateException("did not expect %s signals per clock".formatted(size));
         }
         power = !power;
         return power ?  HIGH_PULSE : LOW_PULSE;
