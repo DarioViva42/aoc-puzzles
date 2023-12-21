@@ -30,11 +30,6 @@ public class ModuleNetwork {
     }
 
     private void pressButton() {
-        String stateString = modules.values().stream()
-                .map(Object::toString)
-                .collect(Collectors.joining("\n"));
-        System.out.println("\nState:\n" + stateString);
-        System.out.println("\nAction:");
         lowCount++;
         broadcaster.receive("button", Pulse.LOW_PULSE);
         List<CommunicationModule> activeModules = new LinkedList<>();

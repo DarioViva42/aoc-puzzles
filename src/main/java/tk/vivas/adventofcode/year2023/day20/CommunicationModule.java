@@ -58,7 +58,6 @@ abstract sealed class CommunicationModule permits BroadCaster, FlipFlop, Conjunc
     }
 
     protected void receive(String name, Pulse pulse) {
-        System.out.printf("%s -%s-> %s%n", name, pulse, this.name);
         receivedPulses.add(pulse);
     }
 
