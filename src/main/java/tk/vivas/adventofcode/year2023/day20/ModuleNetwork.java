@@ -2,13 +2,13 @@ package tk.vivas.adventofcode.year2023.day20;
 
 import tk.vivas.MathUtils;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class ModuleNetwork {
 
@@ -16,7 +16,6 @@ public class ModuleNetwork {
     private final CommunicationModule broadcaster;
     private int highCount;
     private int lowCount;
-    private int countPressesToOutputPulse;
 
     public ModuleNetwork(String input) {
         modules = input.lines()
@@ -31,28 +30,22 @@ public class ModuleNetwork {
 
     long countButtonPresses() {
         resetModules();
-        List<List<Conjunction>> nestedConjunctionList = getRelevantConjunctions();
-        Map<Conjunction, Long> collectorConjunctionMap = nestedConjunctionList.getLast().stream()
-                .collect(Collectors.toMap(Function.identity(), e -> 0L));
-        int i = 0;
-        while (collectorConjunctionMap.values().stream().anyMatch(integer -> integer == 0)) {
-            i++;
-            pressButton(i);
-            int current = i;
-
-            collectorConjunctionMap.keySet().stream()
-                    .filter(Conjunction::changed)
-                    .forEach(module -> {
-                        long number = collectorConjunctionMap.get(module);
-                        if (number == 0) {
-                            collectorConjunctionMap.put(module, (long) current);
-                        }
-                    });
-        }
+        Map<Conjunction, Integer> collectorConjunctionMap = obtainCollectorConjunctionMap();
+        Stream.iterate(1, i -> !allValuesCollected(collectorConjunctionMap), i -> i + 1)
+                .map(this::pressButtonWithoutCounting)
+                .forEach(i -> collectorConjunctionMap.keySet().stream()
+                        .filter(Conjunction::changed)
+                        .filter(module -> collectorConjunctionMap.get(module) == 0)
+                        .forEach(module -> collectorConjunctionMap.put(module, i)));
         long[] cycles = collectorConjunctionMap.values().stream()
                 .mapToLong(e -> e)
                 .toArray();
         return MathUtils.lcm(cycles);
+    }
+
+    private static boolean allValuesCollected(Map<Conjunction, Integer> map) {
+        return map.values().stream()
+                .noneMatch(integer -> integer == 0);
     }
 
     private void resetModules() {
@@ -60,29 +53,13 @@ public class ModuleNetwork {
                 .forEach(CommunicationModule::reset);
     }
 
-    private List<List<Conjunction>> getRelevantConjunctions() {
-        List<List<CommunicationModule>> nestedList = new LinkedList<>();
-        nestedList.add(List.of(Output.get()));
-        int i = 0;
-        while (!nestedList.get(i).isEmpty()) {
-            List<CommunicationModule> current = nestedList.get(i);
-            List<CommunicationModule> next = new ArrayList<>();
-            nestedList.add(next);
-            for (CommunicationModule module : current) {
-                List<CommunicationModule> inputModuleList = module.getInputModules();
-                if (inputModuleList.stream().allMatch(e -> e instanceof Conjunction)) {
-                    next.addAll(inputModuleList);
-                }
-            }
-            i++;
-        }
-        nestedList.removeFirst();
-        nestedList.removeLast();
-        return nestedList.stream()
-                .map(e -> e.stream()
-                        .map(Conjunction.class::cast)
-                        .toList())
-                .toList();
+    private Map<Conjunction, Integer> obtainCollectorConjunctionMap() {
+        return Output.get().getInputModules().getFirst()
+                .getInputModules().stream()
+                .map(CommunicationModule::getInputModules)
+                .map(List::getFirst)
+                .map(Conjunction.class::cast)
+                .collect(Collectors.toMap(Function.identity(), e -> 0));
     }
 
     long simulate() {
@@ -110,5 +87,16 @@ public class ModuleNetwork {
             }
             activeModules.addAll(outputModules);
         }
+    }
+
+    private int pressButtonWithoutCounting(int i) {
+        broadcaster.receive("button", Pulse.LOW_PULSE);
+        List<CommunicationModule> activeModules = new LinkedList<>();
+        activeModules.add(broadcaster);
+        while (!activeModules.isEmpty()) {
+            CommunicationModule module = activeModules.removeFirst();
+            if (module.send() != null) activeModules.addAll(module.getOutputModules());
+        }
+        return i;
     }
 }
