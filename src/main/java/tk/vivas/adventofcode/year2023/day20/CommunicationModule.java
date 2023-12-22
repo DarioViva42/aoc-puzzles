@@ -1,22 +1,21 @@
 package tk.vivas.adventofcode.year2023.day20;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 abstract sealed class CommunicationModule permits BroadCaster, FlipFlop, Conjunction, Output {
 
     private final String name;
     private final String[] moduleNames;
     private final List<Pulse> receivedPulses;
-    private List<CommunicationModule> connectedModules;
+    private List<CommunicationModule> outputModules;
+    private final List<CommunicationModule> inputModules;
 
     protected CommunicationModule(String name, String[] moduleNames) {
         this.name = name;
         this.moduleNames = moduleNames;
 
         receivedPulses = new LinkedList<>();
+        inputModules = new ArrayList<>();
     }
 
     static CommunicationModule from(String input) {
@@ -32,15 +31,20 @@ abstract sealed class CommunicationModule permits BroadCaster, FlipFlop, Conjunc
     }
 
     void init(Map<String, CommunicationModule> moduleMap) {
-        connectedModules = Arrays.stream(moduleNames)
+        outputModules = Arrays.stream(moduleNames)
                 .map(moduleMap::get)
                 .map(module -> module == null ? Output.get() : module)
                 .toList();
-        connectedModules
-                .forEach(module -> module.announce(name));
+        outputModules
+                .forEach(module -> module.announce(this));
     }
 
-    protected void announce(String name) {
+    protected void announce(CommunicationModule module) {
+        inputModules.add(module);
+    }
+
+    List<CommunicationModule> getInputModules() {
+        return inputModules;
     }
 
     String name() {
@@ -53,7 +57,7 @@ abstract sealed class CommunicationModule permits BroadCaster, FlipFlop, Conjunc
         if (sendingPulse == null) {
             return null;
         }
-        connectedModules.forEach(module -> module.receive(name, sendingPulse));
+        outputModules.forEach(module -> module.receive(name, sendingPulse));
         return sendingPulse;
     }
 
@@ -62,8 +66,10 @@ abstract sealed class CommunicationModule permits BroadCaster, FlipFlop, Conjunc
     }
 
     List<CommunicationModule> getOutputModules() {
-        return connectedModules;
+        return outputModules;
     }
 
     protected abstract Pulse process(Pulse incomingPulse);
+
+    abstract void reset();
 }

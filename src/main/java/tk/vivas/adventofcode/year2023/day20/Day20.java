@@ -20,12 +20,12 @@ class Day20 {
 
         Instant betweenParts = Instant.now();
 
-        //long partTwoAnswer = organizer.countAllAcceptedCombinations();
+        long partTwoAnswer = network.countButtonPresses();
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        //sendPuzzleAnswer(2, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
     }

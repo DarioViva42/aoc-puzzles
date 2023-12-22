@@ -1,7 +1,5 @@
 package tk.vivas.adventofcode.year2023.day20;
 
-import java.util.List;
-
 import static tk.vivas.adventofcode.year2023.day20.Pulse.HIGH_PULSE;
 import static tk.vivas.adventofcode.year2023.day20.Pulse.LOW_PULSE;
 
@@ -21,6 +19,11 @@ final class FlipFlop extends CommunicationModule {
         }
         power = !power;
         return power ?  HIGH_PULSE : LOW_PULSE;
+    }
+
+    @Override
+    void reset() {
+        power = false;
     }
 
     @Override

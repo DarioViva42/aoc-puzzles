@@ -1,7 +1,5 @@
 package tk.vivas.adventofcode.year2023.day20;
 
-import java.util.List;
-
 final class Output extends CommunicationModule {
 
     static Output instance = new Output();
@@ -17,5 +15,9 @@ final class Output extends CommunicationModule {
     @Override
     protected Pulse process(Pulse incomingPulse) {
         return null;
+    }
+
+    @Override
+    void reset() {
     }
 }
