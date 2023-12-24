@@ -17,14 +17,17 @@ public class SandBrickTower {
                 .toList();
     }
 
-    public long countDisintegrationCandidates() {
-        simulateGravity();
-        initTopTouching();
-        initBottomTouching();
-
+    long countDisintegrationCandidates() {
+        init();
         return sandBricks.stream()
                 .filter(SandBrick::canBeRemoved)
                 .count();
+    }
+
+    void init() {
+        simulateGravity();
+        initTopTouching();
+        initBottomTouching();
     }
 
     private void initTopTouching() {
@@ -50,5 +53,11 @@ public class SandBrickTower {
             SandBrick sandBrick = sandBricks.get(i);
             sandBrick.fallDown(sandBricks.subList(0, i));
         }
+    }
+
+    public long sumOfFallingBricks() {
+        return sandBricks.stream()
+                .mapToLong(SandBrick::countFallingBricks)
+                .sum();
     }
 }

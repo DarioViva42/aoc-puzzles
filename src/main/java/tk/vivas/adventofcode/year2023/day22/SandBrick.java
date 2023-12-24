@@ -1,8 +1,9 @@
 package tk.vivas.adventofcode.year2023.day22;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.function.Predicate.not;
 
 class SandBrick implements Comparable<SandBrick> {
     private final char id;
@@ -48,6 +49,10 @@ class SandBrick implements Comparable<SandBrick> {
         return z1;
     }
 
+    List<SandBrick> getTopBricks() {
+        return topBricks;
+    }
+
     void fallDown(List<SandBrick> sandBricks) {
         int landingHeight = sandBricks.stream()
                 .filter(this::overEachOther)
@@ -91,6 +96,26 @@ class SandBrick implements Comparable<SandBrick> {
 
     private static boolean hasMultipleHolders(SandBrick topBrick) {
         return topBrick.bottomBricks.size() > 1;
+    }
+
+    public long countFallingBricks() {
+        Set<SandBrick> fallingBricks = new HashSet<>();
+        fallingBricks.add(this);
+        boolean addedBricks = true;
+        while (addedBricks) {
+            addedBricks = false;
+            List<SandBrick> bricks = fallingBricks.stream()
+                    .map(SandBrick::getTopBricks)
+                    .flatMap(Collection::stream)
+                    .filter(not(fallingBricks::contains))
+                    .filter(brick -> fallingBricks.containsAll(brick.bottomBricks))
+                    .toList();
+            if (!bricks.isEmpty()) {
+                addedBricks = true;
+            }
+            fallingBricks.addAll(bricks);
+        }
+        return fallingBricks.size() - 1;
     }
 
     @Override
