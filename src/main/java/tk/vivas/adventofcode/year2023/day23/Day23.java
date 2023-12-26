@@ -1,7 +1,5 @@
 package tk.vivas.adventofcode.year2023.day23;
 
-import tk.vivas.adventofcode.year2023.day22.SandBrickTower;
-
 import java.time.Instant;
 
 import static tk.vivas.adventofcode.AocUtils.*;
@@ -16,16 +14,16 @@ class Day23 {
 
         Instant parseEnd = Instant.now();
 
-        long partOneAnswer = trailMap.findLongestPath();
+        int partOneAnswer = trailMap.findLongestPath();
 
         Instant betweenParts = Instant.now();
 
-        //long partTwoAnswer = ;
+        int partTwoAnswer = trailMap.findLongestPathIgnoringSlopes();
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        //sendPuzzleAnswer(2, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
     }

@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import tk.vivas.adventofcode.AocUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class HikingTrailMapTest {
 
@@ -15,5 +14,14 @@ class HikingTrailMapTest {
         HikingTrailMap trailMap = new HikingTrailMap(input);
 
         assertThat(trailMap.findLongestPath()).isEqualTo(94);
+    }
+
+    @Test
+    void findLongestPathIgnoringSlopes() {
+        String input = AocUtils.readPuzzleInput();
+
+        HikingTrailMap trailMap = new HikingTrailMap(input);
+
+        assertThat(trailMap.findLongestPathIgnoringSlopes()).isEqualTo(154);
     }
 }

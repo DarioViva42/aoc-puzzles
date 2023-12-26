@@ -3,26 +3,29 @@ package tk.vivas.adventofcode.year2023.day23;
 import java.util.Arrays;
 
 enum TrailTile {
-    FOREST('#'),
-    PATH('.'),
-    SLOPE_NORTH('^'),
-    SLOPE_EAST('>'),
-    SLOPE_SOUTH('v'),
-    SLOPE_WEST('<');
+    FOREST('#', "██"),
+    PATH('.', "  "),
+    SLOPE_NORTH('^', "^^"),
+    SLOPE_EAST('>', ">>"),
+    SLOPE_SOUTH('v', "vv"),
+    SLOPE_WEST('<', "<<");
 
-    private final char displayChar;
+    private final char inputChar;
+    private final String display;
 
-    TrailTile(char displayChar) {
-        this.displayChar = displayChar;
+    TrailTile(char inputChar, String display) {
+        this.inputChar = inputChar;
+        this.display = display;
     }
 
-    static TrailTile of(char displayChar) {
+    static TrailTile of(char inputChar) {
         return Arrays.stream(values())
-                .filter(tile -> tile.displayChar == displayChar)
+                .filter(tile -> tile.inputChar == inputChar)
                 .findFirst().orElseThrow();
     }
 
-    public char getDisplayChar() {
-        return displayChar;
+    @Override
+    public String toString() {
+        return display;
     }
 }
