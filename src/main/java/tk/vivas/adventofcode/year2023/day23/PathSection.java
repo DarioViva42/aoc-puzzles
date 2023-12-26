@@ -42,10 +42,8 @@ class PathSection {
 
     int getLongestPathLength(int endY, Set<PathSection> visitedSections) {
         return nextPaths.stream()
+                .filter(not(visitedSections::contains))
                 .map(pathSection -> {
-                    if (visitedSections.contains(pathSection)) {
-                        return 0;
-                    }
                     if (endY == pathSection.points.getLast().y()) {
                         return pathSection.length;
                     }
