@@ -12,3 +12,6 @@ buildNumber.properties
 
 # Don’t commit session cookie
 security.properties
+
+# Don’t commit real puzzle input
+main/resources/
