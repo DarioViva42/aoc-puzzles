@@ -26,5 +26,7 @@ class Day23 {
         sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
+
+        System.out.println(trailMap);
     }
 }

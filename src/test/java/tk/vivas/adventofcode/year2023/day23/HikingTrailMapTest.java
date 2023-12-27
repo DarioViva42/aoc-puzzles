@@ -22,6 +22,10 @@ class HikingTrailMapTest {
 
         HikingTrailMap trailMap = new HikingTrailMap(input);
 
-        assertThat(trailMap.findLongestPathIgnoringSlopes()).isEqualTo(154);
+        int longestPath = trailMap.findLongestPathIgnoringSlopes();
+
+        System.out.println(trailMap);
+
+        assertThat(longestPath).isEqualTo(154);
     }
 }

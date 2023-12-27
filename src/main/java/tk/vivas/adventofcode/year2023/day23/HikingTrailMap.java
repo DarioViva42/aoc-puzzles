@@ -3,6 +3,8 @@ package tk.vivas.adventofcode.year2023.day23;
 import tk.vivas.ConsoleColors;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static java.util.function.Predicate.not;
@@ -16,7 +18,9 @@ class HikingTrailMap {
     private final int end;
     private final int sizeX;
     private final int sizeY;
-    private PathSection startSectionCached;
+    private final PathSection directionalStartSection;
+    private final Map<String, PathSection> identifiedSections;
+    private List<String> allPaths;
 
     HikingTrailMap(String input) {
         List<String> lines = input.lines().toList();
@@ -25,8 +29,17 @@ class HikingTrailMap {
         end = lines.getLast().indexOf('.');
         sizeX = firstLine.length();
         sizeY = lines.size();
+        map = createTiledMap(lines);
+
+        directionalStartSection = walkPaths(start, 0);
+        identifiedSections = createBidirectionalSections();
+
+        idMap = mapIds(identifiedSections.values());
+    }
+
+    private TrailTile[][] createTiledMap(List<String> lines) {
+        final TrailTile[][] map;
         map = new TrailTile[sizeX][sizeY];
-        idMap = new String[sizeX][sizeY];
         for (int y = 0; y < sizeY; y++) {
             String line = lines.get(y);
             for (int x = 0; x < sizeX; x++) {
@@ -34,21 +47,37 @@ class HikingTrailMap {
                 map[x][y] = TrailTile.of(c);
             }
         }
+        map[start][0] = SLOPE_SOUTH;
+        map[end][sizeY - 1] = SLOPE_SOUTH;
+        return map;
+    }
+
+    private Map<String, PathSection> createBidirectionalSections() {
+        PathSection startSection = directionalStartSection.deepCopy();
+        List<PathSection> allSections = startSection.allSections();
+        fixSections(allSections);
+        makeBidirectional(allSections);
+        return identifySections(allSections);
     }
 
     int findLongestPath() {
-        return createPathSections().getLongestPathLength();
+        return directionalStartSection.getLongestPathLength();
     }
 
-    public int findLongestPathIgnoringSlopes() {
-        PathSection realStartSection = createPathSections().deepCopy();
-        List<PathSection> allSections = realStartSection.allSections();
-        identifySections(allSections);
-        mapIds(allSections);
-        fixSections(allSections);
-        makeBidirectional(allSections);
+    int findLongestPathIgnoringSlopes() {
+        allPaths = identifiedSections.get("A1")
+                .getAllPaths(sizeY, new HashSet<>());
+        return allPaths.stream()
+                .mapToInt(this::routeToLength)
+                .max().orElse(0);
+    }
 
-        return realStartSection.getLongestPathLength(sizeY, new HashSet<>());
+    private int routeToLength(String routeString) {
+        return IntStream.iterate(0, i -> i < routeString.length(), i -> i + 2)
+                .mapToObj(i -> routeString.substring(i, i + 2))
+                .map(identifiedSections::get)
+                .mapToInt(PathSection::length)
+                .sum();
     }
 
     private void fixSections(List<PathSection> allSections) {
@@ -65,21 +94,26 @@ class HikingTrailMap {
         });
     }
 
-    private void mapIds(List<PathSection> allSections) {
+    private String[][] mapIds(Collection<PathSection> allSections) {
+        String[][] idMap = new String[sizeX][sizeY];
         allSections.forEach(section -> {
             String id = section.getId();
-            section.getPoints()
+            List<Point> points = section.getPoints();
+            points.subList(1, points.size() - 1)
                     .forEach(point -> idMap[point.x()][point.y()] = id);
         });
+        return idMap;
     }
 
-    private void identifySections(List<PathSection> allSections) {
-        IntStream.range(0, allSections.size())
-                .forEach(i -> {
+    private Map<String, PathSection> identifySections(List<PathSection> allSections) {
+        return IntStream.range(0, allSections.size())
+                .mapToObj(i -> {
                     PathSection pathSection = allSections.get(i);
                     String id = (char) (i % 26 + 'A') + String.valueOf(((i / 26) + 1));
                     pathSection.setId(id);
-                });
+                    return pathSection;
+                })
+                .collect(Collectors.toMap(PathSection::getId, Function.identity()));
     }
 
     private void makeBidirectional(List<PathSection> allSections) {
@@ -90,16 +124,6 @@ class HikingTrailMap {
                     .filter(section::isTouching)
                     .forEach(s -> s.addSection(section));
         }
-    }
-
-    private PathSection createPathSections() {
-        if (startSectionCached != null) {
-            return startSectionCached;
-        }
-        map[start][0] = SLOPE_SOUTH;
-        map[end][sizeY - 1] = SLOPE_SOUTH;
-        startSectionCached = walkPaths(start, 0);
-        return startSectionCached;
     }
 
     private PathSection walkPaths(int x, int y) {
@@ -141,7 +165,7 @@ class HikingTrailMap {
             case SLOPE_NORTH -> {
                 points.add(new Point(x, y));
                 y--;
-                count+=2;
+                count += 2;
                 List<PathSection> nextSections = new ArrayList<>();
                 if (SLOPE_NORTH == map[x][y - 1]) {
                     nextSections.add(walkPaths(x, y - 1));
@@ -183,7 +207,7 @@ class HikingTrailMap {
             case SLOPE_EAST -> {
                 points.add(new Point(x, y));
                 x++;
-                count+=2;
+                count += 2;
                 List<PathSection> nextSections = new ArrayList<>();
                 if (SLOPE_NORTH == map[x][y - 1]) {
                     nextSections.add(walkPaths(x, y - 1));
@@ -230,7 +254,7 @@ class HikingTrailMap {
             case SLOPE_SOUTH -> {
                 points.add(new Point(x, y));
                 y++;
-                count+=2;
+                count += 2;
                 List<PathSection> nextSections = new ArrayList<>();
                 if (SLOPE_EAST == map[x + 1][y]) {
                     nextSections.add(walkPaths(x + 1, y));
@@ -272,7 +296,7 @@ class HikingTrailMap {
             case SLOPE_WEST -> {
                 points.add(new Point(x, y));
                 x--;
-                count+=2;
+                count += 2;
                 List<PathSection> nextSections = new ArrayList<>();
                 if (SLOPE_NORTH == map[x][y - 1]) {
                     nextSections.add(walkPaths(x, y - 1));
@@ -291,8 +315,46 @@ class HikingTrailMap {
         };
     }
 
+    private String getLongestRouteString() {
+        if (allPaths == null) {
+            return null;
+        }
+        Map<Integer, String> lengthToRoute = allPaths.stream()
+                .collect(Collectors.toMap(this::routeToLength, Function.identity(), (a, b) -> a));
+
+        int longestPathLength = lengthToRoute.keySet().stream()
+                .mapToInt(e -> e)
+                .max().orElse(0);
+
+        return lengthToRoute.get(longestPathLength);
+    }
+
+    private Set<Point> getLongestRoute() {
+        String longestRoute = getLongestRouteString();
+        if (longestRoute == null) {
+            return Set.of();
+        }
+        return IntStream.iterate(0, i -> i < longestRoute.length(), i -> i + 2)
+                .mapToObj(i -> longestRoute.substring(i, i + 2))
+                .map(identifiedSections::get)
+                .map(PathSection::getPoints)
+                .flatMap(Collection::stream)
+                .filter(point -> point.y() < sizeY)
+                .filter(point -> point.y() >= 0)
+                .collect(Collectors.toUnmodifiableSet());
+    }
+
+    private boolean[][] longestRouteMask() {
+        Set<Point> longestRoute = getLongestRoute();
+        boolean[][] routeMask = new boolean[sizeX][sizeY];
+        longestRoute.forEach(point -> routeMask[point.x()][point.y()] = true);
+        return routeMask;
+    }
+
     @Override
     public String toString() {
+        boolean[][] routeMask = longestRouteMask();
+
         StringBuilder sb = new StringBuilder();
         sb.append("  ");
         for (int x = 0; x < sizeX; x++) {
@@ -307,12 +369,16 @@ class HikingTrailMap {
             sb.append("%02x".formatted(y));
             for (int x = 0; x < sizeX; x++) {
                 TrailTile trailTile = map[x][y];
+                if (routeMask[x][y]) {
+                    sb.append(ConsoleColors.GREEN_BACKGROUND);
+                }
                 String id = idMap[x][y];
                 if (trailTile == PATH && id != null) {
                     sb.append(id);
                 } else {
                     sb.append(trailTile);
                 }
+                sb.append(ConsoleColors.RESET);
             }
             sb.append("\n");
         }

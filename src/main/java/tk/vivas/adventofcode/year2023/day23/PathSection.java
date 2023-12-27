@@ -25,8 +25,12 @@ class PathSection {
         return id;
     }
 
+    public int length() {
+        return length;
+    }
+
     List<Point> getPoints() {
-        return points.subList(1, points.size() - 1);
+        return points;
     }
 
     List<PathSection> getNextSections() {
@@ -40,23 +44,26 @@ class PathSection {
         return length + longestContinuation;
     }
 
-    int getLongestPathLength(int endY, Set<PathSection> visitedSections) {
+    List<String> getAllPaths(int endY, Set<PathSection> visitedSections) {
         return nextPaths.stream()
                 .filter(not(visitedSections::contains))
                 .map(pathSection -> {
                     if (endY == pathSection.points.getLast().y()) {
-                        return pathSection.length;
+                        return List.of(pathSection.id);
                     }
                     Set<PathSection> visitedSectionsCopied = new HashSet<>(visitedSections);
                     visitedSectionsCopied.addAll(nextPaths);
-                    return pathSection.getLongestPathLength(endY, visitedSectionsCopied);
+                    return pathSection.getAllPaths(endY, visitedSectionsCopied);
                 })
-                .mapToInt(continuation -> length + continuation)
-                .max().orElse(0);
+                .flatMap(Collection::stream)
+                .map(idChain -> this.id + idChain)
+                .toList();
     }
 
     List<PathSection> allSections() {
-        return allSections(new HashSet<>()).stream().toList();
+        return allSections(new HashSet<>()).stream()
+                .sorted(Comparator.comparing(e -> e.points.getFirst().y()))
+                .toList();
     }
 
     private Set<PathSection> allSections(HashSet<PathSection> visitedSections) {
