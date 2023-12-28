@@ -10,11 +10,14 @@ class PathSection {
     private final int length;
     private final List<PathSection> nextPaths;
     private String id;
+    private int edgeNumber;
 
     PathSection(List<Point> points, int length, List<PathSection> nextPaths) {
         this.points = points;
         this.length = length;
         this.nextPaths = nextPaths;
+
+        edgeNumber = -1;
     }
 
     void setId(String id) {
@@ -35,6 +38,21 @@ class PathSection {
 
     List<PathSection> getNextSections() {
         return nextPaths;
+    }
+
+    void setEdgeNumber(int edgeNumber) {
+        this.edgeNumber = edgeNumber;
+    }
+
+    int getEdgeNumber() {
+        return edgeNumber;
+    }
+
+    public void cleanEdges() {
+            nextPaths.stream()
+                    .filter(path -> path.edgeNumber != -1)
+                    .min(Comparator.comparing(PathSection::getEdgeNumber))
+                    .ifPresent(nextPaths::remove);
     }
 
     int getLongestPathLength() {
@@ -72,6 +90,10 @@ class PathSection {
             nextPath.allSections(visitedSections);
         }
         return visitedSections;
+    }
+
+    public void clearNextSections() {
+        nextPaths.clear();
     }
 
     void addSection(PathSection section) {
