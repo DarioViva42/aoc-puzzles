@@ -120,10 +120,11 @@ class PathSection {
 
     @Override
     public String toString() {
-        String nextPathString = nextPaths.stream()
-                .map(path -> path.id)
-                .collect(Collectors.joining(", "));
-        return "%s) %s -%2d-> %s : %s".formatted(id, points.getFirst(), length, points.getLast(), nextPathString);
+        String nextSections = getNextSections().stream()
+                .map(PathSection::getId)
+                .sorted()
+                .collect(Collectors.joining(","));
+        return "%3d (%s) -> %s".formatted(length, id, nextSections);
     }
 
     @Override

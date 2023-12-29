@@ -27,6 +27,15 @@ class Day23 {
 
         logDurations(start, parseEnd, betweenParts, end);
 
-        System.out.println(trailMap);
+        System.out.println();
+        trailMap.printAllSections();
+        System.out.println();
+        trailMap.printAllPaths();
+        System.out.println();
+        trailMap.printShortest();
+        System.out.println();
+        trailMap.printLongest();
+        System.out.println();
+        trailMap.printMaxJunctions();
     }
 }
