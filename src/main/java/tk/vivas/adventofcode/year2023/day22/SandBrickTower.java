@@ -3,9 +3,7 @@ package tk.vivas.adventofcode.year2023.day22;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static java.util.function.Predicate.not;
-
-public class SandBrickTower {
+class SandBrickTower {
 
     private final List<SandBrick> sandBricks;
 
