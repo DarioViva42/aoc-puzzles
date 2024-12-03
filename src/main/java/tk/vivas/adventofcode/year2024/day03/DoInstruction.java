@@ -27,7 +27,7 @@ class DoInstruction implements Instruction {
 
     @Override
     public long run() {
-        active = true;
+        enable();
         return 0;
     }
 }
