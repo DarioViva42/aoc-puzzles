@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 class CorruptedMemory {
 
     private static final Pattern PATTERN = Pattern
-            .compile("(?<mul>mul)\\((?<a>\\d{1,3}),(?<b>\\d{1,3})\\)|(?<do>do)\\(\\)|(?<dont>don't)\\(\\)");
+            .compile("(?<mul>mul)\\((?<a>\\d{1,3}),(?<b>\\d{1,3})\\)|(?<do>do|don't)\\(\\)");
 
     private final List<Instruction> instructions;
 

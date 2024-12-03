@@ -8,7 +8,7 @@ interface Instruction {
     long run();
 
     static Instruction create(MatchResult matchResult) {
-        String instructionType = Stream.of("mul", "do", "dont")
+        String instructionType = Stream.of("mul", "do")
                 .map(matchResult::group)
                 .filter(Objects::nonNull)
                 .findAny().orElseThrow();
