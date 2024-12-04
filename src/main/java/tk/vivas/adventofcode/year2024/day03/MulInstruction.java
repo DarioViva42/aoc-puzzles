@@ -1,7 +1,5 @@
 package tk.vivas.adventofcode.year2024.day03;
 
-import java.util.regex.MatchResult;
-
 class MulInstruction implements Instruction {
 
     private final long a;
