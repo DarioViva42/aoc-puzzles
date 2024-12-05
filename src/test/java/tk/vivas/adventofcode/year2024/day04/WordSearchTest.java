@@ -15,4 +15,13 @@ class WordSearchTest {
 
         assertThat(wordSearch.countXMAS()).isEqualTo(18);
     }
+
+    @Test
+    void countX_MAS() {
+        String input = AocUtils.readPuzzleInput();
+
+        WordSearch wordSearch = new WordSearch(input);
+
+        assertThat(wordSearch.countX_MAS()).isEqualTo(9);
+    }
 }

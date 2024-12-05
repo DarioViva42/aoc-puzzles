@@ -79,4 +79,30 @@ class WordSearch {
         return XMASPattern.matcher(preparedLine)
                 .results().count();
     }
+
+    long countX_MAS() {
+        return IntStream.range(1, height - 1)
+                .mapToLong(i -> IntStream.range(1, height - 1)
+                        .filter(j -> checkMiddle(i, j))
+                        .filter(j -> checkBackwardDiagonal(i, j))
+                        .filter(j -> checkForwardDiagonal(i, j))
+                        .count())
+                .sum();
+    }
+
+    private boolean checkMiddle(int i, int j) {
+        return 'A' == horizontalLines.get(j).charAt(i);
+    }
+
+    private boolean checkBackwardDiagonal(int i, int j) {
+        char topLeft = horizontalLines.get(j - 1).charAt(i - 1);
+        char bottomRight = horizontalLines.get(j + 1).charAt(i + 1);
+        return ('M' == topLeft && 'S' == bottomRight) || ('S' == topLeft && 'M' == bottomRight);
+    }
+
+    private boolean checkForwardDiagonal(int i, int j) {
+        char topRight = horizontalLines.get(j - 1).charAt(i + 1);
+        char bottomLeft = horizontalLines.get(j + 1).charAt(i - 1);
+        return ('M' == topRight && 'S' == bottomLeft) || ('S' == topRight && 'M' == bottomLeft);
+    }
 }
