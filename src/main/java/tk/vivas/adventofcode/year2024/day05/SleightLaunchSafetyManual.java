@@ -22,8 +22,6 @@ class SleightLaunchSafetyManual {
 
 
     long correctPagesScore() {
-        // CorrectOrderChecker orderChecker = new CorrectOrderChecker(pageOrderingRules);
-
         return updates.stream()
                 .filter(this::isOrdered)
                 .mapToLong(Update::getMiddlePage)
