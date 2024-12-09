@@ -1,6 +1,7 @@
 package tk.vivas.adventofcode.year2024.day05;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 class SleightLaunchSafetyManual {
 
@@ -31,32 +32,29 @@ class SleightLaunchSafetyManual {
 
     private boolean isOrdered(Update update) {
         int[] pageNumbers = update.getPageNumbers();
-        for (int i = 0; i < pageNumbers.length; i++) {
-            int currentPageNumber = pageNumbers[i];
-            List<Integer> allowedBefore = pageOrderingRules.stream()
-                    .filter(rule -> rule.hasAfter(currentPageNumber))
-                    .map(PageOrderingRule::getBefore)
-                    .toList();
-
-            List<Integer> allowedAfter = pageOrderingRules.stream()
-                    .filter(rule -> rule.hasBefore(currentPageNumber))
-                    .map(PageOrderingRule::getAfter)
-                    .toList();
-
-            for (int j = 0; j < i; j++) {
-                if (!allowedBefore.contains(pageNumbers[j])) {
-                    return false;
-                }
-            }
-
-            for (int j = i + 1; j < pageNumbers.length; j++) {
-                if (!allowedAfter.contains(pageNumbers[j])) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return IntStream.range(0, pageNumbers.length)
+                .allMatch(i -> checkPagesBefore(i, pageNumbers) && checkPagesAfter(i, pageNumbers));
     }
 
+    private boolean checkPagesBefore(int i, int[] pageNumbers) {
+        int pageNumber = pageNumbers[i];
+        List<Integer> allowedBefore = pageOrderingRules.stream()
+                .filter(rule -> rule.hasAfter(pageNumber))
+                .map(PageOrderingRule::getBefore)
+                .toList();
 
+        return IntStream.range(0, i)
+                .allMatch(j -> allowedBefore.contains(pageNumbers[j]));
+    }
+
+    private boolean checkPagesAfter(int i, int[] pageNumbers) {
+        int pageNumber = pageNumbers[i];
+        List<Integer> allowedAfter = pageOrderingRules.stream()
+                .filter(rule -> rule.hasBefore(pageNumber))
+                .map(PageOrderingRule::getAfter)
+                .toList();
+
+        return IntStream.range(i + 1, pageNumbers.length)
+                .allMatch(j -> allowedAfter.contains(pageNumbers[j]));
+    }
 }
