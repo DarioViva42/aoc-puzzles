@@ -3,6 +3,8 @@ package tk.vivas.adventofcode.year2024.day05;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import static java.util.function.Predicate.not;
+
 class SleightLaunchSafetyManual {
 
     private final List<PageOrderingRule> pageOrderingRules;
@@ -24,6 +26,15 @@ class SleightLaunchSafetyManual {
     long correctPagesScore() {
         return updates.stream()
                 .filter(this::isOrdered)
+                .mapToLong(Update::getMiddlePage)
+                .sum();
+    }
+
+    long incorrectPagesScore() {
+        return updates.stream()
+                .filter(not(this::isOrdered))
+                .map(update -> new UpdateSorter(update, pageOrderingRules))
+                .map(UpdateSorter::getOrderedUpdate)
                 .mapToLong(Update::getMiddlePage)
                 .sum();
     }

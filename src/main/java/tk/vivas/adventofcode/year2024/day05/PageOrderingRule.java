@@ -1,5 +1,7 @@
 package tk.vivas.adventofcode.year2024.day05;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 class PageOrderingRule {
 
     private final int before;
@@ -25,5 +27,15 @@ class PageOrderingRule {
 
     int getAfter() {
         return after;
+    }
+
+    boolean containsOnlyNumberFrom(int[] orderedPages) {
+        return ArrayUtils.contains(orderedPages, before)
+                && ArrayUtils.contains(orderedPages, after);
+    }
+
+    @Override
+    public String toString() {
+        return "%d|%d".formatted(before, after);
     }
 }

@@ -15,4 +15,13 @@ class SleightLaunchSafetyManualTest {
 
         assertThat(safetyManual.correctPagesScore()).isEqualTo(143);
     }
+
+    @Test
+    void incorrectPagesScore() {
+        String input = AocUtils.readPuzzleInput();
+
+        SleightLaunchSafetyManual safetyManual = new SleightLaunchSafetyManual(input);
+
+        assertThat(safetyManual.incorrectPagesScore()).isEqualTo(123);
+    }
 }
