@@ -10,6 +10,7 @@ public class EnumGenerator<T extends Enum<T>> {
     private final T[] enumConstants;
     private final int optionCount;
     private final int permutationCount;
+    private final int[] digitValues;
 
     public EnumGenerator(Class<T> enumClass, int size) {
         this(enumClass, size, enumClass.getEnumConstants());
@@ -23,6 +24,10 @@ public class EnumGenerator<T extends Enum<T>> {
         this.enumConstants = enumConstants;
         optionCount = enumConstants.length;
         permutationCount = (int) Math.pow(optionCount, size);
+
+        digitValues = IntStream.range(0, size)
+                .map(i -> (int) Math.pow(optionCount, size - 1 - i))
+                .toArray();
     }
 
     public Stream<T[]> generate() {
@@ -36,7 +41,7 @@ public class EnumGenerator<T extends Enum<T>> {
 
         int temp = optionIndex;
         for (int i = 0; i < size; i++) {
-            int digitValue = (int) Math.pow(optionCount, size - 1 - i);
+            int digitValue = digitValues[i];
             int value = temp / digitValue;
             operators[i] = enumConstants[value];
             temp -= value * digitValue;
