@@ -15,4 +15,13 @@ class PrototypeSuitManufacturingLabTest {
 
         assertThat(lab.countVisitedPositions()).isEqualTo(41);
     }
+
+    @Test
+    void countPossibleObstaclePositions() {
+        String input = AocUtils.readPuzzleInput();
+
+        var lab = new PrototypeSuitManufacturingLab(input);
+
+        assertThat(lab.countPossibleObstaclePositions()).isEqualTo(6);
+    }
 }

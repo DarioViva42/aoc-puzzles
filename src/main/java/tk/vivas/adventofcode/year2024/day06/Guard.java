@@ -1,5 +1,8 @@
 package tk.vivas.adventofcode.year2024.day06;
 
+import java.util.HashSet;
+import java.util.Set;
+
 class Guard {
     private int posX;
     private int posY;
@@ -7,18 +10,27 @@ class Guard {
     private final TileType[][] map;
     private final int height;
     private final int width;
+    private final Set<GuardState> pastStates;
 
-    Guard(int posX, int posY, Direction direction, TileType[][] map, int height, int width) {
-        this.posX = posX;
-        this.posY = posY;
-        this.direction = direction;
+    Guard(GuardState startState, TileType[][] map, int height, int width) {
+        this.posX = startState.x();
+        this.posY = startState.y();
+        this.direction = startState.direction();
+
         this.map = map;
         this.height = height;
         this.width = width;
+
+        pastStates = new HashSet<>();
+        pastStates.add(startState);
     }
 
-    boolean move() {
-        return switch(getNextTile()) {
+    TileType[][] labMap() {
+        return map;
+    }
+
+    private boolean move() {
+        return switch (getNextTile()) {
             case EMPTY, VISITED -> {
                 step();
                 yield false;
@@ -58,8 +70,26 @@ class Guard {
         return switch (direction) {
             case NORTH -> posY == 0;
             case EAST -> posX == width - 1;
-            case SOUTH -> posY == height -1;
+            case SOUTH -> posY == height - 1;
             case WEST -> posX == 0;
         };
+    }
+
+    void patrol() {
+        isLooping();
+    }
+
+    boolean isLooping() {
+        while (true) {
+            if (move()) {
+                return false;
+            }
+
+            GuardState currentState = new GuardState(posX, posY, direction);
+            if (pastStates.contains(currentState)) {
+                return true;
+            }
+            pastStates.add(currentState);
+        }
     }
 }
