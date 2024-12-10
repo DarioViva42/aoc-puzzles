@@ -12,10 +12,18 @@ class RopeBridgeCalibration {
 				.toList();
 	}
 
-	long totalCalibrationResult() {
+	private long totalCalibrationResult(int uniqueOperators) {
 		return equations.stream()
-				.filter(Equation::canBeSolved)
+				.filter(equation -> equation.canBeSolved(uniqueOperators))
 				.mapToLong(Equation::getResult)
 				.sum();
+	}
+
+	long limitedCalibrationResult() {
+		return totalCalibrationResult(2);
+	}
+
+	long extendedCalibrationResult() {
+		return totalCalibrationResult(3);
 	}
 }

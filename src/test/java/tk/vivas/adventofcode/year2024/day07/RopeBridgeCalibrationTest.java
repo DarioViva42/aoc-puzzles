@@ -8,11 +8,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 class RopeBridgeCalibrationTest {
 
 	@Test
-	void totalCalibrationResult() {
+	void limitedCalibrationResult() {
 		String input = AocUtils.readPuzzleInput();
 
 		RopeBridgeCalibration calibration = new RopeBridgeCalibration(input);
 
-		assertThat(calibration.totalCalibrationResult()).isEqualTo(3749);
+		assertThat(calibration.limitedCalibrationResult()).isEqualTo(3749);
+	}
+
+	@Test
+	void extendedCalibrationResult() {
+		String input = AocUtils.readPuzzleInput();
+
+		RopeBridgeCalibration calibration = new RopeBridgeCalibration(input);
+
+		assertThat(calibration.extendedCalibrationResult()).isEqualTo(11387);
 	}
 }

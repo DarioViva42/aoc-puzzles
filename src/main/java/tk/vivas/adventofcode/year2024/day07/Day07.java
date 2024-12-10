@@ -16,16 +16,16 @@ public class Day07 {
 
         Instant parseEnd = Instant.now();
 
-        long partOneAnswer = calibration.totalCalibrationResult();
+        long partOneAnswer = calibration.limitedCalibrationResult();
 
         Instant betweenParts = Instant.now();
 
-        // long partTwoAnswer = ;
+        long partTwoAnswer = calibration.extendedCalibrationResult();
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        // sendPuzzleAnswer(2, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
     }

@@ -1,5 +1,7 @@
 package tk.vivas.adventofcode.year2024.day07;
 
+import tk.vivas.MathUtils;
+
 import java.util.Arrays;
 
 class Equation {
@@ -15,9 +17,9 @@ class Equation {
 				.toArray();
 	}
 
-	boolean canBeSolved() {
+	boolean canBeSolved(int uniqueOperators) {
 		int numberOfNeededOperators = components.length - 1;
-		return new OperatorGenerator(numberOfNeededOperators).generate()
+		return new OperatorGenerator(numberOfNeededOperators, uniqueOperators).generate()
 				.anyMatch(this::isSolved);
 	}
 
@@ -27,6 +29,7 @@ class Equation {
 			switch (operators[i]) {
 				case PLUS -> calculatedResult += components[i + 1];
 				case MULTIPLY -> calculatedResult *= components[i + 1];
+				case CONCATENATE -> calculatedResult = MathUtils.concatenate(calculatedResult, components[i + 1]);
 			}
 		}
 		return calculatedResult == result;

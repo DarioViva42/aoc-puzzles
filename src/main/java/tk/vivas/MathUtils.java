@@ -31,4 +31,8 @@ public class MathUtils {
         }
         return lcm;
     }
+
+    public static long concatenate(long a, long b) {
+        return Long.parseLong(String.valueOf(a) + b);
+    }
 }

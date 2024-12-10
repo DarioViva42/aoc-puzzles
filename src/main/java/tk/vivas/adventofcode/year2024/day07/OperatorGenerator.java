@@ -7,13 +7,15 @@ import java.util.stream.Stream;
 
 class OperatorGenerator {
 	private final int size;
+	private final int optionCount;
 
-	OperatorGenerator(int size) {
+	OperatorGenerator(int size, int optionCount) {
 		this.size = size;
+		this.optionCount = optionCount;
 	}
 
 	Stream<Operator[]> generate() {
-		return IntStream.range(0, (int) Math.pow(2, size))
+		return IntStream.range(0, (int) Math.pow(optionCount, size))
 				.mapToObj(this::createOperatorOption);
 	}
 
@@ -21,7 +23,7 @@ class OperatorGenerator {
 		Operator[] operators = new Operator[size];
 		Arrays.fill(operators, Operator.PLUS);
 
-		List<Operator> option = Integer.toBinaryString(optionIndex).chars()
+		List<Operator> option = Integer.toString(optionIndex, optionCount).chars()
 				.mapToObj(Operator::from)
 				.toList()
 				.reversed();
