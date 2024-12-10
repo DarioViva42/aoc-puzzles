@@ -31,6 +31,9 @@ class Equation {
 				case MULTIPLY -> calculatedResult *= components[i + 1];
 				case CONCATENATE -> calculatedResult = MathUtils.concatenate(calculatedResult, components[i + 1]);
 			}
+			if (calculatedResult > result) {
+				return false;
+			}
 		}
 		return calculatedResult == result;
 	}
