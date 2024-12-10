@@ -33,6 +33,7 @@ public class MathUtils {
     }
 
     public static long concatenate(long a, long b) {
-        return Long.parseLong(String.valueOf(a) + b);
+        double bLength = Math.floor(Math.log10(b)) + 1;
+        return a * (long) Math.pow(10, bLength) + b;
     }
 }
