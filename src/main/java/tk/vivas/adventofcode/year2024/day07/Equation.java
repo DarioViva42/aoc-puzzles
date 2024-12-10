@@ -1,5 +1,6 @@
 package tk.vivas.adventofcode.year2024.day07;
 
+import tk.vivas.EnumGenerator;
 import tk.vivas.MathUtils;
 
 import java.util.Arrays;
@@ -17,9 +18,9 @@ class Equation {
 				.toArray();
 	}
 
-	boolean canBeSolved(int uniqueOperators) {
-		int numberOfNeededOperators = components.length - 1;
-		return new OperatorGenerator(numberOfNeededOperators, uniqueOperators).generate()
+	boolean canBeSolved(Operator... usedOperators) {
+		return new EnumGenerator<>(Operator.class, components.length - 1, usedOperators)
+				.generate()
 				.anyMatch(this::isSolved);
 	}
 
