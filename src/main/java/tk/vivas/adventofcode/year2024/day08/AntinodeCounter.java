@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 class AntinodeCounter {
 
@@ -36,16 +37,20 @@ class AntinodeCounter {
     }
 
     long countUniqueLocations() {
-        return antennaPositions.values().stream()
-                .map(AntinodeFinder::new)
-                .flatMap(AntinodeFinder::findAntinodes)
-                .filter(this::isInBoundary)
-                .distinct()
-                .count();
+        return countAllUniqueLocations(antennas ->
+                new SimpleAntinodeFinder(antennas, width, height));
     }
 
-    private boolean isInBoundary(Position position) {
-        return position.x() >= 0 && position.x() < width
-                && position.y() >= 0 && position.y() < height;
+    long countAllUniqueLocations() {
+        return countAllUniqueLocations(antennas ->
+                new UpdatedAntinodeFinder(antennas, width, height));
+    }
+
+    long countAllUniqueLocations(Function<List<Position>, AntinodeFinder> finderCreator) {
+        return antennaPositions.values().stream()
+                .map(finderCreator)
+                .flatMap(AntinodeFinder::findAntinodes)
+                .distinct()
+                .count();
     }
 }

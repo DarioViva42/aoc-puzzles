@@ -15,4 +15,13 @@ class AntinodeCounterTest {
 
         assertThat(antinodeCounter.countUniqueLocations()).isEqualTo(14);
     }
+
+    @Test
+    void countAllUniqueLocations() {
+        String input = AocUtils.readPuzzleInput();
+
+        AntinodeCounter antinodeCounter = new AntinodeCounter(input);
+
+        assertThat(antinodeCounter.countAllUniqueLocations()).isEqualTo(34);
+    }
 }

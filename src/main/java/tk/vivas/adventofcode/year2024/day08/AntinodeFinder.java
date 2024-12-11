@@ -9,11 +9,17 @@ import java.util.stream.Stream;
 
 import static java.util.function.Function.identity;
 
-class AntinodeFinder {
+abstract class AntinodeFinder {
     private final List<Position> antennas;
 
-    AntinodeFinder(List<Position> antennas) {
+    private final int width;
+    private final int height;
+
+    AntinodeFinder(List<Position> antennas, int width, int height) {
         this.antennas = antennas;
+
+        this.width = width;
+        this.height = height;
     }
 
     Stream<Position> findAntinodes() {
@@ -29,16 +35,10 @@ class AntinodeFinder {
         return new Pair<>(antennas.get(i), antennas.get(j));
     }
 
-    private Stream<Position> getAntinodes(Pair<Position> pair) {
-        Position a = pair.a();
-        Position b = pair.b();
-
-        int differenceX = a.x() - b.x();
-        int differenceY = a.y() - b.y();
-
-        return Stream.<Position>builder()
-                .add(new Position(a.x() + differenceX, a.y() + differenceY))
-                .add(new Position(b.x() - differenceX, b.y() - differenceY))
-                .build();
+    boolean isInBoundary(Position position) {
+        return position.x() >= 0 && position.x() < width
+                && position.y() >= 0 && position.y() < height;
     }
+
+    abstract Stream<Position> getAntinodes(Pair<Position> pair);
 }

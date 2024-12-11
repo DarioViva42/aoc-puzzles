@@ -7,7 +7,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class AntinodeFinderTest {
+class SimpleAntinodeFinderTest {
 
     @Test
     void findAntinodes() {
@@ -16,9 +16,9 @@ class AntinodeFinderTest {
                 new Position(5, 4),
                 new Position(4, 6));
 
-        AntinodeFinder antinodeFinder = new AntinodeFinder(antennas);
+        SimpleAntinodeFinder simpleAntinodeFinder = new SimpleAntinodeFinder(antennas, 10, 10);
 
-        assertThat(antinodeFinder.findAntinodes()).containsExactlyInAnyOrder(
+        assertThat(simpleAntinodeFinder.findAntinodes()).containsExactlyInAnyOrder(
                 new Position(2, 0),
                 new Position(1, 2),
                 new Position(6, 2),
