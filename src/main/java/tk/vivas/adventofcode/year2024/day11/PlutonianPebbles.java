@@ -15,9 +15,17 @@ class PlutonianPebbles {
                 .toList();
     }
 
-    int countStones() {
+    int countStonesAfterShortTime() {
+        return countStones(25);
+    }
+
+    int countStonesAfterLongTime() {
+        return countStones(75);
+    }
+
+    int countStones(int iterations) {
         List<Long> currentPebbles = pebbles;
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < iterations; i++) {
             currentPebbles = evolve(currentPebbles);
         }
         return currentPebbles.size();

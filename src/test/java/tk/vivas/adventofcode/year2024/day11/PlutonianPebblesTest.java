@@ -8,11 +8,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 class PlutonianPebblesTest {
 
     @Test
-    void countStones() {
+    void countStonesAfterShortTime() {
         String input = AocUtils.readPuzzleInput();
 
         PlutonianPebbles pebbles = new PlutonianPebbles(input);
 
-        assertThat(pebbles.countStones()).isEqualTo(55312);
+        assertThat(pebbles.countStonesAfterShortTime()).isEqualTo(55312);
     }
 }

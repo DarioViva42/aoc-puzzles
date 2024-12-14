@@ -14,16 +14,16 @@ public class Day11 {
 
         Instant parseEnd = Instant.now();
 
-        long partOneAnswer = pebbles.countStones();
+        long partOneAnswer = pebbles.countStonesAfterShortTime();
 
         Instant betweenParts = Instant.now();
 
-        //long partTwoAnswer = ;
+        long partTwoAnswer = pebbles.countStonesAfterLongTime();
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        //sendPuzzleAnswer(2, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
     }
