@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 class FileArranger {
 
@@ -16,11 +17,7 @@ class FileArranger {
         charArray[charArray.length - 1] = '0';
 
         diskMap = IntStream.iterate(0, i -> i < charArray.length, i -> i + 2)
-                .mapToObj(i -> {
-                    int fileLength = charArray[i] - '0';
-                    int freeSpaceLength = charArray[i + 1] - '0';
-                    return new DiskMapToken(i / 2, fileLength, freeSpaceLength);
-                })
+                .mapToObj(i -> DiskMapToken.createDiskMapToken(charArray, i))
                 .toList();
     }
 
@@ -50,29 +47,22 @@ class FileArranger {
     }
 
     private void fragmentDiskSpace(List<Integer> diskSpace) {
-        int pointer = 0;
-        while (pointer < diskSpace.size()) {
-            if (diskSpace.get(pointer) == null) {
-                moveBlock(diskSpace, pointer);
-            }
-            pointer++;
-        }
+        IntStream.iterate(0, i -> i < diskSpace.size(), i -> i + 1)
+                .filter(pointer -> null == diskSpace.get(pointer))
+                .forEach(pointer -> moveBlock(diskSpace, pointer));
     }
 
     private void moveBlock(List<Integer> diskSpace, int pointer) {
-        Integer last;
-        do {
-            last = diskSpace.removeLast();
-        } while (last == null);
+        int last = Stream.generate(diskSpace::removeLast)
+                .dropWhile(Objects::isNull)
+                .findFirst().orElseThrow();
         diskSpace.set(pointer, last);
     }
 
     private long calculateChecksum(List<Integer> diskSpace) {
         return IntStream.range(0, diskSpace.size())
-                .mapToLong(blockNumber -> {
-                    int fileId = Objects.requireNonNullElse(diskSpace.get(blockNumber), 0);
-                    return (long) blockNumber * fileId;
-                })
+                .filter(blockNumber -> null != diskSpace.get(blockNumber))
+                .mapToLong(blockNumber -> (long) blockNumber * diskSpace.get(blockNumber))
                 .sum();
     }
 }
