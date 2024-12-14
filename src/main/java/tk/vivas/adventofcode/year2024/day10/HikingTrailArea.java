@@ -50,4 +50,11 @@ class HikingTrailArea {
                 .mapToInt(Set::size)
                 .sum();
     }
+
+    int trailHeadsRating() {
+        return trailTiles.stream()
+                .filter(TrailTile::isTrailHead)
+                .mapToInt(TrailTile::getRating)
+                .sum();
+    }
 }

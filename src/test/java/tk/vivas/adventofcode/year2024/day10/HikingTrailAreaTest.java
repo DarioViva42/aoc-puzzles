@@ -15,4 +15,13 @@ class HikingTrailAreaTest {
 
         assertThat(trailArea.trailHeadsScore()).isEqualTo(36);
     }
+
+    @Test
+    void trailHeadsRating() {
+        String input = AocUtils.readPuzzleInput();
+
+        HikingTrailArea trailArea = new HikingTrailArea(input);
+
+        assertThat(trailArea.trailHeadsRating()).isEqualTo(81);
+    }
 }

@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 class TrailTile {
     private final int height;
     private final List<TrailTile> neighbours;
+    private int rating;
+    private boolean isRated;
     private Set<Position> reachableSummits;
 
     private Position position;
@@ -19,6 +21,8 @@ class TrailTile {
         this.height = height - '0';
 
         neighbours = new ArrayList<>();
+        isRated = false;
+        rating = 0;
     }
 
     boolean isTrailHead() {
@@ -38,6 +42,21 @@ class TrailTile {
                 .flatMap(Collection::stream)
                 .collect(Collectors.toSet());
         return reachableSummits;
+    }
+
+    public int getRating() {
+        if (isRated) {
+            return rating;
+        }
+        isRated = true;
+        if (height == 9) {
+            rating = 1;
+            return rating;
+        }
+        rating = neighbours.stream()
+                .mapToInt(TrailTile::getRating)
+                .sum();
+        return rating;
     }
 
     void setPosition(Position position) {
