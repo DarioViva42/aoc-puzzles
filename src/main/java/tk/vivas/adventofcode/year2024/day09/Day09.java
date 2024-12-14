@@ -10,20 +10,20 @@ public class Day09 {
 
         Instant start = Instant.now();
 
-        DiskFragmenter diskFragmenter = new DiskFragmenter(input);
+        FileArranger fileArranger = new FileArranger(input);
 
         Instant parseEnd = Instant.now();
 
-        long partOneAnswer = diskFragmenter.filesystemChecksum();
+        long partOneAnswer = fileArranger.filesystemChecksumWithFragmenting();
 
         Instant betweenParts = Instant.now();
 
-        //long partTwoAnswer = ;
+        long partTwoAnswer = fileArranger.filesystemChecksumWithoutFragmenting();
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        //sendPuzzleAnswer(2, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
     }
