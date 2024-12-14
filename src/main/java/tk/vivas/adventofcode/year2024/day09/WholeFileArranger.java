@@ -26,8 +26,9 @@ class WholeFileArranger {
     }
 
     private OptionalInt findTargetIndex(int sourceIndex) {
+        int sourceFileLength = targetMap.get(sourceIndex).fileLength();
         return IntStream.range(0, sourceIndex)
-                .filter(index -> targetMap.get(index).freeSpaceLength() >= targetMap.get(sourceIndex).fileLength())
+                .filter(index -> sourceFileLength <= targetMap.get(index).freeSpaceLength())
                 .findFirst();
     }
 
