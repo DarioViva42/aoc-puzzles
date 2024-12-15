@@ -16,12 +16,12 @@ class ClawConfiguration {
         price = Price.of(lines[2]);
     }
 
-    int minTokensToWin() {
+    int tokensToWin() {
         return IntStream.range(0, 101).mapToObj(aRepeat -> IntStream.range(0, 101).map(bRepeat ->
                         countTokens(aRepeat, bRepeat)))
                 .flatMapToInt(tokenCount -> tokenCount)
                 .filter(tokenCount -> tokenCount != 0)
-                .min().orElse(0);
+                .findFirst().orElse(0);
     }
 
     private int countTokens(int aRepeat, int bRepeat) {

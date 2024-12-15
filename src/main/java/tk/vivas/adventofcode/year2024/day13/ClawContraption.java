@@ -15,7 +15,7 @@ class ClawContraption {
 
     long fewestTokens() {
         return configurations.stream()
-                .mapToInt(ClawConfiguration::minTokensToWin)
+                .mapToInt(ClawConfiguration::tokensToWin)
                 .sum();
     }
 }
