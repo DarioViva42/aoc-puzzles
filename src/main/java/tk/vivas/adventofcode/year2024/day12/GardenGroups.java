@@ -3,17 +3,16 @@ package tk.vivas.adventofcode.year2024.day12;
 import tk.vivas.Position;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 class GardenGroups {
 
     private final GardenTile[][] map;
     private final int height;
     private final int width;
-    private final Map<Position, GardenGroupDetails> groupDetails;
-    private final List<GardenTile> gardenTiles;
+    private final Map<Position, List<GardenTile>> gardenGroups;
 
     GardenGroups(String input) {
         map = input.lines()
@@ -25,13 +24,15 @@ class GardenGroups {
         height = map.length;
         width = map[0].length;
 
-        groupDetails = new HashMap<>();
-        gardenTiles = new ArrayList<>();
+        List<GardenTile> gardenTiles = new ArrayList<>();
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 gardenTiles.add(getPreparedGardenTile(y, x));
             }
         }
+        gardenTiles.forEach(GardenTile::combine);
+        gardenGroups = gardenTiles.stream()
+                .collect(Collectors.groupingBy(GardenTile::getGroupId));
     }
 
     private GardenTile getPreparedGardenTile(int y, int x) {
@@ -46,19 +47,19 @@ class GardenGroups {
         return gardenTile;
     }
 
-
-    long totalFencingPrice() {        
-        gardenTiles.forEach(GardenTile::combine);
-        gardenTiles.forEach(this::evaluatePlot);
-        return groupDetails.values().stream()
+    long totalFencingPrice() {
+        return gardenGroups.keySet().stream()
+                .map(this::createGardenGroupDetails)
                 .mapToLong(GardenGroupDetails::calculateCost)
                 .sum();
     }
 
-    private void evaluatePlot(GardenTile tile) {
-        Position groupId = tile.getGroupId();
-        GardenGroupDetails details = groupDetails.computeIfAbsent(groupId, id -> new GardenGroupDetails());
-        details.addTile();
-        details.removePerimeters(tile.countNeighbours());
+    private GardenGroupDetails createGardenGroupDetails(Position groupId) {
+        List<GardenTile> tiles = gardenGroups.get(groupId);
+        int area = tiles.size();
+        int perimeter = tiles.stream()
+                .mapToInt(GardenTile::countBorders)
+                .sum();
+        return new GardenGroupDetails(area, perimeter);
     }
 }

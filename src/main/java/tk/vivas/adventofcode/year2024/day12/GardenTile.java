@@ -32,8 +32,8 @@ class GardenTile {
         }
     }
 
-    int countNeighbours() {
-        return neighbours.size();
+    int countBorders() {
+        return 4 - neighbours.size();
     }
 
     void combine() {
