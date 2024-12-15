@@ -15,4 +15,13 @@ class GardenGroupsTest {
 
         assertThat(gardenGroups.totalFencingPrice()).isEqualTo(1930);
     }
+
+    @Test
+    void discountedFencingPrice() {
+        String input = AocUtils.readPuzzleInput();
+
+        GardenGroups gardenGroups = new GardenGroups(input);
+
+        assertThat(gardenGroups.discountedFencingPrice()).isEqualTo(1206);
+    }
 }

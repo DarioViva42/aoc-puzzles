@@ -11,10 +11,50 @@ class GardenTile {
     private Position position;
     private Position groupId;
 
+    private boolean topBorder;
+    private boolean rightBorder;
+    private boolean bottomBorder;
+    private boolean leftBorder;
+
     GardenTile(int plantType) {
         this.plantType = plantType;
 
         neighbours = new ArrayList<>();
+    }
+
+    static GardenTile getPreparedGardenTile(GardenTile[][] map, int y, int x) {
+        int height = map.length;
+        int width = map[0].length;
+
+        GardenTile gardenTile = map[y][x];
+        gardenTile.placeTile(new Position(x, y));
+
+        if (x > 0 && haveSamePlantType(map[y][x - 1], gardenTile)) {
+            gardenTile.neighbours.add(map[y][x - 1]);
+        } else {
+            gardenTile.leftBorder = true;
+        }
+        if (y > 0 && haveSamePlantType(map[y - 1][x], gardenTile)) {
+            gardenTile.neighbours.add(map[y - 1][x]);
+        } else {
+            gardenTile.topBorder = true;
+        }
+        if (x < width - 1 && haveSamePlantType(map[y][x + 1], gardenTile)) {
+            gardenTile.neighbours.add(map[y][x + 1]);
+        } else {
+            gardenTile.rightBorder = true;
+        }
+        if (y < height - 1 && haveSamePlantType(map[y + 1][x], gardenTile)) {
+            gardenTile.neighbours.add(map[y + 1][x]);
+        } else {
+            gardenTile.bottomBorder = true;
+        }
+
+        return gardenTile;
+    }
+
+    private static boolean haveSamePlantType(GardenTile a, GardenTile b) {
+        return a.plantType == b.plantType;
     }
 
     void placeTile(Position position) {
@@ -26,10 +66,12 @@ class GardenTile {
         return groupId;
     }
 
-    void addNeighbour(GardenTile gardenTile) {
-        if (gardenTile.plantType == plantType) {
-            neighbours.add(gardenTile);
-        }
+    int getX() {
+        return position.x();
+    }
+
+    int getY() {
+        return position.y();
     }
 
     int countBorders() {
@@ -53,5 +95,29 @@ class GardenTile {
 
     private void combineNeighbours(Position groupId) {
         neighbours.forEach(neighbour -> neighbour.combine(groupId));
+    }
+
+    boolean hasTopBorder() {
+        return topBorder;
+    }
+
+    boolean hasRightBorder() {
+        return rightBorder;
+    }
+
+    boolean hasBottomBorder() {
+        return bottomBorder;
+    }
+
+    boolean hasLeftBorder() {
+        return leftBorder;
+    }
+
+    boolean nextTo(GardenTile gardenTile) {
+        return getX() + 1 == gardenTile.getX();
+    }
+
+    boolean onTop(GardenTile gardenTile) {
+        return getY() + 1 == gardenTile.getY();
     }
 }
