@@ -9,13 +9,20 @@ class ClawContraption {
 
     ClawContraption(String input) {
         configurations = Arrays.stream(input.split("\\n{2}"))
-                .map(ClawConfiguration::new)
+                .map(ClawConfiguration::of)
                 .toList();
     }
 
     long fewestTokens() {
         return configurations.stream()
-                .mapToInt(ClawConfiguration::tokensToWin)
+                .mapToInt(ClawConfiguration::simulateTokensToWin)
+                .sum();
+    }
+
+    long fewestTokensWithConversionFix() {
+        return configurations.stream()
+                .map(ClawConfiguration::fixConversion)
+                .mapToLong(ClawConfiguration::calculateTokensToWin)
                 .sum();
     }
 }

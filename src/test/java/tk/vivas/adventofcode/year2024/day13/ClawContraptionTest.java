@@ -15,4 +15,13 @@ class ClawContraptionTest {
 
         assertThat(clawContraption.fewestTokens()).isEqualTo(480);
     }
+
+    @Test
+    void fewestTokensWithConversionFix() {
+        String input = AocUtils.readPuzzleInput();
+
+        ClawContraption clawContraption = new ClawContraption(input);
+
+        assertThat(clawContraption.fewestTokensWithConversionFix()).isEqualTo(875318608908L);
+    }
 }
