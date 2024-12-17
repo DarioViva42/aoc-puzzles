@@ -17,9 +17,9 @@ class Robot {
         vy = Integer.parseInt(split[5]);
     }
 
-    Position afterElapsedTime(int xSize, int ySize) {
-        int reachedX = Math.floorMod(x + 100L * vx, xSize);
-        int reachedY = Math.floorMod(y + 100L * vy, ySize);
+    Position afterElapsedTime(long time, int xSize, int ySize) {
+        int reachedX = Math.floorMod(x + time * vx, xSize);
+        int reachedY = Math.floorMod(y + time * vy, ySize);
         return new Position(reachedX, reachedY);
     }
 }

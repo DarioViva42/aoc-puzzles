@@ -15,4 +15,13 @@ class BathroomOperationTest {
 
         assertThat(clawContraption.safetyFactor(11, 7)).isEqualTo(12);
     }
+
+    @Test
+    void cycleLength() {
+        String input = AocUtils.readPuzzleInput();
+
+        BathroomOperation clawContraption = new BathroomOperation(input);
+
+        assertThat(clawContraption.cycleLength(11, 7)).isEqualTo(11 * 7);
+    }
 }
