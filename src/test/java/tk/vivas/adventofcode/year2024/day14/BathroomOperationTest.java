@@ -11,17 +11,17 @@ class BathroomOperationTest {
     void safetyFactor() {
         String input = AocUtils.readPuzzleInput();
 
-        BathroomOperation clawContraption = new BathroomOperation(input);
+        BathroomOperation clawContraption = new BathroomOperation(input, 11, 7);
 
-        assertThat(clawContraption.safetyFactor(11, 7)).isEqualTo(12);
+        assertThat(clawContraption.safetyFactor()).isEqualTo(12);
     }
 
     @Test
     void cycleLength() {
         String input = AocUtils.readPuzzleInput();
 
-        BathroomOperation clawContraption = new BathroomOperation(input);
+        BathroomOperation clawContraption = new BathroomOperation(input, 11, 7);
 
-        assertThat(clawContraption.cycleLength(11, 7)).isEqualTo(11 * 7);
+        assertThat(clawContraption.cycleLength()).isEqualTo(11 * 7);
     }
 }

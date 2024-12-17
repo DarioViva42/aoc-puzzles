@@ -7,14 +7,19 @@ import java.util.List;
 class BathroomOperation {
 
     private final List<Robot> robots;
+    private final int sizeX;
+    private final int sizeY;
 
-    BathroomOperation(String input) {
+    BathroomOperation(String input, int sizeX, int sizeY) {
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+
         robots = input.lines()
                 .map(Robot::new)
                 .toList();
     }
 
-    long safetyFactor(int sizeX, int sizeY) {
+    long safetyFactor() {
         List<Position> reachedPositions = robots.stream()
                 .map(robot -> robot.afterElapsedTime(100L, sizeX, sizeY))
                 .toList();
@@ -37,7 +42,7 @@ class BathroomOperation {
         return topLeft * topRight * bottomLeft * bottomRight;
     }
 
-    long cycleLength(int sizeX, int sizeY) {
+    long cycleLength() {
         List<Position> initialState = robots.stream()
                 .map(robot -> robot.afterElapsedTime(0L, sizeX, sizeY))
                 .toList();

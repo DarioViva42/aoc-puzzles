@@ -10,11 +10,11 @@ public class Day14 {
 
         Instant start = Instant.now();
 
-        BathroomOperation bathroomOperation = new BathroomOperation(input);
+        BathroomOperation bathroomOperation = new BathroomOperation(input, 101, 103);
 
         Instant parseEnd = Instant.now();
 
-        long partOneAnswer = bathroomOperation.safetyFactor(101, 103);
+        long partOneAnswer = bathroomOperation.safetyFactor();
 
         Instant betweenParts = Instant.now();
 
