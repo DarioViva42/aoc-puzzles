@@ -20,9 +20,7 @@ class BathroomOperation {
     }
 
     long safetyFactor() {
-        List<Position> reachedPositions = robots.stream()
-                .map(robot -> robot.afterElapsedTime(100L, sizeX, sizeY))
-                .toList();
+        List<Position> reachedPositions = getPositions(100L);
 
         int xSplit = sizeX / 2;
         int ySplit = sizeY / 2;
@@ -43,20 +41,22 @@ class BathroomOperation {
     }
 
     long cycleLength() {
-        List<Position> initialState = robots.stream()
-                .map(robot -> robot.afterElapsedTime(0L, sizeX, sizeY))
-                .toList();
+        List<Position> initialState = getPositions(0L);
 
         long time = 0L;
         while(true) {
             long currentMoment = ++time;
-            List<Position> reachedPositions = robots.stream()
-                    .map(robot -> robot.afterElapsedTime(currentMoment, sizeX, sizeY))
-                    .toList();
+            List<Position> reachedPositions = getPositions(currentMoment);
 
             if (reachedPositions.equals(initialState)) {
                 return currentMoment;
             }
         }
+    }
+
+    List<Position> getPositions(long passedTime) {
+        return robots.stream()
+                .map(robot -> robot.afterElapsedTime(passedTime, sizeX, sizeY))
+                .toList();
     }
 }
