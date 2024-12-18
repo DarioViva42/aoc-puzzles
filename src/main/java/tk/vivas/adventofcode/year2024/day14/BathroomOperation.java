@@ -59,4 +59,12 @@ class BathroomOperation {
                 .map(robot -> robot.afterElapsedTime(passedTime, sizeX, sizeY))
                 .toList();
     }
+
+    public int getSizeX() {
+        return sizeX;
+    }
+
+    public int getSizeY() {
+        return sizeY;
+    }
 }
