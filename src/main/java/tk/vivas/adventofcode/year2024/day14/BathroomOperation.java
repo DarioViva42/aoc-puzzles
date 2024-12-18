@@ -44,7 +44,7 @@ class BathroomOperation {
         List<Position> initialState = getPositions(0L);
 
         long time = 0L;
-        while(true) {
+        while (true) {
             long currentMoment = ++time;
             List<Position> reachedPositions = getPositions(currentMoment);
 
