@@ -158,31 +158,18 @@ class WarehouseTile {
         switch (direction) {
             case NORTH, SOUTH -> {
                 switch (type) {
-                    case ROBOT -> {
-                    }
                     case LEFT_BOX -> eastNeighbour.moveTo(neighbour.eastNeighbour);
                     case RIGHT_BOX -> westNeighbour.moveTo(neighbour.westNeighbour);
-                    case BOX, EMPTY, WALL -> throw new IllegalStateException("Unexpected value: " + type);
                 }
-                this.moveTo(neighbour);
             }
             case EAST, WEST -> {
                 switch (type) {
-                    case ROBOT -> this.moveTo(neighbour);
-                    case LEFT_BOX -> {
-                        neighbour.type = LEFT_BOX;
-                        neighbour.eastNeighbour.type = RIGHT_BOX;
-                        type = EMPTY;
-                    }
-                    case RIGHT_BOX -> {
-                        neighbour.type = RIGHT_BOX;
-                        neighbour.westNeighbour.type = LEFT_BOX;
-                        type = EMPTY;
-                    }
-                    case BOX, EMPTY, WALL -> throw new IllegalStateException("Unexpected value: " + type);
+                    case LEFT_BOX -> neighbour.moveTo(neighbour.eastNeighbour);
+                    case RIGHT_BOX -> neighbour.moveTo(neighbour.westNeighbour);
                 }
             }
         }
+        this.moveTo(neighbour);
     }
 
     void moveTo(WarehouseTile neighbour) {
