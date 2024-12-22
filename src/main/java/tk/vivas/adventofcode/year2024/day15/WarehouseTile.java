@@ -125,7 +125,6 @@ class WarehouseTile {
 
         WarehouseTile neighbour = getNeighbour(direction);
         switch (type) {
-            case EMPTY, BOX, WALL -> throw new IllegalStateException("Unexpected value: " + type);
             case ROBOT -> neighbour.internalLargeMove(direction);
             case LEFT_BOX -> {
                 switch (direction) {
@@ -134,7 +133,6 @@ class WarehouseTile {
                         neighbour.eastNeighbour.internalLargeMove(direction);
                     }
                     case EAST -> eastNeighbour.eastNeighbour.internalLargeMove(direction);
-                    case WEST -> throw new IllegalStateException("Unexpected value: " + type);
                 }
             }
             case RIGHT_BOX -> {
@@ -143,7 +141,6 @@ class WarehouseTile {
                         neighbour.internalLargeMove(direction);
                         neighbour.westNeighbour.internalLargeMove(direction);
                     }
-                    case EAST -> throw new IllegalStateException("Unexpected value: " + type);
                     case WEST -> westNeighbour.westNeighbour.internalLargeMove(direction);
                 }
             }
