@@ -1,9 +1,13 @@
 package tk.vivas.adventofcode.year2024.day15;
 
+import tk.vivas.adventofcode.Direction;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.IntStream;
+
+import static tk.vivas.adventofcode.Direction.*;
 
 class LanternfishWarehouse {
 
@@ -32,8 +36,18 @@ class LanternfishWarehouse {
         return input
                 .replace("\n", "")
                 .chars()
-                .mapToObj(Direction::from)
+                .mapToObj(LanternfishWarehouse::createDirection)
                 .toList();
+    }
+
+    private static Direction createDirection(int character) {
+        return switch (character) {
+            case '^' -> NORTH;
+            case '>' -> EAST;
+            case 'v' -> SOUTH;
+            case '<' -> WEST;
+            default -> throw new IllegalStateException("Unexpected value: " + character);
+        };
     }
 
     private static WarehouseTile[][] createMap(String input) {

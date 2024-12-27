@@ -1,6 +1,7 @@
 package tk.vivas.adventofcode.year2024.day15;
 
 import tk.vivas.Position;
+import tk.vivas.adventofcode.Direction;
 
 import java.util.stream.Stream;
 
