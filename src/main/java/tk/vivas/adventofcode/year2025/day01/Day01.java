@@ -19,12 +19,12 @@ public class Day01 {
 
         Instant betweenParts = Instant.now();
 
-        // long partTwoAnswer = ;
+        long partTwoAnswer = rotatingDial.countAllZeroPositions(50);
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        //sendPuzzleAnswer(2, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
     }

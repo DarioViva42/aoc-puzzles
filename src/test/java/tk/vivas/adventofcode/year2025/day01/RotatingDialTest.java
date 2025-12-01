@@ -15,4 +15,13 @@ class RotatingDialTest {
 
         assertThat(office.countZeroPositions(50)).isEqualTo(3);
     }
+
+    @Test
+    void countAllZeroPositions() {
+        String input = AocUtils.readPuzzleInput();
+
+        RotatingDial office = new RotatingDial(input);
+
+        assertThat(office.countAllZeroPositions(50)).isEqualTo(6);
+    }
 }
