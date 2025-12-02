@@ -24,7 +24,7 @@ class IdRange {
             return false;
         }
 
-        long halfPoint = (long) Math.pow(10.0, amountOfDigits / 2);
+        long halfPoint = (long) Math.pow(10, (int) (amountOfDigits / 2));
         //     first-half        second-half
         return id / halfPoint == id % halfPoint;
     }
