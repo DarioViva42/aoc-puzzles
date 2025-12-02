@@ -1,0 +1,18 @@
+package tk.vivas.adventofcode.year2025.day02;
+
+import org.junit.jupiter.api.Test;
+import tk.vivas.adventofcode.AocUtils;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class GiftShopDatabaseTest {
+
+    @Test
+    void countInvalidIds() {
+        String input = AocUtils.readPuzzleInput();
+
+        GiftShopDatabase database = new GiftShopDatabase(input);
+
+        assertThat(database.countInvalidIds()).isEqualTo(1227775554);
+    }
+}
