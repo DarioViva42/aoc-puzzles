@@ -12,7 +12,7 @@ class RotatingDial {
         rotationSequence = input.lines()
                 .map(RotationCommand::new)
                 .toList();
-     }
+    }
 
     public int countZeroPositions(int startPosition) {
         int zeroCount = 0;
