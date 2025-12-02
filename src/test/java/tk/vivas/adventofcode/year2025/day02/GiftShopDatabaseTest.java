@@ -15,4 +15,13 @@ class GiftShopDatabaseTest {
 
         assertThat(database.sumOfInvalidIds()).isEqualTo(1227775554);
     }
+
+    @Test
+    void sumOfAllInvalidIds() {
+        String input = AocUtils.readPuzzleInput();
+
+        GiftShopDatabase database = new GiftShopDatabase(input);
+
+        assertThat(database.sumOfAllInvalidIds()).isEqualTo(4174379265L);
+    }
 }

@@ -19,4 +19,10 @@ class GiftShopDatabase {
                 .flatMapToLong(IdRange::invalidIds)
                 .sum();
     }
+
+    long sumOfAllInvalidIds() {
+        return idRanges.stream()
+                .flatMapToLong(IdRange::allInvalidIds)
+                .sum();
+    }
 }

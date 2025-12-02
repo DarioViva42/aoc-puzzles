@@ -18,12 +18,12 @@ public class Day02 {
 
         Instant betweenParts = Instant.now();
 
-        // long partTwoAnswer = rotatingDial.countAllZeroPositions(50);
+        long partTwoAnswer = database.sumOfAllInvalidIds();
 
         Instant end = Instant.now();
 
         sendPuzzleAnswer(1, partOneAnswer);
-        // sendPuzzleAnswer(2, partTwoAnswer);
+        sendPuzzleAnswer(2, partTwoAnswer);
 
         logDurations(start, parseEnd, betweenParts, end);
     }
