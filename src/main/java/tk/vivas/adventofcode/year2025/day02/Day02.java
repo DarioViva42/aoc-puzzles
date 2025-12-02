@@ -14,7 +14,7 @@ public class Day02 {
 
         Instant parseEnd = Instant.now();
 
-        long partOneAnswer = database.countInvalidIds();
+        long partOneAnswer = database.sumOfInvalidIds();
 
         Instant betweenParts = Instant.now();
 

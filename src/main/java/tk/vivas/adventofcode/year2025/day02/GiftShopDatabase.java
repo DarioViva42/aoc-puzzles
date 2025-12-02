@@ -14,7 +14,7 @@ class GiftShopDatabase {
                 .toList();
     }
 
-    long countInvalidIds() {
+    long sumOfInvalidIds() {
         return idRanges.stream()
                 .flatMapToLong(IdRange::invalidIds)
                 .sum();

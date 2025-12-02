@@ -8,11 +8,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 class GiftShopDatabaseTest {
 
     @Test
-    void countInvalidIds() {
+    void sumOfInvalidIds() {
         String input = AocUtils.readPuzzleInput();
 
         GiftShopDatabase database = new GiftShopDatabase(input);
 
-        assertThat(database.countInvalidIds()).isEqualTo(1227775554);
+        assertThat(database.sumOfInvalidIds()).isEqualTo(1227775554);
     }
 }
