@@ -17,4 +17,10 @@ class EscalatorPowerSource {
                 .mapToInt(BatteryBank::getMaxJoltage)
                 .sum();
     }
+
+    public long improvedTotalJoltage() {
+        return batteryBanks.stream()
+                .mapToLong(BatteryBank::getImprovedMaxJoltage)
+                .sum();
+    }
 }

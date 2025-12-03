@@ -16,4 +16,13 @@ class EscalatorPowerSourceTest {
 
         assertThat(powerSource.totalJoltage()).isEqualTo(357);
     }
+
+    @Test
+    void improvedTotalJoltage() {
+        String input = AocUtils.readPuzzleInput();
+
+        EscalatorPowerSource powerSource = new EscalatorPowerSource(input);
+
+        assertThat(powerSource.improvedTotalJoltage()).isEqualTo(3121910778619L);
+    }
 }
