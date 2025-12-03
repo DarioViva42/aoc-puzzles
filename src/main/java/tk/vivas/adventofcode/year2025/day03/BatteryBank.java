@@ -51,7 +51,7 @@ class BatteryBank {
                     .orElseThrow();
             digits.add(digit);
 
-            digitPosition = getJoltageIndexFrom(digitPosition, digit);
+            digitPosition = getJoltageIndexFrom(digitPosition + 1, digit);
         }
         return IntStream.range(0, NUMBER_OF_DIGITS)
                 .mapToLong(i -> (long) Math.pow(10, NUMBER_OF_DIGITS - 1 - i) * digits.get(i))
