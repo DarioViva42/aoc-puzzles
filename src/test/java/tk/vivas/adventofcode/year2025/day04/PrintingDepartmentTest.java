@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import tk.vivas.adventofcode.AocUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class PrintingDepartmentTest {
 
@@ -15,5 +14,14 @@ class PrintingDepartmentTest {
         PrintingDepartment department = new PrintingDepartment(input);
 
         assertThat(department.accessibleRollsOfPaper()).isEqualTo(13);
+    }
+
+    @Test
+    void removableRollsOfPaper() {
+        String input = AocUtils.readPuzzleInput();
+
+        PrintingDepartment department = new PrintingDepartment(input);
+
+        assertThat(department.removableRollsOfPaper()).isEqualTo(43);
     }
 }
