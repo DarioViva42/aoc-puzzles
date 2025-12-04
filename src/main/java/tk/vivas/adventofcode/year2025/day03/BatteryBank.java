@@ -1,5 +1,7 @@
 package tk.vivas.adventofcode.year2025.day03;
 
+import one.util.streamex.StreamEx;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -16,15 +18,17 @@ class BatteryBank {
     }
 
     int getMaxJoltage() {
-        int firstDigit = batteryJoltageValues.stream()
+        int firstDigit = StreamEx.of(batteryJoltageValues)
                 .limit(batteryJoltageValues.size() - (2 - 1))
                 .mapToInt(Integer::intValue)
+                .takeWhileInclusive(n -> n != 9)
                 .max()
                 .orElseThrow();
-        int secondDigit = batteryJoltageValues.stream()
+        int secondDigit = StreamEx.of(batteryJoltageValues)
                 .dropWhile(digit -> digit != firstDigit)
                 .skip(1)
                 .mapToInt(Integer::intValue)
+                .takeWhileInclusive(n -> n != 9)
                 .max()
                 .orElseThrow();
 
@@ -34,19 +38,21 @@ class BatteryBank {
     public long getImprovedMaxJoltage() {
         int size = batteryJoltageValues.size();
 
-        int firstDigit = batteryJoltageValues.stream()
+        int firstDigit = StreamEx.of(batteryJoltageValues)
                 .limit(size - (NUMBER_OF_DIGITS - 1))
                 .mapToInt(Integer::intValue)
+                .takeWhileInclusive(n -> n != 9)
                 .max()
                 .orElseThrow();
         List<Integer> digits = new ArrayList<>(NUMBER_OF_DIGITS);
         digits.add(firstDigit);
         int digitPosition = getJoltageIndexFrom(0, firstDigit);
         for (int i = 0; i < NUMBER_OF_DIGITS - 1; i++) {
-            int digit = batteryJoltageValues.stream()
+            int digit = StreamEx.of(batteryJoltageValues)
                     .limit(size - (NUMBER_OF_DIGITS - i - 2))
                     .skip(digitPosition + 1)
                     .mapToInt(Integer::intValue)
+                    .takeWhileInclusive(n -> n != 9)
                     .max()
                     .orElseThrow();
             digits.add(digit);
