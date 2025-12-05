@@ -15,4 +15,13 @@ class IngredientDatabaseTest {
 
         assertThat(ingredientDatabase.freshIngredientIds()).isEqualTo(3);
     }
+
+    @Test
+    void totalFreshIngredients() {
+        String input = AocUtils.readPuzzleInput();
+
+        IngredientDatabase ingredientDatabase = new IngredientDatabase(input);
+
+        assertThat(ingredientDatabase.totalFreshIngredients()).isEqualTo(14);
+    }
 }
