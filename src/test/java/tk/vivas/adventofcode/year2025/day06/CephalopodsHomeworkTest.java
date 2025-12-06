@@ -15,4 +15,13 @@ class CephalopodsHomeworkTest {
 
         assertThat(homework.solve()).isEqualTo(4277556);
     }
+
+    @Test
+    void solveCorrect() {
+        String input = AocUtils.readPuzzleInput();
+
+        CephalopodsHomework homework = new CephalopodsHomework(input);
+
+        assertThat(homework.solveCorrect()).isEqualTo(3263827);
+    }
 }
