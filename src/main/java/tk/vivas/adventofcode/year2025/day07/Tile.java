@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Tile {
-    final TileType tileType;
-    final List<Tile> parents;
-    final List<Tile> children;
+    private final TileType tileType;
+    private final List<Tile> children;
 
-    boolean wasVisited = false;
-    long timelineCount = 0;
+    private boolean wasVisited = false;
+    private long timelineCount = 0;
 
     Tile(char character) {
         tileType = switch (character) {
@@ -17,21 +16,11 @@ class Tile {
             case '^' -> TileType.SPLITTER;
             default -> throw new IllegalStateException("Unexpected value: " + character);
         };
-        if (tileType == TileType.EMPTY_SPACE) {
-            parents = List.of();
-            children = List.of();
-        } else {
-            parents = new ArrayList<>();
-            children = new ArrayList<>();
-        }
+        children = tileType == TileType.EMPTY_SPACE ? null : new ArrayList<>();
     }
 
     void visit() {
         wasVisited = true;
-    }
-
-    void addParent(Tile parent) {
-        parents.add(parent);
     }
 
     public void addChild(Tile child) {
@@ -44,18 +33,6 @@ class Tile {
 
     boolean wasVisited() {
         return wasVisited;
-    }
-
-    int parentCount() {
-        return parents.size();
-    }
-
-    boolean hasParents() {
-        return !parents.isEmpty();
-    }
-
-    boolean hasChildren() {
-        return !children.isEmpty();
     }
 
     public long timelines() {
