@@ -15,4 +15,13 @@ class TachyonManifoldTest {
 
         assertThat(manifold.usedSplitters()).isEqualTo(21);
     }
+
+    @Test
+    void timelines() {
+        String input = AocUtils.readPuzzleInput();
+
+        TachyonManifold manifold = new TachyonManifold(input);
+
+        assertThat(manifold.timelines()).isEqualTo(40);
+    }
 }

@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static java.util.function.Predicate.not;
+
 class TachyonManifold {
 
     private final List<List<Tile>> map;
@@ -41,6 +43,39 @@ class TachyonManifold {
             walk(x + 1, y);
         } else {
             walk(x, y + 1);
+        }
+    }
+
+    long timelines() {
+        quantumWalk(startPosition, 0, null);
+
+        Tile originSplitter = map.stream()
+                .flatMap(Collection::stream)
+                .filter(Tile::isSplitter)
+                .filter(not(Tile::hasParents))
+                .filter(Tile::hasChildren)
+                .findFirst().orElseThrow();
+
+        return originSplitter.timelines();
+    }
+
+    private void quantumWalk(int x, int y, Tile lastSplitter) {
+        if (y >= map.size()) {
+            return;
+        }
+        Tile tile = map.get(y).get(x);
+        if (lastSplitter != null && tile.isSplitter()) {
+            tile.addParent(lastSplitter);
+            lastSplitter.addChild(tile);
+        }
+        if (tile.parentCount() > 1) {
+            return;
+        }
+        if (tile.isSplitter()) {
+            quantumWalk(x - 1, y, tile);
+            quantumWalk(x + 1, y, tile);
+        } else {
+            quantumWalk(x, y + 1, lastSplitter);
         }
     }
 }
