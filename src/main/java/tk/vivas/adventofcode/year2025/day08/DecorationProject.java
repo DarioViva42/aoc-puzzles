@@ -25,7 +25,7 @@ class DecorationProject {
                             .map(b -> new JunctionEdge(a, b));
                 })
                 .flatMap(Function.identity())
-                .sorted(Comparator.comparing(JunctionEdge::distance))
+                .sorted(Comparator.comparing(JunctionEdge::squaredDistance))
                 .toList();
     }
 

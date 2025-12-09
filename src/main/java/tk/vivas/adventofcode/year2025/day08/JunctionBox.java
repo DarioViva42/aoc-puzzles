@@ -21,9 +21,9 @@ class JunctionBox {
         connections.add(this);
     }
 
-    // √( ∆x² + ∆y² + ∆z² )
-    double distance(JunctionBox other) {
-        return Math.sqrt(Math.pow(other.x - x, 2) + Math.pow(other.y - y, 2) + Math.pow(other.z - z, 2));
+    // equivalent to √( ∆x² + ∆y² + ∆z² ) when only comparing distances
+    long squaredDistance(JunctionBox other) {
+        return (other.x - x) * (other.x - x) + (other.y - y) * (other.y - y) + (other.z - z) * (other.z - z);
     }
 
     int connect(JunctionBox other) {
