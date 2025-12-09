@@ -5,7 +5,11 @@ record JunctionEdge(JunctionBox a, JunctionBox b) {
         return a.distance(b);
     }
 
-    boolean connect() {
+    int connect() {
         return a.connect(b);
+    }
+
+    long wallDistance() {
+        return a.x() * b.x();
     }
 }

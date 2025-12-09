@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import tk.vivas.adventofcode.AocUtils;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class DecorationProjectTest {
 
@@ -15,5 +14,14 @@ class DecorationProjectTest {
         DecorationProject decorationProject = new DecorationProject(input);
 
         assertThat(decorationProject.connectJunctionBoxes(10)).isEqualTo(40);
+    }
+
+    @Test
+    void connectAllJunctionBoxes() {
+        String input = AocUtils.readPuzzleInput();
+
+        DecorationProject decorationProject = new DecorationProject(input);
+
+        assertThat(decorationProject.connectAllJunctionBoxes()).isEqualTo(25272);
     }
 }

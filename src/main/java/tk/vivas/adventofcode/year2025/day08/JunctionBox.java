@@ -2,21 +2,20 @@ package tk.vivas.adventofcode.year2025.day08;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 class JunctionBox {
 
-    private final int x;
-    private final int y;
-    private final int z;
+    private final long x;
+    private final long y;
+    private final long z;
     private List<JunctionBox> connections;
 
     JunctionBox(String input) {
         String[] split = input.split(",");
 
-        x = Integer.parseInt(split[0]);
-        y = Integer.parseInt(split[1]);
-        z = Integer.parseInt(split[2]);
+        x = Long.parseLong(split[0]);
+        y = Long.parseLong(split[1]);
+        z = Long.parseLong(split[2]);
 
         connections = new ArrayList<>();
         connections.add(this);
@@ -27,13 +26,12 @@ class JunctionBox {
         return Math.sqrt(Math.pow(other.x - x, 2) + Math.pow(other.y - y, 2) + Math.pow(other.z - z, 2));
     }
 
-    boolean connect(JunctionBox other) {
-        if (connections.contains(other)) {
-            return false;
+    int connect(JunctionBox other) {
+        if (!connections.contains(other)) {
+            connections.addAll(other.connections);
+            connections.forEach(box -> box.setConnections(connections));
         }
-        connections.addAll(other.connections);
-        connections.forEach(box -> box.setConnections(connections));
-        return true;
+        return connections.size();
     }
 
     private void setConnections(List<JunctionBox> connections) {
@@ -42,6 +40,10 @@ class JunctionBox {
 
     List<JunctionBox> getConnections() {
         return connections;
+    }
+
+    long x() {
+        return x;
     }
 
     @Override
@@ -53,9 +55,9 @@ class JunctionBox {
 
     @Override
     public int hashCode() {
-        int result = x;
-        result = 31 * result + y;
-        result = 31 * result + z;
+        int result = Long.hashCode(x);
+        result = 31 * result + Long.hashCode(y);
+        result = 31 * result + Long.hashCode(z);
         return result;
     }
 
