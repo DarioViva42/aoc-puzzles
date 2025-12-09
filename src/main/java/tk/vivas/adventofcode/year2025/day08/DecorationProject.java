@@ -9,8 +9,6 @@ import java.util.stream.IntStream;
 
 class DecorationProject {
 
-    private static final Consumer<Object> NOOP = whatever -> {};
-
     private final List<JunctionBox> junctionBoxes;
 
     DecorationProject(String input) {
@@ -29,9 +27,8 @@ class DecorationProject {
                 })
                 .flatMap(Function.identity())
                 .sorted(Comparator.comparing(JunctionEdge::distance))
-                .filter(JunctionEdge::connect)
                 .limit(numberOfConnections)
-                .forEach(NOOP);
+                .forEach(JunctionEdge::connect);
 
         return junctionBoxes.stream()
                 .map(JunctionBox::getConnections)
