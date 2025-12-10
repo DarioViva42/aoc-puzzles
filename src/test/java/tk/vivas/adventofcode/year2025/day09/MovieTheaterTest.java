@@ -15,4 +15,13 @@ class MovieTheaterTest {
 
         assertThat(movieTheater.largestRectangle()).isEqualTo(50);
     }
+
+    @Test
+    void largestValidRectangle() {
+        String input = AocUtils.readPuzzleInput();
+
+        MovieTheater movieTheater = new MovieTheater(input);
+
+        assertThat(movieTheater.largestValidRectangle()).isEqualTo(24);
+    }
 }
