@@ -1,5 +1,6 @@
 package tk.vivas.adventofcode.year2025.day10;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,7 +26,10 @@ public class Machine {
     }
 
     long fewestButtonPresses() {
-        return 0;
+        return wiringSchematics.allButtonCombinations()
+                .filter(lightDiagram::correctlyConfiguresLights)
+                .mapToInt(List::size)
+                .findFirst().orElseThrow();
     }
 
     @Override
