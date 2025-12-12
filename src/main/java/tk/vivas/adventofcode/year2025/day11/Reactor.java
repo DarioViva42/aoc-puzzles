@@ -6,7 +6,8 @@ import java.util.stream.Collectors;
 
 class Reactor {
 
-    private final Device startDevice;
+    private final Device youDevice;
+    private final Device serverReckDevice;
 
     Reactor(String input) {
         Map<String, Device> deviceLookup = input.lines()
@@ -18,10 +19,15 @@ class Reactor {
         deviceLookup.values()
                 .forEach(device -> device.resolveChildren(deviceLookup));
 
-        startDevice = deviceLookup.get("you");
+        youDevice = deviceLookup.get("you");
+        serverReckDevice = deviceLookup.get("svr");
     }
 
     long numberOfPaths() {
-        return startDevice.numberOfPaths();
+        return youDevice.numberOfPaths();
+    }
+
+    long numberOfValidPaths() {
+        return serverReckDevice.numberOfPathsDetailed().get(PathQuality.BOTH);
     }
 }
