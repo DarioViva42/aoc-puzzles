@@ -29,11 +29,7 @@ public class ButtonWiringSchematics {
     }
 
     Stream<List<Button>> recursive(List<Button> listInProgress, int startIndex, int leftOverCount) {
-        if (leftOverCount == 1) {
-            return IntStream.rangeClosed(startIndex, buttons.size() - leftOverCount)
-                    .mapToObj(buttons::get)
-                    .map(button -> concat(listInProgress, button));
-        }
+        if (leftOverCount == 0) return Stream.of(listInProgress);
         return IntStream.rangeClosed(startIndex, buttons.size() - leftOverCount)
                 .boxed()
                 .flatMap(index -> {
